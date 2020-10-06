@@ -1,0 +1,27 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+string make_one_str(vector<string> &v)
+{
+    string s = v[0];
+    for(int i = 1 ; i < v.size() ; i++)
+        s = s + v[i];
+    return s;
+}
+string solution(vector<int> numbers) {
+        vector<string> v;
+    for(int i = 0 ; i < numbers.size() ; i++)
+    {
+        string s = to_string(numbers[i]);
+        v.push_back(s);
+    }
+    string s = make_one_str(v);
+    do{
+        string t = make_one_str(v);
+        if(s < t) s = t; 
+    }while(next_permutation(v.begin(),v.end()));
+    
+    return s;
+}
