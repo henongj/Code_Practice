@@ -1,0 +1,41 @@
+#include<iostream>
+#include<utility>
+using namespace std;
+
+pair<int,int>& operator+=(pair<int,int>& lhs, const pair<int,int> &rhs)
+{
+	lhs.first = lhs.first + rhs.first;
+	lhs.second = lhs.second + rhs.second;
+	
+	return lhs;
+}
+
+pair<int,int>& operator+(pair<int,int> &lhs, const pair<int,int> &rhs)
+{
+	pair<int,int>& p = lhs;
+	p += rhs;
+	return p;
+}
+
+ostream& operator<<(ostream& os, const pair<int,int> &p)
+{
+	cout << "(" << p.first << ", " << p.second << ") ";
+	return os;
+}
+
+int main(void)
+{
+	pair<int,int> up(0,-1);
+	pair<int,int> down(0,1);
+	pair<int,int> left(-1,0);
+	pair<int,int> right(1,0);
+	
+	pair<int,int> pos(0,0);
+
+	pos += left;
+	pos = pos + left + up + up + up;
+	
+	cout << pos << "||"<< left << up << right << down;
+	
+	return 0;
+}
