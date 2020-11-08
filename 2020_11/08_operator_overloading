@@ -1,0 +1,49 @@
+#include<iostream>
+
+using namespace std;
+
+class pos
+{
+	public:
+		int x;
+		int y;
+		pos(int _x = 0, int _y = 0) : x(_x),y(_y) {};
+	
+	pos& operator+=(const pos &rhs)
+	{	
+		this -> x = this -> x + rhs.x;
+		this -> y = this -> y + rhs.y;
+		return *this;
+	}
+
+	pos operator+(const pos &other)
+	{
+		pos p = *this;
+		p+=other;
+		return p;
+	}
+
+};
+
+ostream& operator<<(ostream& os, const pos& p)
+{
+	os << "(" << p.x << ", " << p.y << ") ";
+	return os;
+}
+
+int main(void)
+{
+	pos p(1,1);
+	pos p1(2,2);
+	
+	cout << p << p1;
+	puts("");
+	
+	pos p2 = p1 + p;
+	pos p3 = p2 + p2 + p2;
+
+	cout << p << p1 << p2 << p3;
+
+	
+	return 0;
+}
