@@ -1,0 +1,46 @@
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+// make permutation 
+
+inline void print_arr(int arr[], int n)
+{
+	for(int i = 0 ; i < n ; i++)
+		cout << arr[i] << " ";
+	printf("\n");
+}
+inline void swap(int &a , int &b)
+{
+	int t = a;	a = b; b = t;
+}
+//generating permutation using heap algorithm
+void heap_permutation(int arr[], int size, int n)
+{
+	if(size == 1)
+	{
+		print_arr(arr,n);
+		return ;
+	}
+	for(int i  = 0 ; i < size; i++)
+	{
+		heap_permutation(arr, size-1, n);
+		if(size % 2 == 1) //홀수면
+			swap(arr[0], arr[size-1]);
+		else
+			swap(arr[i], arr[size-1]);
+	}
+}
+
+int main(void)
+{
+	const int NUMBER = 4;
+	int arr[NUMBER];
+	for(int i = 1 ; i < NUMBER + 1; i++)
+		arr[i-1] = i;
+	int n = NUMBER;
+	
+	heap_permutation(arr,n,n);
+
+	return 0;
+}
