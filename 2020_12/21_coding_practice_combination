@@ -1,0 +1,38 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void print_picked(const vector<int> &picked)
+{
+	cout << "print_picked : ";
+	for(int i = 0 ; i < picked.size() ; ++i)
+		cout << picked[i] << " ";
+	printf("\n");
+}
+void pick(int n, vector<int> &picked, int topick) {
+
+    if(topick == 0) {
+	cout << "\ntopick : 0 run\n";
+        for (int i = 0; i < picked.size(); ++i) {
+            cout << picked[i] << " ";
+        }
+        cout << endl << endl;
+        return;
+    }
+
+    int smallest = picked.empty() ? 0 : picked.back() + 1;
+
+    for (int j = smallest; j < n; ++j) {
+		cout << "n : " << n << " (smallest,j) : (" << smallest<<","<<j << ") topick : " << topick << "\n";
+		print_picked(picked);
+		
+        picked.push_back(j);
+        pick(n, picked, topick-1);
+        picked.pop_back();
+    }
+}
+
+int main() {
+    vector<int> a;
+    pick(8, a, 6); // - 0~7 중 6개를 고르는 조합
+}
