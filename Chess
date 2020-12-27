@@ -1,0 +1,333 @@
+// initialize canvas // 캔버스
+let canvas = document.getElementById('game');
+let context = canvas.getContext('2d');
+
+//GAME CONSTANT // 게임 설정값
+const width = canvas.width;
+const height = canvas.height;
+const color_dark = "#903914"; //색, R G B 16진수값
+const color_light = "#E99673";
+context.font = "90px sans-serifs"; //90픽셀??
+
+let game = {
+	start: false,
+	turn: false,
+	//(false -> white , true -> black);
+	selection: false
+}
+
+class Board{
+	constructor()
+	{  // 생성자처럼 보이는데 그냥 data,함수 정의부 (C++ 의 private, public)
+		this.square_width = width/8; // 폭
+		this.board = new Array(8); // 열?
+		this.lastSelection; // 마지막에 고른거
+		this.possibleDestForSelection = []; // 
+		this.initialize(); // 
+	}
+	//보드 초기 세팅
+	initialize() // 생성자네 이게
+	{
+		for(let i = 0; i < 8 ; i++)
+			{
+				this.board[i] = new Array[8]; // 8x8의 공간이 만들어짐
+			}
+		for(let i = 0 ; i < 8 ; i++)
+			{
+				for(let j = 0 ; j < 8 ; j++)
+					{
+						this.board[i][j] = new Square(j,i,this,square_width,this.board);
+					} //square를 8*8개 만들고 채워넣는다. Array의 타입은 신경 안 써도 된다
+			}
+	this.board[0][0].setP(new Rook("black"));
+	this.board[0][7].setP(new Rook("black"));
+	this.board[0][1].setP(new Knight("black"));
+	this.board[0][6].setP(new Knight("black"));
+	this.board[0][2].setP(new Bishop("black"));
+	this.board[0][5].setP(new Bishop("black"));
+	this.board[0][3].setP(new King("black"));
+	this.board[0][4].setP(new queen("black"));
+	for(let i = 0 ; i < 8 ; i++)
+		{
+			this.board[1][i].setP(new Pawn("black"));
+		}
+		
+	this.board[7][0].setP(new Rook("White"));
+	this.board[7][7].setP(new Rook("White"));
+	this.board[7][1].setP(new Knight("White"));
+	this.board[7][6].setP(new Knight("White"));
+	this.board[7][2].setP(new Bishop("White"));
+	this.board[7][5].setP(new Bishop("White"));
+	this.board[7][3].setP(new King("White"));
+	this.board[7][4].setP(new queen("White"));
+	for(let i = 0 ; i < 8 ; i++)
+		{
+			this.board[6][i].setP(new Pawn("White"));
+		}
+	this.draw();
+}
+	draw()
+	{
+		context.clearRect(0, 0, width, height); //화면을 비우고
+		this.drawBoard(); //보드 출력
+		this.drawPiece(); //piece(기물) 출력
+	}
+	
+	drawPiece()// 기물 출력
+	{
+		for(let c = 0 ; c < 8 ; c++)
+			{
+				for(let r = 0 ; r < 8 ; r++)
+					{
+						let p = this.board[c][r].p;
+						if(p.color == "black")
+							{
+								context.fillStyle = "#000000"; //검은색을 입히고
+							}
+						else
+							{
+								context.fillStyle = "#ffffff"; //하얀색을 입히고
+							}
+						context.fillText(p.text,this.board[c][r].screenX + p.offsetX , this.board[c][r].screenY + p.offsetY);
+					}
+			}
+	}
+	
+	drawBoard()
+	{
+		let temp_counter = 0;
+		for(let i = 0 ; i < 8 ; i++)
+			{
+				for(let r = 0 ; r < 8 ; r++)
+					{
+						context.fillStyle = color_light;
+							if(Math.floor(temp_counter/8)%2 == 0)
+							{
+								if(temp_counter % 2 == 0)
+								{
+									context.fillStyle = color_dark;
+								}
+							}
+							else
+							{
+								if(temp_counter % 2 ==1)
+								{
+									context.fillStyle = color_dark;
+								}
+							}
+							if(this.board[i][r].isMoving)
+							{
+								context.fillStyle = "#E33F3F";
+							}
+							if(this.board[i][r].isHighlightedAsDest)
+							{
+								context.fillStyle = "#E29C30";
+							}
+						context.fillRect(this.board[i][r].screenX , this.board[i][r].screenY , this.square_width , this.square_width);
+						context.strokeRect(this.board[i][r].screenX , this.board[i][r].screenY , this.square_width , this.square_width);
+						temp_counter++;
+					}
+			}
+	}
+
+	checkPossibleMove(s) 
+	{
+		let posssibleDest = s.checkPossibleMove();
+		for(let i = 0 ; i < posssibleDest.length ; i++ )
+			{
+				let x = posssibleDest[i].y;
+				let y = posssibleDest[i].x;
+				this.board[x][y].isHighlightedAsDest = true;
+			}
+		this.possibleDestForSelection = posssibleDest;
+	}
+	
+	selectPiece(x,y)
+	{
+		game.selection = true;
+		this.lastSelection = this.board[x][y];
+		this.board[x][y].isMoving = true;
+		this.checkPossibleMove(this.board[x][y]);
+	}
+	
+	unSelectPiece(x,y)
+	{
+		game.selection = false;
+		this.lastSelection = null;
+		this.board[x][y].isMoving = false;
+		for(let i = 0 ; i < this.possibleDestForSelection.lenth ; i++) 
+			{
+				this.board[this.possibleDestForSelection[i].y][this.possibleDestForSelection[i].x].isHighlightedAsDest = false;
+			}//움직일 수 있는 부분 색칠 끄기?
+		this.possibleDestForSelection = [];
+		this.draw(); // 새로 그리기
+	}
+	
+	decideMove(x,y)
+	{
+		let flag = false;
+		for(let i = 0 ; i < this.possibleDestForSelection.length ; i++)
+			{
+				if(this.possibleDestForSelection[i].x == y && this.possibleDestForSelection[i].y == x)
+					{
+						flag = true;
+					}
+			}
+		//캐슬링
+		if(flag && this.board[x][y].p.color == this.lastSelection.p.color)
+			{//백
+				if(this.board[x][y].p.color == "white")
+					{
+						if(x == 7 && y == 0)
+						{
+							this.board[x][y+2].setP(this.board[x][y].p);
+							this.board[x][y].leaveP();
+							this.board[x][y+2].p.hasMoved = true;
+
+							this.board[x][y+1].setP(this.board[x][y+3].p);
+							this.board[x][y+3].leaveP();
+							this.board[x][y+1].p.hasMoved = true;
+						}			
+						if(x == 7 && y == 7)
+						{
+							this.board[x][y-3].setP(this.board[x][y].p);
+							this.board[x][y].leaveP();
+							this.board[x][y-3].p.hasMoved = true;
+
+							this.board[x][y-2].setP(this.board[x][y-4].p);
+							this.board[x][y-4].leaveP();
+							this.board[x][y-2].p.hasMoved = true;
+						}
+					}
+			//흑
+			if(this.board[x][y].p.color == "black")
+			{
+				if(x == 0 && y == 0)
+					{
+						this.board[x][y+2].setP(this.board[x][y].p);
+						this.board[x][y].leaveP();
+						this.board[x][y+2].p.hasMoved = true;
+
+						this.board[x][y+1].setP(this.board[x][y+3].p);
+						this.board[x][y+3].leaveP();
+						this.board[x][y+1].p.hasMoved = true;
+					}
+				if(x == 0 && y == 7)
+					{
+						this.board[x][y-3].setP(this.board[x][y].p);
+						this.board[x][y].leaveP();
+						this.board[x][y-3].p.hasMoved = true;
+
+						this.board[x][y-2].setP(this.board[x][y-4].p);
+						this.board[x][y-4].leaveP();
+						this.board[x][y-2].p.hasMoved = true;
+					}
+			}
+				this.turnOver();
+			}
+		
+		if(flag&&this.board[x][y].p.color != this.lastSelection.p.color)
+		{
+			//누가 이겼습니까?
+			if(this.board[x][y].p.text == "♚")
+			{
+				if(game.turn)
+					{
+						//블랙 턴이면
+						alert("흑 승!");
+					}
+			else
+				{
+					alert("백 승!");
+				}
+			}
+			this.board[x][y].setP(this.lastSelection.p);
+			this.board[this.lastSelection.y][this.lastSelection.x].leaveP();
+			this.board[x][y].p.hasMoved = true;
+
+			//프로모션 자동 퀸
+			if(this.board[x][y].p.text == "♙" && this.board[x][y].p.color=="white" && x == 0)
+			{
+				this.board[x][y].p = new Queen("white");
+				this.board[x][y].p.hasMoved = true;
+			}
+			if(this.board[x][y].p.text == "♟" && this.board[x][y].p.color=="black" && x == 7)
+			{
+				this.board[x][y].p = new Queen("black");
+				this.board[x][y].p.hasMoved = true;
+			}
+			this.turnOver();	
+		}
+	}
+	
+
+	advance(e)
+	{
+		//console.log(this.board)
+		//x,y 좌표로 변환
+		let x = Math.floor(e.offsetY / this.square_width);
+		let y = Math.floor(e.offsetX / this.square_width);
+		
+		//selection 상태가 아닐 때
+		if(!game.selection)
+			{
+				//게임의 시작은 white
+				if(!game.turn && this.board[x][y].p.color == "white")
+					{
+						this.selectPiece(x,y);
+						//흑 차례
+					}
+				else if (game.turn && this.board[x][y].p.color == "black")
+					{
+						this.selectPiece(x,y);
+					}
+				this.draw();
+				//고름
+			}
+		else
+			{
+				//Unselect
+				if(this.lastSelection.y == x && this.lastSelection.x == y)
+					{
+						this.unSelectPiece(x,y);
+					}
+				this.decideMove(x,y);
+			}
+	}
+	
+	//턴 오버
+	turnOver()
+	{
+		let check = false;
+		if(!game.turn)
+			{
+				//백 차례
+				for(let p = 0 ; p < 8 ; p++)
+					{
+						for(let q = 0 ; q < 8 ; q++)
+							{
+								if(this.board[p][q].color == "white")
+									{
+										let pArray = this.board[p][q].checkPossibleMove();
+										for(let v = 0 ; v < pArray.length; v++)
+											{
+												if(pArray[v].p.color != "empty" && pArray[v].p.text == "♚" && pArray[v].p.color == "black")
+													{
+														console.log(pArray);
+														check = true;
+													}
+											}
+									}
+							}
+					}
+			}
+		else
+		{
+			
+		}
+	}
+	
+
+
+
+
