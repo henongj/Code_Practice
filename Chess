@@ -18,7 +18,7 @@ let game = {
 
 class Board{
 	constructor()
-	{  // 생성자처럼 보이는데 그냥 data,함수 정의부 (C++ 의 private, public)
+	{  // 생성자처럼 보이는데 생성자 맞음 (C++ 의 private, public)
 		this.square_width = width/8; // 폭
 		this.board = new Array(8); // 열?
 		this.lastSelection; // 마지막에 고른거
@@ -26,7 +26,7 @@ class Board{
 		this.initialize(); // 
 	}
 	//보드 초기 세팅
-	initialize() // 생성자네 이게
+	initialize() // 생성자 아님 쉬벌 내가 속았따
 	{
 		for(let i = 0; i < 8 ; i++)
 			{
@@ -51,7 +51,7 @@ class Board{
 		{
 			this.board[1][i].setP(new Pawn("black"));
 		}
-		
+
 	this.board[7][0].setP(new Rook("White"));
 	this.board[7][7].setP(new Rook("White"));
 	this.board[7][1].setP(new Knight("White"));
@@ -72,7 +72,7 @@ class Board{
 		this.drawBoard(); //보드 출력
 		this.drawPiece(); //piece(기물) 출력
 	}
-	
+
 	drawPiece()// 기물 출력
 	{
 		for(let c = 0 ; c < 8 ; c++)
@@ -92,7 +92,7 @@ class Board{
 					}
 			}
 	}
-	
+
 	drawBoard()
 	{
 		let temp_counter = 0;
@@ -141,7 +141,7 @@ class Board{
 			}
 		this.possibleDestForSelection = posssibleDest;
 	}
-	
+
 	selectPiece(x,y)
 	{
 		game.selection = true;
@@ -149,7 +149,7 @@ class Board{
 		this.board[x][y].isMoving = true;
 		this.checkPossibleMove(this.board[x][y]);
 	}
-	
+
 	unSelectPiece(x,y)
 	{
 		game.selection = false;
@@ -162,7 +162,7 @@ class Board{
 		this.possibleDestForSelection = [];
 		this.draw(); // 새로 그리기
 	}
-	
+
 	decideMove(x,y)
 	{
 		let flag = false;
@@ -225,11 +225,11 @@ class Board{
 			}
 				this.turnOver();
 			}
-		
+
 		if(flag&&this.board[x][y].p.color != this.lastSelection.p.color)
 		{
 			//누가 이겼습니까?
-			if(this.board[x][y].p.text == "♚")
+			if(this.board[x][y].p.text == "♔")
 			{
 				if(game.turn)
 					{
@@ -251,7 +251,7 @@ class Board{
 				this.board[x][y].p = new Queen("white");
 				this.board[x][y].p.hasMoved = true;
 			}
-			if(this.board[x][y].p.text == "♟" && this.board[x][y].p.color=="black" && x == 7)
+			if(this.board[x][y].p.text == "♙" && this.board[x][y].p.color=="black" && x == 7)
 			{
 				this.board[x][y].p = new Queen("black");
 				this.board[x][y].p.hasMoved = true;
@@ -259,7 +259,7 @@ class Board{
 			this.turnOver();	
 		}
 	}
-	
+
 
 	advance(e)
 	{
@@ -267,7 +267,7 @@ class Board{
 		//x,y 좌표로 변환
 		let x = Math.floor(e.offsetY / this.square_width);
 		let y = Math.floor(e.offsetX / this.square_width);
-		
+
 		//selection 상태가 아닐 때
 		if(!game.selection)
 			{
@@ -294,7 +294,7 @@ class Board{
 				this.decideMove(x,y);
 			}
 	}
-	
+
 	//턴 오버
 	turnOver()
 	{
@@ -311,7 +311,7 @@ class Board{
 										let pArray = this.board[p][q].checkPossibleMove();
 										for(let v = 0 ; v < pArray.length; v++)
 											{
-												if(pArray[v].p.color != "empty" && pArray[v].p.text == "♚" && pArray[v].p.color == "black")
+												if(pArray[v].p.color != "empty" && pArray[v].p.text == "♔" && pArray[v].p.color == "black")
 													{
 														console.log(pArray);
 														check = true;
@@ -323,11 +323,460 @@ class Board{
 			}
 		else
 		{
-			
+			for(let p = 0 ; p < 8 ; p++){
+				for(let q = 0 ; q < 8 ; q++){
+					if(this.board[p][q].p.color == "black"){
+						let pArray = this.board[p][q].checkPossibleMove();
+						for(let v = 0 ; v < pArray.length; v++){
+							console.log(pArray);
+							if(pArray[v].p.color != "empty" && pArray[v].p.text == "♔" && pArray.p.color == "white"){
+								check = true;
+							}
+						}
+					}
+				}
+			}
 		}
+		
+		if(check){
+			alert("체크");
+		}
+		
+		this.board[this.lastSelection.y][this.lastSelection.x].isMoving = false;
+		for(let i = 0 ; i < this.possibleDestForSelection.length ; i++)
+			{
+				this.board[this.possibleDestForSelection[i].y][this.possibleDestForSelection[i].x].isHighlightedAsDest = false;
+			}
+		
+		this.possibleDestForSelection = [];
+		
+		game.selection = false;
+		game.turn = !game.turn;
+		game.start = true;
+		
+		this.draw();
+	}
+} // class board end 
+
+
+class piece {
+	constructor(color){
+		this.color = color;
+		this.x;
+		this.y;
+		this.hasMoved;
+	}
+}
+
+class Rook extends piece {
+	constructor(color){
+		super(color);
+		this.text = "♖";
+		this.offsetX = 5;
+		this.offsetY = 85;
 	}
 	
+	checkPossibleMove(x, y, b) {
+		let arr = [];
+		let i = 1;
+		
+		let flag = true;
+		while(x + 1 <= 7 && b[x+i][y].p.color != this.color && flag){
+			arr.push(b[x+i][y]);
+			if(!b[x+i][y].isEmpty){
+				flag = false;
+			}
+			i++;
+		}
+		
+		i = 1;
+		flag = true;
+		while(x-i <= 7 && b[x-i][y].p.color != this.color && flag){
+			arr.push(b[x-i][y]);
+			if(!b[x-i][y].isEmpty){
+				flag = false;
+			}
+			i++;
+		}		
 
+		i = 1;
+		flag = true;
+		while(y+i <= 7 && b[x][y+i].p.color != this.color && flag){
+			arr.push(b[x][y+i]);
+			if(!b[x][y+i].isEmpty){
+				flag = false;
+			}
+			i++;
+		}
+		
+		i = 1;
+		flag = true;
+		while(y-i <= 7 && b[x][y-i].p.color != this.color && flag){
+			arr.push(b[x][y-i]);
+			if(!b[x][y-i].isEmpty){
+				flag = false;
+			}
+			i++;
+		}
+		
+		return arr;
+	}
 
+}
 
+class Bishop extends Piece{
+	constructor(color){
+		super(color);
+		this.text = "♗";
+		this.offsetX = 4;
+		this.offsetY = 83;
+	}
+	
+	checkPossibleMove(x, y, b) {
+		let arr = [];
+		let i = 1;
+		
+		let flag = true;
+		while(x + i <= 7 && y + i<= 7 && b[x+i][y+i].p.color != this.color && flag){
+			arr.push(b[x+i][y+i]);
+			if(!b[x+i][y+i].isEmpty){
+				flag = false;
+			}
+			i++;
+		}
+		
+		i = 1;
+		flag = true;
+		while(x + i <= 7 && y - i >=0 && b[x+i][y-i].p.color != this.color && flag){
+			arr.push(b[x+i][y-i]);
+			if(!b[x+i][y-i].isEmpty){
+				flag = false;
+			}
+			i++;
+		}		
 
+		i = 1;
+		flag = true;
+		while(x - i >= 0 && y + i<= 7 && b[x-i][y+i].p.color != this.color && flag){
+			arr.push(b[x-i][y+i]);
+			if(!b[x-i][y+i].isEmpty){
+				flag = false;
+			}
+			i++;
+		}
+		
+		i = 1;
+		flag = true;
+		while(x - i >= 0 && y - i >= 0 && b[x-i][y-i].p.color != this.color && flag){
+			arr.push(b[x-i][y-i]);
+			if(!b[x-i][y-i].isEmpty){
+				flag = false;
+			}
+			i++;
+		}
+		
+		return arr;
+	}
+}
+
+class Pawn extends Piece{
+	constructor(color){
+		super(color);
+		this.text = "♙";
+		this.offsetX = 5;
+		this.offsetY = 85;
+	}
+	
+	checkPossibleMove(x,y,b){
+		let temp_num;
+		if(this.color == "white"){
+			temp_num = -1;
+		}else {
+			temp_num = +1;
+		}
+		
+		let arr = [];
+		
+		if(x+temp_num >= 0 && x + temp_num <= 7 && (b[x+temp_num][y]).isEmpty){
+		   	if(x+temp_num * 2 >= 0 && x + temp_num * 2 <= 7 && b[x+temp_num*2][y].isEmpty){
+				if(!this.hasMoved){
+					arr.push(b[x+temp_num][y]);
+					arr.push(b[x+temp_num*2][y]);
+				}else{
+					arr.push(b[x+temp_num][y]);
+				}
+			}
+			else{
+				arr.push(b[x+temp_num][y]);
+			}
+		}
+		
+		if(x+temp_num >= 0 && y + temp_num >= 0 && y + temp_num <= 7 && !b[x+temp_num][y+temp_num].isEmpty && b[x+temp_num][y+temp_num].p.color != this.color){
+			arr.push(b[x+temp_num][y+temp_num]);
+		}
+		if(x+temp_num >= 0 && y - temp_num <= 7 && y - temp_num >= 0 && !b[x+temp_num][y-temp_num].isEmpty && b[x+temp_num][y-temp_num].p.color != this.color){
+			arr.push(b[x+temp_num][y-temp_num]);
+		}
+		return arr;
+	}
+}
+
+class Knight extends Piece{
+	constructor(color){
+		super(color);
+		this.text = "♘";
+		this.offsetX = 3;
+		this.offsetY = 85;
+	}
+	
+	checkPossibleMove(x, y, b) {
+		let arr = [];
+		
+		if(x-1 >= 0 && y + 2 <= 7 && b[x-1][y+2].p.color != this.color){
+			arr.push(b[x-1][y+2]);
+		}
+		if(x+1 <= 7 && y + 2 <= 7 && b[x-1][y+2].p.color != this.color){
+			arr.push(b[x+1][y+2]);
+		}
+		if(x-2 >= 0 && y + 1 <= 7 && b[x-2][y+1].p.color != this.color){
+			arr.push(b[x-2][y+1]);
+		}
+		if(x-2 >= 0 && y - 1 >= 0 && b[x-2][y-1].p.color != this.color){
+			arr.push(b[x-2][y-1]);
+		}
+		if(x-1 >= 0 && y - 2 >= 0 && b[x-1][y-2].p.color != this.color){
+			arr.push(b[x-1][y-2]);
+		}
+		if(x+1 <= 7 && y-2 >= 0 && b[x+1][y-2].p.color != this.color){
+			arr.push(b[x+1][y-2]);
+		}
+		if(x+2 <= 7 && y-1 >= 0 && b[x+2][y-1].p.color != this.color){
+			arr.push(b[x+2][y-1]);
+		}
+		if(x+2 <= 7 && y+1 <= 7 && b[x+2][y+1].p.color != this.color){
+			arr.push( b[x+2][y+1]);
+		}
+		return arr;
+	}
+}
+
+class Queen extends Piece{
+	constructor(color){
+		super(color);
+		this.text = "♕";
+		this.offsetX = 5;
+		this.offsetY = 85;
+	}
+	
+	checkPossibleMove(x, y, b) {
+		let arr = [];
+		let i = 1;
+		
+		let flag = true;
+		while(x + 1 <= 7 && b[x+i][y].p.color != this.color && flag){
+			arr.push(b[x+i][y]);
+			if(!b[x+i][y].isEmpty){
+				flag = false;
+			}
+			i++;
+		}
+		
+		i = 1;
+		flag = true;
+		while(x-i <= 7 && b[x-i][y].p.color != this.color && flag){
+			arr.push(b[x-i][y]);
+			if(!b[x-i][y].isEmpty){
+				flag = false;
+			}
+			i++;
+		}		
+
+		i = 1;
+		flag = true;
+		while(y+i <= 7 && b[x][y+i].p.color != this.color && flag){
+			arr.push(b[x][y+i]);
+			if(!b[x][y+i].isEmpty){
+				flag = false;
+			}
+			i++;
+		}
+		
+		i = 1;
+		flag = true;
+		while(y-i <= 7 && b[x][y-i].p.color != this.color && flag){
+			arr.push(b[x][y-i]);
+			if(!b[x][y-i].isEmpty){
+				flag = false;
+			}
+			i++;
+		}
+		
+		i = 1;
+		flag = true;
+		while(x + i <= 7 && y - i >=0 && b[x+i][y-i].p.color != this.color && flag){
+			arr.push(b[x+i][y-i]);
+			if(!b[x+i][y-i].isEmpty){
+				flag = false;
+			}
+			i++;
+		}		
+
+		i = 1;
+		flag = true;
+		while(x - i >= 0 && y + i<= 7 && b[x-i][y+i].p.color != this.color && flag){
+			arr.push(b[x-i][y+i]);
+			if(!b[x-i][y+i].isEmpty){
+				flag = false;
+			}
+			i++;
+		}
+		
+		i = 1;
+		flag = true;
+		while(x - i >= 0 && y - i >= 0 && b[x-i][y-i].p.color != this.color && flag){
+			arr.push(b[x-i][y-i]);
+			if(!b[x-i][y-i].isEmpty){
+				flag = false;
+			}
+			i++;
+		}
+		
+		i = 1;
+		flag = true;
+		while(x + i <= 7 && y + i<= 7 && b[x+i][y+i].p.color != this.color && flag){
+			arr.push(b[x+i][y+i]);
+			if(!b[x+i][y+i].isEmpty){
+				flag = false;
+			}
+			i++;
+		}
+		
+		return arr;
+	}	
+}
+
+class King extends Piece{
+	constructor(color){
+		super(color);
+		this.text = "♔";
+		this.offsetX = 5;
+		this.offsetY = 85;
+	}
+	
+	checkPossibleMove(x, y, b) {
+		let arr = [];
+		if(x-1>=0 && b[x-1][y].p.color != this.color){
+			arr.push(b[x-1][y]);
+		}
+		if(x-1>=0 && y-1 >= 0 && b[x-1][y-1].p.color != this.color){
+			arr.push(b[x-1][y-1]);
+		}
+		if(x-1>=0 && y+1 <= 7 && b[x-1][y+1].p.color != this.color){
+			arr.push(b[x-1][y+1]);
+		}
+		if(y+1 <= 7 && b[x][y+1].p.color != this.color){
+			arr.push(b[x][y+1]);
+		}
+		if(y-1 <= 7 && b[x][y-1].p.color != this.color){
+			arr.push(b[x][y-1]);
+		}
+		if(x+1<=7 && y+1<=7  && b[x+1][y+1].p.color != this.color){
+			arr.push(b[x+1][y+1]);
+		}
+		if(x+1<=7 && b[x+1][y].p.color != this.color){
+			arr.push(b[x+1][y]);
+		}
+		if(x+1<=7 && y-1>=0  && b[x+1][y-1].p.color != this.color){
+			arr.push(b[x+1][y-1]);
+		}
+		
+		if(!this.hasMoved && b[x][y-1].isEmpty && b[x][y-2].isEmpty && b[x][y-3].p.text == "♖" && !b[x][y-3].p.hasMoved){
+			arr.push(b[x][y-3]);
+		}
+		if(!this.hasMoved && b[x][y+1].isEmpty && b[x][y+2].isEmpty && b[x][y+3].p.text == "♖" && !b[x][y+4].p.hasMoved){
+			arr.push(b[x][y+4]);
+		}
+		
+		return arr;
+	}
+}
+
+class Square{
+	constructor(x,y,w,b){
+		this.x = x;
+		this.y = y;
+		this.b = b;
+		this.screenX = x * w;
+		this.screenY = y * w;
+		this.p = new Piece("empty");
+		this.isEmpty = true;
+		this.isMoving = false;
+		this.isHighlightedAsDest = false;
+	}
+	
+	setP(p){
+		this.p = p;
+		this.isEmpty = false;
+	}
+	leaveP(){
+		this.p = new piece("empty");
+		this.isEmpty =true;
+	}
+	
+	checkPossibleMove(){
+		if(this.isEmpty){
+			return [];
+		}
+		else{
+			return this.p.checkPossibleMove(this.y,this.x,this.b);
+		}
+	}
+}
+
+document.addEventListener('mousedown',function(e){
+	if(e.target === canvas){
+		board.advance(e);
+	}
+});
+
+let board = new Board();
+
+let first_time = new Date();
+
+function loop(){
+	now_time = new Date();
+	if(now_time - first_time > 1000)
+		{
+			if(!game.start){
+				document.getElementById("p1_score").innerHTML = Math.floor(white_remaining_time/60/1000) + ";" + white_remaining_time % 60000/1000;
+				document.getElementById("p2_score").innerHTML = Math.floor(white_remaining_time/60/1000) + ";" + white_remaining_time % 60000/1000;
+			}
+			if(game.start && !game.turn){
+				white_remaining_time = white_remaining_time - 1000;
+				if(white_remaining_time <= 0){
+					alert("Black Win due to time over");
+				}
+				document.getElementById("p1_score").innerHTML = Math.floor(white_remaining_time / 60 /1000) + ";" + white_remaining_time % 60000/1000;
+			}
+			else if(game.start && game.turn){
+				black_remaining_time = black_remaining_time - 1000;
+				if(black_remaining_time <= 0){
+					alert("White Win due to time over");
+				}
+				document.getElementById("p2_score").innerHTML = Math.floor(black_remaining_time / 60 /1000) + ";" + black_remaining_time % 60000/1000;
+			}
+			first_time = new Date();
+			}
+	requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
