@@ -1,0 +1,13 @@
+using System;
+
+namespace main_space{
+public class Test
+{
+	public static void Main()
+	{
+		System.Console.WriteLine("hello world\n!");
+		int num = 10;
+		System.Console.WriteLine(num + " is ten");
+	}
+}
+}
