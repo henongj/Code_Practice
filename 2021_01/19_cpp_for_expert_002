@@ -1,0 +1,38 @@
+#include<iostream>
+#include<string>
+
+namespace henong_code{
+	void foo();
+	void gomdolYee_foo();
+}
+
+void henong_code::foo(){
+	std::cout << "henong_code foo funtion run" << std::endl;
+}
+void henong_code::gomdolYee_foo(){
+	std::cout << "왜 foo임 푸? 푸푸? " << std::endl;
+}
+
+namespace code{
+	void foo(){
+		std::cout << "code foo funtion" << std::endl;
+	}
+	 void foo(int a){
+		 for(int i = 0 ; i < a ; i++)
+		 std::cout << "foo";
+		 std::cout << " \n";
+	 }
+}
+
+int main(void)
+{
+	{
+		using namespace henong_code;
+		foo();
+	}
+	code::foo();
+	
+	code::foo(55);
+	
+	return 0;
+}
