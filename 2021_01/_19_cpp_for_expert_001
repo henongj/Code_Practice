@@ -1,0 +1,20 @@
+#ifndef IOSTREAM_H
+#include<iostream>
+#endif
+
+#define HW "defined hello world!"
+
+int main(void)
+{
+	std::cout << "hello, world! \\ \" "<<std::endl;
+	std::cout << HW << std::endl;
+	
+	#ifdef HW
+	std::cout << "HW is defined" << std::endl;
+	#endif
+	
+	#ifndef mm
+	std::cout << "mm isn't defined" << std::endl;
+	#endif
+	return 0;
+}
