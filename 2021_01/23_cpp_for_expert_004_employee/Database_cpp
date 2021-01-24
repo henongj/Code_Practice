@@ -1,0 +1,20 @@
+#include<iostream>
+#include<stdexcept>
+#include "Database.h"
+
+namespace Records{
+	Employee& Database::addEmployee(const string& firstName, const string& lastName)
+	{
+		Employee theEmployee(firstName, lastName);
+		theEmployee.setEmployeeNumber(mNextEmployeeNumber++);
+		theEmployee.hire();
+		mEmployees.push_back(theEmployee);
+		return mEmployees[mEmployees.size() -1];
+	}
+}
+
+int main(void)
+{
+	
+	return 0;
+}
