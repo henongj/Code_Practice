@@ -1,0 +1,14 @@
+#include<iostream>
+
+using namespace std;
+
+int main(void)
+{
+	const char* str1 = R"(it is raw_string_literal)";
+	cout << str1 << endl;
+	const char* str2 = R"(it is raw_\nstring_\nliteral)";
+	cout << str2 << endl;
+	const char* str3 = "it is not raw_\nstring_\nliteral";
+	cout << str3;
+	return 0;
+}
