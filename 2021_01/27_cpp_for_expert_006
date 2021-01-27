@@ -1,0 +1,14 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+int main(void)
+{
+	string a = "sibbal ";
+	string b = "gunnDe ";
+	string c = "jjotgattne\n";
+	
+	string d = a + b + c;
+	cout << d << endl;
+	return 0;
+}
