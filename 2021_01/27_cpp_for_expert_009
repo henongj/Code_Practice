@@ -1,0 +1,33 @@
+#include <iostream>
+#include <string>
+#include <charconv>
+#include <array>
+#include<typeinfo>
+int main()
+{
+   
+	std::string out(10, ' ');
+	auto result = std::to_chars(out.data(), out.data() + out.size(), 12345);
+	if(result.ec == std::errc()){ //제대로 변환된 경우
+		std::cout<<out.data()<<std::endl;
+		//std::cout<<result.ptr<<std::endl;
+	}		
+	
+//	std::string a = result; //error
+    std::string str2(10, 'b');
+    std::string str(10, ' '); // 10은 할당된 사이즈, ' '은 채워넣은것 
+    
+    int a = 3123123;
+    auto weird = std::to_chars(str.data(),str.data() + str.size() , a);
+    auto weird2 = std::to_chars(str2.data(),str2.data() + str2.size() , a);
+    std::cout << str.data() << std::endl;
+    std::cout << str2 << std::endl;
+ //   std::cout << weird << std::endl;
+	return 0;
+}
+
+/*
+12345     
+3123123   
+3123123bbb
+*/
