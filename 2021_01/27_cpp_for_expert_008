@@ -1,0 +1,22 @@
+#include <iostream>
+#include <string>
+#include <array>
+#include <charconv>
+#include <vector>
+using std::cout; using std::cin;
+using std::endl; using std::string;
+
+#define MAX_DIGITS 100
+
+int main() {
+    int n1 = 987643;
+	int n2 = 194;
+    std::array<char, MAX_DIGITS> arr{};
+    std::to_chars(arr.data(), arr.data() + arr.size(), n1); //시작 , 끝, 숫자
+	//std::sort(v.begin(),v.end(),n2); 와 닮았다
+	
+    string num_str(arr.data());
+    cout << num_str << endl;
+	cout << "arr.data : " << arr.data();
+    return EXIT_SUCCESS;
+}
