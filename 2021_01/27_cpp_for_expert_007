@@ -1,0 +1,25 @@
+#include<iostream>
+#include<charconv>
+using namespace std;
+
+int main(void)
+{
+	
+	long long int a = 10101011;
+	
+	string str = to_string(a);
+	
+		
+	str += "a0001";
+	cout << str << endl;
+
+	size_t index = 8; //이거 바꾸든 안 넣든 별 의미 없는듯
+	int sto = stoi(str,&index,10); // 10 = radix, 2를 넣으면 2진수
+	cout << sto << endl;
+	int sto2 = stoi(str,nullptr,2);
+	cout << sto2 << endl;
+	cout << stoi(str,nullptr,3) << endl;
+	
+	
+	return 0;
+}
