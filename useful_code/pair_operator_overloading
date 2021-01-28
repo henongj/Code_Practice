@@ -1,0 +1,24 @@
+pii& operator+=(pii& left , const pii& right)
+{
+	left.first = left.first + right.first;
+	left.second = left.second + right.second;
+	return left;
+}
+
+pii operator+(pii left , const pii& right)
+{
+	left += right;
+	return left;
+}
+
+/*pii a(0,0);
+	pii b(2,2);
+	pii c(8,8);
+	a += kUp;
+	cout << "a : " << a.first << " " << a.second << endl;
+	a = a + b;
+	cout << "a : " << a.first << " " << a.second << endl;
+	a = a + b + c;
+	cout << "a : " << a.first << " " << a.second << endl;
+	cout << "b : " << b.first << " " << b.second << endl;
+*/
