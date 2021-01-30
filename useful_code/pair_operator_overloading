@@ -1,20 +1,16 @@
-pair<int,int>& operator+=(pair<int,int>& left , const pair<int,int>& right)
+template <typename T>
+pair<T,T>& operator+=(pair<T,T>& left , const pair<T,T>& right)
 {
 	left.first = left.first + right.first;
 	left.second = left.second + right.second;
 	return left;
 }
 
-pair<int,int> operator+(pair<int,int> left , const pair<int,int>& right)
+template <typename T>
+pair<T,T> operator+(pair<T,T> left , const pair<T,T>& right)
 {
 	left += right;
 	return left;
-}
-
-template <typename T>
-inline bool compare_pair(const T &p1 , const T &p2)
-{
-	return (p1.first == p2.first && p1.second == p2.second) ? true : false;
 }
 
 template <typename T>
