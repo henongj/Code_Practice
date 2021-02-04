@@ -25,7 +25,6 @@ string upper(const string &str)
 	return to_string(num);
 }
 
-
 /*int main(void)
 {
 	string st = "02";
