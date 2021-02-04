@@ -1,0 +1,36 @@
+//#include<string>
+//#include<iostream>
+//using namespace std;
+
+string& operator++(string& str, int number)
+{
+	auto num = stoi(str);
+	num++;
+	str = to_string(num);
+	return str;
+}
+
+string& operator++(string& str)
+{
+	auto num = stoi(str);
+	num++;
+	str = to_string(num);
+	return str;
+}
+
+string upper(const string &str)
+{
+	auto num = stoi(str);
+	num = num + 1;
+	return to_string(num);
+}
+
+
+/*int main(void)
+{
+	string st = "02";
+	st++;
+	cout << st << endl;
+	++st;
+	cout << st << endl;
+}*/
