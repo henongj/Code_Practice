@@ -1,0 +1,19 @@
+vector<string> tokenize(string &s , char delimeter)
+{
+	vector<string> v;
+	s = s + delimeter;
+	
+	int len = 0; int start = 0;
+	for(int i = 0 ; i < s.length() ; i++)
+	{
+		if(s[i] == delimeter)
+		{
+			v.push_back( s.substr(start , len) );
+			start = start + len + 1;
+			len = 0;
+		}
+		else
+			len++;
+	}
+	return v;
+}
