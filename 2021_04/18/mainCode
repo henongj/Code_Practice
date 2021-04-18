@@ -1,0 +1,13 @@
+
+
+namespace mainSpace
+{
+	class core
+	{
+		static void Main(string[] arguments)
+		{
+			Practice.One.basicPrint();
+			Practice.two.printNumber();
+		}
+	}
+}
