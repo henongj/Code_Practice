@@ -1,0 +1,12 @@
+using System;
+
+namespace Practice
+{
+	public static class two
+	{
+		public static void printNumber()
+		{
+			Console.WriteLine("아 구름 쓰기 불편하네\n");
+		}
+	}
+}
