@@ -1,0 +1,28 @@
+
+namespace Practice
+{
+	public static class One
+	{
+		public static void basicPrint()
+		{
+			System.Console.WriteLine("대충 문자열 출력한다는 내용\n\n개행 된다는 내용\n");
+			int a = 1;
+			int b = 2;
+			if( a%2 == 1 )
+				System.Console.WriteLine("대충 A는 홀수라는 내용\n");
+			else
+				System.Console.WriteLine("대충 A는 짝수라는 내용\n");
+			if( b%2 == 1 )
+				System.Console.WriteLine("대충 B는 홀수라는 내용\n");
+			else
+				System.Console.WriteLine("대충 B는 짝수라는 내용\n");
+			
+			int t = a < b ? a : b;
+			System.Console.WriteLine("{0} {1} {2}", t, "여러개 출력", "하기\n");
+			System.Console.WriteLine("{0:D9} {1}", 123123,"숫자 출력 시작");
+			System.Console.WriteLine("{0:D9} {1:X8}", 123123,123123);
+			System.Console.WriteLine("use WriteLine Function\n");
+			System.Console.Write(" use Write Function\n");
+		}
+	}
+}
