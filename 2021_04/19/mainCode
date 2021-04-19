@@ -5,7 +5,6 @@ namespace mainSpace
 	{
 		static void Main(string[] arguments)
 		{
-//			
 			Practice.one.printNumber();
 			Practice.Two.printString();
 		}
