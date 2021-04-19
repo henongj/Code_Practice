@@ -1,0 +1,22 @@
+using System;
+namespace Practice
+{
+	public class Two
+	{
+		public static void printString()
+		{
+			String rawString = "HQ equal honey absorber";
+			Int32 number1 = 50050;
+			Int32 number2 = 40404;
+			
+			System.Console.WriteLine("rawString : {0}",rawString);
+			
+			rawString = String.Format("rawStringHighJacking -> {0} + {1} = {2}",number1,number2,number1+number2);
+			System.Console.WriteLine("rawString ::: {0}\n",rawString);
+			
+			rawString = String.Format("rawString ::: {1} - {0} = {2}",number1,number2,number2-number1);
+			System.Console.WriteLine(rawString);
+			
+		}
+	}
+}
