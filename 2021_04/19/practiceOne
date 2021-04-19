@@ -1,0 +1,12 @@
+namespace Practice
+{
+	public class one
+	{
+		public static void printNumber()
+		{
+			System.Console.WriteLine("{0:D4} {1:X} {1} {2}" , 121 , 111 , 2954);
+			System.Console.WriteLine("{0:N3} {0:C2} 0x{0:X} {0:E} {1:F10} {1:F3} {1:P4}" , 2954 , (double)24/7);
+			// e = exponentation , F = fix , D -> decimal
+		}
+	}
+}
