@@ -1,0 +1,45 @@
+/*
+problem num : 42
+https://leetcode.com/problems/trapping-rain-water/submissions/
+
+변수 water , L , R, L ptr , R ptr
+1. 왼쪽 끝, 오른 쪽 끝에서 시작
+2. L, R중 높이가 낮은 것부터 포인터를 움직인다
+ 2.1 ptr의 height가 L height 나 R height 보다 낮으면 차만큼 water를 count
+ 2.2 높으면 ( 더 낮은 쪽 ) 움직이던 ptr 방향에 맞게 L이나 R값 갱신
+3. L과 R이 만나면 (가장 높은 곳) 종료
+
+*/
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int left = 0;
+        int right = height.size() - 1;
+        int left_index = left;
+        int right_index = right;
+        int water = 0;
+        while( left != right )
+        {
+            if( height[left] <= height[right] )
+            {
+                left_index++;
+                
+                if( height[left_index] < height[left] )
+                    water = water + ( height[left] - height[left_index] );
+                else
+                    left = left_index;
+            }
+            else
+            {
+                right_index--;
+                
+                if( height[right_index] < height[right] )
+                    water = water + ( height[right] - height[right_index] );
+                else
+                    right = right_index;
+            }
+        }
+        
+        return water;
+    }
+};
