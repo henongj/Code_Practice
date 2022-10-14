@@ -1,6 +1,11 @@
 class Solution {
 public:
-    
+    /*
+ 
+ 반례
+"BAAAB"
+2
+    */
     int val(string str, int k)
     {
         int left = 0; int right = 0;
