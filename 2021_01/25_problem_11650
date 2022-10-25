@@ -1,0 +1,32 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+bool compare_pos(const pair<int,int> &a , const pair<int,int> &b)
+{
+	if(a.first == b.first)
+		return a.second < b.second;
+	else
+		return a.first < b.first;
+}
+
+int main(void)
+{
+	vector < pair<int,int> > p;
+	int n; cin >> n;
+	for(int i = 0 ; i < n ; i++)
+	{
+		int xpos, ypos;
+		cin >> xpos >> ypos;
+		p.push_back(make_pair(xpos,ypos));
+	}
+	
+	sort(p.begin(),p.end(),compare_pos);
+	
+	for(int i = 0 ; i < p.size() ; i++)
+	{
+		printf("%d %d\n",p[i].first,p[i].second);
+	}
+	return 0;
+}

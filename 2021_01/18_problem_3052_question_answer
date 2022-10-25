@@ -1,0 +1,45 @@
+#include<iostream>
+using namespace std;
+
+void print_r(int r[])
+{
+	for(int i = 0 ; i < 10 ; i++)
+		cout << "[" << r[i] << "]";
+	cout << "\n";
+}
+
+int main() {
+    int R[10];
+    int r[10];
+    for (int i = 0; i < 10; i++) {
+        scanf("%d",&R[i]);
+    }
+
+    for (int i = 0; i < 10; i++) {
+        R[i] = R[i]%42; // 나머지 저장
+    }
+    for (int i = 0; i < 10; i++) {
+        r[i] = -1; // 초기화
+    }
+    
+    int count = 1;
+    
+	r[0] = R[0];
+    
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            if (R[i] == r[j]) 
+                break;
+            if (r[j] == -1) {
+                r[count] = R[i];
+                count++;
+                break;
+            }
+        }
+    }
+  //  cout << "R : ";
+//    print_r(R);
+  //  cout << "r : " ;
+   // print_r(r); cout << "\n";
+    printf("%d",count);
+}

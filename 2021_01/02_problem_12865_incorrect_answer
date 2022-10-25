@@ -1,0 +1,107 @@
+#include<iostream>
+#include<utility>
+using namespace std;
+
+int max(int a , int b)
+{
+	return a > b ? a : b;
+}
+void print_pair(pair<int,int> p[],int n)
+{
+	for(int i  = 0 ; i < n ; i++)
+	{
+		cout << "p(weight , value) : " << p[i].first << " , " << p[i].second << endl;
+	}
+}
+void print_memo(int memo[] , int max_weight)
+{
+	int t = 0;
+	cout << "memo : ";
+	for(int i = 0 ; i < max_weight+1 ; i++)
+	{
+		t++;
+		cout << memo[i] << " ";
+		if(t == 20)
+		{
+			puts("");
+			t = 0;
+		}
+	}
+	puts("");
+}
+
+
+bool can_hold(const int max_weight , int num)
+{
+	return max_weight >= num ? true : false;
+}
+
+void pick_thing(int memo[] , pair<int,int> *p, const int n , const int max_weight , int now_weight, int picker)
+{//배낭에 물건을 최대한 쑤셔넣어보는 짓을 계속 하는 재귀함수
+	//max_weight == 한계 무게 , now_weight 지금 무게 , picker = 뭘 고를지
+	for(int i = picker ; i < n ; i++)
+	{
+//		cout << "  p[" << i << "] : (" << p[i].first << ", " << p[i].second << ")\n";
+		if(can_hold(max_weight , now_weight + p[i].first))
+		{// 넣을 수 있으면
+			int renew_weight = now_weight + p[i].first; //(w == pick을 추가한 체신 무게)
+			memo[  renew_weight  ] = max( memo[renew_weight] , memo[now_weight] + p[i].second ); // 메모[무게]번에 가치 기입
+			picker++;
+
+//			cout << "pick_thing || i, picker : " << "(" << i <<", "<<picker << ") || "	<< "renew_weight, now_weight (" << renew_weight<< " , " << now_weight << ") || " << memo[now_weight] + p[i].second << "<=" << memo[now_weight] << endl;
+			
+			pick_thing(memo,p,n,max_weight,renew_weight,picker); // 재귀
+		}
+		else
+			picker++;
+	}
+	print_memo(memo,max_weight);
+}
+
+int main(void)
+{
+	int n,max_weight;
+	pair<int,int> p[101];
+	cin >> n >> max_weight;
+	int memo[max_weight+1] = {};
+
+	int fir, sec;
+	for(int i = 0 ; i < n ; i++)
+	{
+		cin >> fir >> sec;
+		p[i] = make_pair(fir,sec); // first = weight, second = value;
+	}
+	
+	int now_weight = 0; int picker = 0;
+	
+//	print_pair(p,n);
+	
+	pick_thing(memo, p, n , max_weight,now_weight,picker);
+//	print_memo(memo,max_weight);
+	int maximum = 0;
+	for(int i = 0 ; i < max_weight+1 ; i++)
+		maximum = max(maximum , memo[i]);
+	
+	cout << maximum;
+	
+	
+	return 0;
+}
+
+
+
+/* 
+실행해서 돌려보면 memo에 적은 값을 pick_thing이 재귀호출하면서 
+고르지 않은 값까지 가져다 써서 
+훨씬 큰 값이 나오는 문제가 있음
+6 9
+3 6
+2 7
+4 6
+4 2
+4 10
+1 5
+
+output : 26
+답 : (3,6)+(2,7)+(4,10) : 23
+*/

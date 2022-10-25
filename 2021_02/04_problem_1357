@@ -1,0 +1,21 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+using namespace std;
+
+int Rev(const int &a)
+{
+	string temp = to_string(a);
+	reverse(temp.begin() , temp.end());
+	return stoi(temp);
+}
+
+int main(void)
+{
+	int x, y;
+	cin >> x >> y;
+	
+	cout << Rev(Rev(x)+Rev(y));
+	
+	return 0;
+}

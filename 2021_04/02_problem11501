@@ -1,0 +1,91 @@
+#include<iostream>
+#include<vector>
+#define endl '\n';
+using namespace std;
+
+typedef long long int lli;
+
+int main(void)
+{
+	int testCase;
+	cin >> testCase;
+	for(int i = 0 ; i < testCase ; i++)
+	{//testcase
+		int day;
+		cin >> day;
+		vector<lli> v;
+		lli revenue = 0;
+		for(int j = 0 ; j < day ; j++)
+		{
+			lli temp;
+			cin >> temp;
+			v.push_back(temp);
+		}
+		
+		lli sellStockPrice = v[v.size() - 1];
+		
+		for(int j = v.size() - 1 ; j >= 0 ; j--)
+		{
+			if(v[j] == sellStockPrice) // 전날 가격이 의미가 없으면 
+				continue;
+			else if(v[j] > sellStockPrice)
+				sellStockPrice = v[j];
+			else
+				revenue = revenue + sellStockPrice - v[j];
+		}
+		cout << revenue << endl;
+	}
+}
+
+/*int main(void)
+{
+	int testCase;
+	cin >> testCase;
+	for(int i = 0 ; i < testCase ; i++)
+	{
+		int day;
+		lli revenue = 0;
+		lli buyStockPrice = 0;
+		lli sellStockPrice = 0;
+		lli stockSize = 0;
+		
+		vector<lli> v;
+		cin >> day;
+		for(int j = 0 ; j < day ; j++)
+		{
+			lli temp;
+			cin >> temp;
+			v.push_back(temp);
+		}
+		
+		for(int j = 0 ; j < v.size() - 1 ; j++)
+		{
+			if(v[j] <= v[j+1])
+			{//내일 이득 가능이면 사야지
+				buyStockPrice += v[j];
+				++stockSize;
+			}
+			else
+			{//크면 판다
+				
+			}
+		}
+		
+	}
+	return 0;
+}
+*/
+
+/*
+방법 1
+		다음날 가격이 비싸지면 당일 주식을 산다
+		그리고 담날 가격이 싸지면 판다
+	문제점
+		값이 계속 내리면 관망해야함
+		1 1 1 2 1 9 면 (2->1) 일때 팔면 안 됨
+		시발
+방법 2 https://www.acmicpc.net/board/view/16527
+		
+
+
+*/

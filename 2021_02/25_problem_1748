@@ -1,0 +1,52 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+typedef unsigned long long ull;
+
+int getRadix(const int& N)
+{
+	string temp = to_string(N);
+	return temp.length();
+}
+
+int main(void)
+{
+	ull radixSum = 0;
+	ull naturalNumbersInRadix[10] = {0,9,90,900,9000,90000,900000,9000000,90000000,900000000}; // 0미포함
+	
+	int N;
+	cin >> N;
+	
+	int lengthOfN = getRadix(N); 
+	ull radixValue = 1;
+	for(int i = 1 ; i < lengthOfN ; i++)
+	{// 3자리면 9 + 99*2 + (N - 100 + 1) * 3
+		radixSum += naturalNumbersInRadix[i] * i;
+		radixValue *= 10;
+	}
+//	radixValue *= 10;
+	
+	radixSum = radixSum + (N - radixValue + 1) * lengthOfN;
+	cout << radixSum;
+	
+	return 0;
+}
+
+/*
+10 11 12 13 14 15 (10부터 15는 6개 = (15 - 10 + 1))
+
+1부터 9는 9개
+10 부터 99는 90개
+100 부터 999는 900개
+1000 부터 9999는 9000개
+10000 부터 99999는 90000개
+
+즉 자릿수가 1이면 해당 자리 9, 그 밑은 죄다 0개
+
+즉 radix = 1이면 10 - 1
+radix = 2 이면 100 - 10
+radix = 3 이면 1000 - 100
+
+radix = N 이면 10^N - 10^N-1
+*/

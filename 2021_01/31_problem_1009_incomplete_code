@@ -1,0 +1,62 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+template<typename T>
+inline void printVector(const vector<T>& v)
+{
+	for(const auto& iter : v)
+		cout << iter << " ";
+}
+inline void setIdx(int &idx)
+{
+	idx == 10 ? idx = 0 : idx++;
+}
+
+int main(void)
+{
+	int testCase;
+	int base,exponent;
+	
+	cin >> testCase;
+	
+	int arr[](0,1,2,3,4,5,6,7,8,9);
+	int idx = 0;
+	
+	for(int i = 0 ; i < testCase ; i++)
+	{
+		cin >> base >> exponent;
+
+		int startNum = base % 10; // 시작 수
+		int number = base; // 변하는 수
+		int len = 0;
+		
+		bool cycleFlag = false; //반복되는 부분이 있는지 확인
+
+		for(int j = 0 ; j < exponent-1 ; j++)
+		{
+			number = (number * base) % 10;
+	//		cout << "number : " << number << endl;
+			if(startNum == number)
+			{//반복되는 부분이 있다면
+				cycleFlag = true;
+				break;
+			}
+			else
+			{
+				setIdx(idx);
+				len++; //반복 길이
+			}
+		} //사이클 입력 완료
+		
+		if(cycleFlag == true)
+		{ //사이클 있음
+			cout << number << "\n";
+		}
+		else //사이클 없음
+			cout << number << "\n";
+	}
+	
+	
+	return 0;
+}

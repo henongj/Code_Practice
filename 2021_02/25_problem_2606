@@ -1,0 +1,38 @@
+#include<iostream>
+#include<vector>
+#include<utility>
+using namespace std;
+
+void dfs(vector<vector<int>>& v , bool isInfected[] ,int& counter)
+{// 1번이 감염되고 1번과 관련된 노드들은 죄다 감염이 옮겨진다
+	//v[0][0] = 2 
+	//
+	
+}
+
+int main(void)
+{
+	int computers;
+	cin >> computers;
+	
+	bool isInfected[computers+1];
+	for(int i = 0 ; i <= computers ; i++)
+		isInfected[i] = false;
+
+	int nodes;
+	cin >> nodes;
+	vector< vector<int> > v;
+	vector< int > column;
+	for(int i = 0 ; i < nodes+1 i++)
+		v.push_back(column);
+	for(int i = 0 ; i < nodes ; i++)
+	{
+		int row, col;
+		cin >> row >> col;
+		v[row].push_back(col);
+	}
+	
+	int counter = 0;
+	
+	return 0;
+}

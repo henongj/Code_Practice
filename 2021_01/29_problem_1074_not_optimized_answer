@@ -1,0 +1,103 @@
+#include<iostream>
+#include<utility>
+#include<cmath>
+#include<vector>
+using namespace std;
+int n;
+typedef pair<int,int> pii;
+
+const pii kUp(0,-1);
+const pii kDown(0,1);
+const pii kLeft(-1,0);
+const pii kRight(1,0);
+
+pii& operator+=(pii& left , const pii& right)
+{
+	left.first = left.first + right.first;
+	left.second = left.second + right.second;
+	return left;
+}
+
+pii operator+(pii left , const pii& right)
+{
+	left += right;
+	return left;
+}
+
+inline bool canDivide(int number , int divider)
+{
+	return (divider == 0) ? (false) : (number % divider == 0 ? true : false);
+}
+
+inline void fillZstyle(vector<vector<int>> &arr, int &order , pii pos)
+{
+	// fillZstyle 함수를 만들껀데, 그땐 arr[n][n] , &order , pos 만 있으면 된다. 대충 밑 코드처럼 채우면 된다
+	arr[ pos.first ][ pos.second ] = order;
+	order++;
+	arr[ pos.first ][ pos.second+1 ] = order;
+	order++;
+	arr[ pos.first+1 ][ pos.second ] = order;
+	order++;
+	arr[ pos.first+1 ][ pos.second+1 ] = order;
+	order++;
+}
+
+void divideZStyle(vector<vector<int>> &arr, int &order , int nowN , pii pos)
+{//pos 는 기준이 될 좌표다. 예를들어 한 번도 나누지 않은 N이 8이면, 0,0 이다. 다음 재귀의 pos는 각각 (0,0) (0,4) (4,0) (4,4)이다.
+	
+	if(canDivide(nowN , 2))
+	{//기준pos(x,y) (x+halfN)(y) (x)(y+halfN) (x+halfN)(y+halfN) 순으로 order을 채워야 한다.
+		int newNowN = nowN/2;
+		divideZStyle(arr,order,newNowN,pos);
+		
+		divideZStyle(arr,order,newNowN,pos+make_pair(0,newNowN));
+		
+		divideZStyle(arr,order,newNowN,pos+make_pair(newNowN,0));
+		
+		divideZStyle(arr,order,newNowN,pos+make_pair(newNowN,newNowN));
+	}
+	if(nowN == 2)
+	{
+		fillZstyle(arr,order,pos);
+		return;
+	}
+}
+
+void print_grid(const vector<vector<int>> &arr)
+{
+	for(int row = 0 ; row < arr.size() ; row++)
+	{
+		for(int col = 0 ; col < arr[row].size() ; col++)
+		{
+			cout << arr[row][col] << " ";
+		}
+		cout << endl;
+	}
+}
+
+
+int main(void)
+{
+	int r , c;
+	cin >> n >> r >> c ;
+	n = pow(2,n);
+	
+	vector<vector<int>> arr;
+	vector<int> row;
+	for(int i = 0 ; i < n ; i++)
+	{
+		arr.push_back(row);
+		for(int j = 0 ;  j < n ; j++)
+			arr[i].push_back(0);
+	}//2차원 배열 만들기
+	int order = 0;
+	pii pos(0,0); // 기준
+	
+	//divideZStyle(arr,order,n,pos);
+	
+	print_grid(arr);
+	
+	cout << arr[r][c];
+	
+	return 0;
+}

@@ -1,0 +1,88 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+inline int countEightRadix(const string& a , const int& radix)
+{
+//	cout << "a : " << a << " radix : " << radix << "\n";
+	int eightCounter = 0;
+	int radixCounter = 1;
+	int index = a.length() - 1;
+	for(int i = 0 ; i < radix ; i++)
+	{
+		if(a[index] == '8')
+			eightCounter++;
+		index--;
+	}
+	
+	return eightCounter;
+}
+
+inline int getRadix(const int& a)
+{
+	int copy = a;
+	int radix = 1;
+
+	if(a == 0)
+		return 0;
+		
+	while( copy > 9 )
+	{
+		copy = copy / 10;
+		radix = radix + 1;
+	}
+	return radix;
+}
+
+int main(void)
+{
+	string left, right;
+	cin >> left >> right;
+	if( left.length() != right.length() )
+	{
+		cout << "0";
+		return 0;
+	}
+	
+	int counter = 0;
+	
+	for(int i = 0 ; i < left.length() ; i++)
+	{
+		if(left[i] == right[i])
+		{
+			if( left[i] == '8') 
+				counter++;
+		}
+		else
+			break;
+	}
+	
+	cout << counter;
+	return 0;
+	
+}
+
+/*
+
+888과 888 : 답 : 3 (length radix 0) (3-0)
+
+888 과 887 일 경우 답 : 2(length radix = 1) 
+
+888 과 820 일 경우 답 : 1 (length radix = 2) (3-2)
+
+1001 과 1일 경우 답 : 0 (length radix = 4)
+
+1001 과 1000일 경우 답 : 0 (length radix = 1)
+
+88888 과 8888일 경우 답 : 0(length radix = 4)
+
+888,888 과 88,888일 경우 답 : 0
+
+즉 주어진 작은 쪽 수의 8 값 - length radix
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+887 과 880 일 경우 -> 2 (length radix = 1) 애초에 영향을 줄 수 없다(즉 각 자리별 8을 파악해야 한다.)
+808 과 888 일 경우 -> 1 (length radix = 2) 
+880808 과 880709일 경우 2 length radix = 3(5-3)
+
+
+*/

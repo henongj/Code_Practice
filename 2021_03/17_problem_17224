@@ -1,0 +1,97 @@
+#include<iostream>
+#include<utility>
+#include<vector>
+using namespace std;
+
+int main(void)
+{
+	int N, L, K;
+	cin >> N >> L >> K; // N문제수 , L역량 , K풀 수 있는 문제수
+	vector<bool> quiz; // 풀었는지
+	vector<pair<int,int>> task;
+	int score = 0;
+	int counter = 0;
+	for(int i = 0 ; i < N ; i ++)
+	{
+		int temp1, temp2;
+		cin >> temp1 >> temp2;
+		if( temp1 <= L ) // 풀 수 있으면
+		{
+			quiz.push_back(false);
+			task.push_back( pair<int,int>(temp1,temp2) );
+		}
+	}
+	
+	for(int i = 0 ; i < task.size() ; i++)
+	{
+		if( counter > K )
+			break;
+		if( task[i].second <= L && counter < K && quiz[i] == false) //
+		{
+//			cout << "i : " << i << "\n";
+			quiz[i] = true;
+			++counter;
+			score += 140;
+		}
+	}
+//	cout << "counter : " << counter << " score : " << score << "\n";
+	for(int i = 0 ; i < task.size() ; i++)
+	{
+		if( counter > K )
+			break;
+		if( task[i].first <= L && counter < K && quiz[i] == false)
+		{
+//			cout << "i : " << i << "\n";
+			quiz[i] = true;
+			++counter;
+			score += 100;
+		}
+	}
+	
+//  cout << "counter : " << counter << " score : " << score << "\n";	
+	cout << score;
+
+	return 0;
+}
+
+/*
+
+
+
+
+문제 부분점수를 준다
+
+쉬운버전 100
+고인물들 +40
+
+정답 : 100 or 140
+
+문제의 개수 N
+현정의 역량 L 
+역량 딸리면 못 푼다
+
+현정이 풀 수 있는 문제 최대 개수 : K
+최고 점수를 출력할것
+
+서브태스크 1 : K = N
+서브태스크 2 : 0 <= K <= N 
+
+즉 현정은 쉬운건 다 풀 수 있고
+어려운 것은 N보다 적다
+
+
+이 문제는 풀 수 없는 문제는 없앤다.
+그리고 sub2를 풀 수 있는 것 부터 고른다
+K <= pick 이면 , 140 * K가 답이고 
+아니면 pick * 140 + (K - pick) * 100가 답이다.
+
+pair<int , int> 로 sub1 sub2입력하고
+bool array[len] 으로 풀었는지 안 풀었는지 체크
+
+for문 2번 돌려서 counter == K 면 break;
+for 2번 다 돌면 문제 다 못 푼 것일수도 있음
+break 하면 어쨌든 K개 만큼은 품
+
+cout << score 하면 답.
+
+*/

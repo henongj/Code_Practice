@@ -1,0 +1,25 @@
+#include<iostream>
+
+using namespace std;
+
+
+int main(void)
+{
+	long long int n = 0;
+	long long int minimum = 1000001;
+	long long int maximum = 0;
+	int t;
+	cin >> t;
+	long long int arr[50];
+	for(int i = 0 ; i < t ; i++)
+	{
+		cin >> arr[i];
+		minimum = min(minimum , arr[i]);
+		maximum = max(maximum , arr[i]);
+	}
+	
+//	cout << minimum << " " << maximum;
+	cout << minimum * maximum;
+	
+	return 0;
+}

@@ -1,0 +1,27 @@
+#include<iostream>
+
+using namespace std;
+
+int func(int value , int looper)
+{
+	int v = 1;
+	for(int i = 0 ; i < looper ; i++)
+	{
+		v = v * value;
+		value--;
+	}
+	return v;
+}
+
+int main(void)
+{
+	int N;
+	int K;
+	cin >> N >> K;
+
+//	cout << "NK : " << func(N,K) << "  KK" << func(K,K) << endl;
+	long long int value = func(N,K)/func(K,K);
+	
+	cout << value;
+	return 0;
+}

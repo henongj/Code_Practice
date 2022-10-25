@@ -1,0 +1,77 @@
+#include<iostream>
+
+using namespace std;
+
+void pickThreeNumber(int arr[], int targetSum)
+{
+
+	for(int one = 0 ; one < 100 ; one++)
+	{
+		int pickedNumberSum = 0; // 이 숫자가 targetSum 과 같아야 한다
+		
+		//pick first number 
+		if( arr[ one ] == 0 )
+			continue;
+		else
+			pickedNumberSum = arr[one];
+		
+//		cout << "picked first number is : " << arr[one] << endl;
+		
+		for(int two = one + 1 ; two < 100 ; two++)
+		{
+			//pick second number
+			pickedNumberSum = arr[one];
+			if( arr[ two ] == 0 )
+				continue;
+			else
+				pickedNumberSum += arr[ two ];
+			
+//			cout << "picked second number is : " << arr[two] << endl;
+
+			if(pickedNumberSum == targetSum)
+			{
+//				printf("find two number %d %d\n" , arr[one] , arr[two]);
+				arr[one] = 0;
+				arr[two] = 0;
+				return;
+			}
+		}
+	}
+}
+
+int main(void)
+{
+	int arr[100] = {}; // idx 에 직접 찾아가도록
+	int total = 0;
+	for(int i = 0 ; i < 9 ; i++)
+	{
+		int t;
+		cin >> t;
+		arr[t] = t;
+		total += t;
+	}
+	
+	int targetSum = total - 100;
+	pickThreeNumber(arr, targetSum);
+	for(int i = 0 ; i < 100 ; i++)
+	{
+		if(arr[i] == 0)
+			continue;
+		else
+			cout << arr[i] << endl;
+	}
+	
+	return 0;
+} 
+
+/*
+수의 범위가 좁다 (1~99)
+9개중 2개를 고르면 된다 (7개를 골라 합 100이어도 되지만 2중for은 이게 편하다)
+
+그러니 arr을 0으로 초기화 하고 arr[ value ] = value (value == idx) 방식으로 저장한다
+	이렇게 하면 출력할 때 고민이 줄어든다
+
+암튼 배열 두 개를 돌려서 합이 total - 100 이면 그것을 배열에서 지운다
+배열 값이 0이 아니면 출력한다 끝.
+
+*/

@@ -1,0 +1,70 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+void infectNodes(const vector<vector<int>>& v , bool isInfected[] , int idx)
+{//방식은 dfs여야한다.
+	for(int i = 0 ; i < v[idx].size() ; i++)
+	{
+		int index = v[idx][i];
+		
+		infectNodes(v,isInfected,index);
+	}
+	isInfected[idx] = true;
+}
+
+template <typename T>
+void printTwoDimensionVector(vector<vector<T>>& v)
+{
+	for(int i = 0 ; i < v.size() ; i++)
+	{
+		cout << i << " : ";
+		for(int j = 0 ; j < v[i].size() ; j++)
+			cout << v[i][j] << " ";
+		cout << "\n";
+	}
+}
+
+int main(void)
+{
+	int computers, nodes;
+	cin >> computers >> nodes;
+	
+	bool isInfected[computers+1];
+	for(int i = 0 ; i <= computers ; i++)
+		isInfected[i] = false;
+	isInfected[1] = true;
+ 
+	vector< vector<int> > v;
+	vector< int > column;
+	for(int i = 0 ; i < computers+1 ; i++)
+		v.push_back(column);
+
+	for(int i = 0 ; i < nodes ; i++)
+	{
+		int row, col;
+		cin >> row >> col;
+		v[row].push_back(col);
+//		v[col].push_back(row);
+	} // 정보를 넣었으면
+	
+	int idx = 1;
+	
+	infectNodes(v,isInfected,idx);
+
+	
+	int counter = 0;
+	for(int i = 2 ; i < computers + 1 ; i++)
+		isInfected[i] ? counter++ : counter = counter;
+
+/*	cout << "______________________________\n";
+	printTwoDimensionVector(v);
+	cout << "______________________________\n";
+	for(int i = 1 ; i < computers + 1 ; i++)
+		cout << isInfected[i] << " ";
+	cout << "\n______________________________\n";*/
+
+	cout << counter;
+	
+	return 0;
+}

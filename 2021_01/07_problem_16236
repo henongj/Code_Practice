@@ -1,0 +1,69 @@
+#include<iostream>
+#include<queue>
+#include<vector>
+using namespace std;
+// baby shark 뚜루루뚜루
+
+class Fish()
+{	
+	private :
+	int m_size;
+	bool m_etable = false;
+	int m_distance = 0;
+	
+	public :
+	Fish(int size):m_size(size){};
+	void size_up(Fish shark);
+	bool is_etable(Fish shark , Fish fish);
+	void size_up(Fish shark);
+	int get_distance(Fish shark , Fish fish);
+
+}
+int main(void)
+{
+	int map_size;
+	cin >> map_size;
+	Fish map[map_size][map_size];
+	for(int i = 0 ;  i < map_size ; i++)
+	{
+		for(int j = 0 ; j < map_size ; j++)
+		{
+			cin >> map[i][j];
+		}
+	}
+	return 0;
+}
+
+/*
+
+1. 아기 상어는 객체로 선언한다
+	1. 객체는 fish고 , 상어인지 구분하는 방법은 shark_size_up 을 선언한다
+	2. fish 객체는 size,eatable ,distance 정보를 가진다.
+	3. fish 객체의 size가 0일경우는 빈공간으로 간주한다,
+		4. 물고기를 먹을 때 마다 shark_size_up 값을 더한다
+		1. 그리고 shark_size_up >= size 일경우 size up , shark_size_up - size 한다.
+
+2. - 배열을 입력받는다
+	1. 배열을 입력받되 0이면 size가 0인 fish를 채운다
+	2. 숫자가 9가 아니면, size가 해당 값인 fish를 채우고 SHARK flag = false;
+	3. 숫자가 9이면 SIZE가 2, shark flag = true;
+
+3. 순회
+	1. 물고기를 먹을 때마다 순회한다
+	2. [ROW][COLUMN] (0,0) ~ (0,N) ~ (N,0) ~ (N,N) 순으로 순회한다.
+	3. 순회하면서 size를 갱신하고 애기상어와의 etable, distance 의 값을 책정한다.
+
+4. BFS 를 돌린다.
+	1. 애기상어를 기준으로 반드시 ( 상 , 좌, 우, 하 ) 순으로 탐색한다.
+	2. 만약 대상이 etable flag 가 true 라면 대상을 먹으러 간다
+	3. 이동한 거리만큼 distance 값을 count한다.
+	4. 먹으면 (3.순회) 를 돌리고
+	5. 다시 1로 돌아간다.
+	
+5. 필요
+	1. is inside
+	2. travelsal ? 
+	3. class Fish
+	4. is_etable
+	5. get_distance
+	6. size_up

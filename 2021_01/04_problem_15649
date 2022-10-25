@@ -1,0 +1,38 @@
+#include<iostream>
+
+using namespace std;
+
+void BackTracking(int N , int M , int counter , int arr[], bool visited[])
+{
+	for(int i = 1 ; i <= N ; i++)
+	{ // 배열에 숫자를 집어넣는데
+		if(visited[i] == false)
+		{ // 방문 안 한 것들만
+			visited[i] = true;
+			arr[counter] = i; // 배열에 숫자추가
+			BackTracking(N,M,counter + 1,arr,visited); // 했으면 다음 숫자
+			visited[i] = false;
+		}
+	}
+	
+	if(counter == M)
+	{
+		for(int i = 0 ; i < M ; i++)
+			cout << arr[i] << " ";
+		cout << "\n";
+		return;
+	}
+}
+
+int main(void)
+{
+	int N , M;
+	cin >> N >> M;
+	const int ARR_LENGTH = 9;
+	int arr[ARR_LENGTH];
+	bool visited[ARR_LENGTH] = {};
+	
+	BackTracking(N,M,0,arr,visited);
+	
+	return 0;
+}

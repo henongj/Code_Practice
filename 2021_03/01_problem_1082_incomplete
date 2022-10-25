@@ -1,0 +1,48 @@
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+
+
+// numbers = 4일경우 0 1 2 3 중 money가 만족한다면 최대한 큰 수부터 많이 골라 roomNumbers에 저장해야한다
+// 3333을 만들었다면 radix 4를 기준으론 가장 크다. -> 문자열 비교가 필요없네??? 
+void makeBigNumber( int cost[], vector<int>& v, const int& money, const int& numbers)
+{
+	int moneyCounter = 0; // 얼마 썼냐
+	int number = numbers - 1; // 무슨 수를 사냐
+	int radix = 0; // 자릿수가 몇?
+	
+	
+	
+}
+
+int main(void)
+{
+	int numbers;
+	int money;
+	int cost[51]={};
+	vector<int> v;
+	
+	cin >> numbers;
+	for(int i = 1 ; i < numbers ; i++)
+		cin >> cost[i];
+	cin >> money; // 정보입력
+	
+	return 0;
+}
+
+/*가지고 있는 돈 전부로 방번호 만듦
+
+각 숫자별 가격이 있음
+
+숫자 갯수 0~N
+0~9를 팜
+가진 돈
+
+돈 1~50
+비용 1~50
+
+1. 자릿수는 클 수록 좋다.
+2. 큰 수를 많이 고를수록 좋다.
+
+*/

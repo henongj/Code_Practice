@@ -1,0 +1,35 @@
+#include<iostream>
+
+using namespace std;
+
+inline bool isInside(int x, int l, int r)
+{
+	return l<= x && x <= r ? true : false;
+}
+
+inline bool isBig(int x, int r)
+{
+	return x > r ? true : false;
+}
+
+int main(void)
+{
+	int X, L, R;
+	cin >> X >> L >> R;
+	
+	if(isInside(X,L,R))
+		cout << X;
+	else if(isBig(X,R))
+		cout << R;
+	else
+		cout << L;
+	
+	return 0; 
+}
+
+/*
+8 3 6 -> 6
+7 3 10 -> 7
+8 10 10 -> 10
+
+*/

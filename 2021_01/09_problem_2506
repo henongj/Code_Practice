@@ -1,0 +1,26 @@
+#include<iostream>
+
+using namespace std;
+
+int main(void)
+{
+	const int ARR_LEN = 100;
+	bool num[ARR_LEN] ={};
+	int n;
+	cin >> n;
+	int score = 0;
+	int AC = 1;
+	for(int i = 0 ; i < n ; i++)
+	{
+		cin >> num[i];
+		if(num[i])
+		{
+			score = score + AC;
+			AC = AC + 1;
+		}
+		else
+			AC = 1;
+	}	
+	cout << score;
+	return 0;
+}

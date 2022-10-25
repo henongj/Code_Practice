@@ -1,0 +1,39 @@
+#include<iostream>
+#include<string>
+#define endl '\n'
+using namespace std;
+
+int main(void)
+{
+	int numOfSentence;
+	cin >> numOfSentence;
+	cin.ignore();
+	for(int i = 0 ; i < numOfSentence ; i++)
+	{
+		string str;
+		getline(cin,str);
+
+		if(str[0] >= 'a')
+			str[0] = str[0] - ' ';
+		cout << str << endl;
+	}
+	return 0;
+}
+
+/*
+
+getline(cin,str)은 버퍼에 있는 것들을 '\n'까지 담아내고 '\n'을 떼어낸다
+cin 은 그렇지 않다
+그래서 cin 사용 후 cin.ignore() 로 개행을 지워줘야 getline이 정상작동한다
+cin.ignore()은 한 글자를 떼어낸다
+cin.ignore('문자') 는 '문자'가 나오기 전까지의 데이터를 싹 무시한다
+
+6
+powdered Toast Man
+skeletor
+Electra Woman and Dyna Girl
+she-Ra Princess of Power
+darth Vader
+abcdefg
+
+*/

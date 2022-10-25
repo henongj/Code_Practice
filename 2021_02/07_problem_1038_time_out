@@ -1,0 +1,66 @@
+#include<iostream>
+
+using namespace std;
+
+string& operator++(string& str, int number)
+{
+	auto num = stoi(str);
+	num++;
+	str = to_string(num);
+	return str;
+}
+
+string& operator++(string& str)
+{
+	auto num = stoi(str);
+	num++;
+	str = to_string(num);
+	return str;
+}
+
+inline bool isDecreasingNumber(const string& s)
+{
+	const int len = s.length();
+	if( len == 1 )
+		return true;
+	else
+	{
+		int flag = true;
+		for(int i = 0 ; i < len - 1 ; i++)
+		{
+			if(flag == false)
+				break;
+			if( !(s[i] > s[i+1]) )
+				flag = false;
+//			cout << "len , s " << len << " " << s << endl;
+		}
+		return flag;
+	}
+}
+
+int main(void)
+{
+	string a = "0";
+	int index = 0; // "0" 은 0번째 감소하는 수
+	
+	int target;
+	cin >> target;
+	while(1)
+	{
+		if(index == target)
+			break;
+		
+		if(isDecreasingNumber(a))
+		{
+			index = index + 1;
+			++a;
+//			cout << "isDecreasingNumber true : " << a << endl;
+		}
+		else
+			++a;
+	}
+	
+	cout << a;
+	
+	return 0;
+}

@@ -1,0 +1,56 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+bool compare(int a , int b)
+{
+	return a > b ? true : false;
+}
+
+int getCostPerformance(const vector<int>& toppingKcal, int idx, int doughCost, int doughKcal , int toppingCost)
+{
+	int totalKcal = doughKcal;
+	int totalCost = doughCost + idx*toppingCost;
+	for(int i = 0 ; i < idx ; i++)
+		totalKcal = totalKcal + toppingKcal[i];
+//	cout << "total k , c : " << totalKcal << " " << totalCost << "\n";
+	return totalKcal / totalCost;
+		
+}
+
+int main(void)
+{
+	int toppingSize, toppingCost, doughCost , doughKcal;
+	cin >> toppingSize >> doughCost >> toppingCost;
+	cin >> doughKcal;
+	vector<int> toppingKcal;
+	for(int i = 0 ; i < toppingSize ; i++)
+	{
+		int kcal;
+		cin >> kcal;
+		toppingKcal.push_back(kcal);
+	}
+	
+	sort(toppingKcal.begin() , toppingKcal.end(), compare);
+	int kcal = getCostPerformance(toppingKcal , 0, doughCost , doughKcal, toppingCost);
+	
+//	cout << "only dough : " << kcal << "\n";
+	for(int i = 1 ; i < toppingSize ; i++)
+	{
+		kcal = max(kcal , getCostPerformance(toppingKcal , i, doughCost , doughKcal, toppingCost) );
+	}
+	
+	cout << kcal;
+	
+	
+	return 0;
+}
+
+/*
+최대 칼로리 피자 선택(파오후새끼)
+
+도우는 1원당 x 칼로리면
+각 토핑도 1원당 y 칼로리로 환산이 된다.
+
+*/

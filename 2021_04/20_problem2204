@@ -1,0 +1,68 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+#include<string>
+using namespace std;
+
+inline string upper(string t)
+{
+	string a = t;
+	for(int i = 0 ; i < a.length() ; i++)
+	{
+		if(a[i] < 'a')
+			a[i] = a[i] + ' ';
+	}
+	return a;
+}
+
+bool compare(string a, string b)
+{
+	string copyA = upper(a);
+	string copyB = upper(b);
+//	cout << "copy A , B : " << copyA << "  " << copyB << endl;
+	int len = min(copyA.length() , copyB.length());
+	
+	for(int i = 0 ; i < len ; i++)
+	{ // abc 와 abcd를 평가한다면 idx 1 2 3 모두 같아서 all continue
+		if(copyA[i] < copyB[i])
+			return true;
+		else if(copyA[i] == copyB[i])
+			continue;
+		else
+			return false;
+	}
+	
+	if(copyA.length() < copyB.length()) //
+		return true;
+	else
+		return false;
+	
+}
+
+int main(void)
+{
+    int t;
+    cin >> t;
+    
+    while( t != 0 )
+    {
+        vector<string> v;
+        for(int i = 0 ; i < t ; i++)
+        {
+            string temp;
+            cin >> temp;
+            v.push_back(temp);
+        }       
+        sort(v.begin() , v.end() , compare);
+        cout << v[0] << endl;
+		
+		cin >> t;
+    }
+    
+    
+    return 0;
+}
+/*
+3 Cat fat bAt 4 call ball All Hall 0
+
+*/

@@ -1,0 +1,27 @@
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+int main(void)
+{
+	string str;
+	getline(cin,str);
+	string UCPC = "UCPC";
+	int iter = 0;
+	
+	for(int i = 0; i < str.length() ; i++)
+	{
+		if(iter == 4)
+			break;
+		if(str[i] == UCPC[iter])
+		{
+//			cout << "str i : " << str[i] << " ";
+			iter++;
+		}
+	}
+	
+	iter == 4 ? (cout << "I love UCPC") : (cout << "I hate UCPC");
+	
+	return 0;
+}

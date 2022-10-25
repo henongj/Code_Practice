@@ -1,0 +1,119 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+const int kButtonSize = 10;
+
+inline int getLength(int x , int y)
+{
+	return x > y ? x - y : y - x;
+}
+
+inline bool canMakeNumber(bool checkButton[] , const int& channel)
+{
+	bool flag = true;
+	string str = to_string(channel);
+	for(int i = 0 ; i < str.length() ; i ++)
+	{
+		int idx = str[i] - '0';
+		if(	checkButton[ idx ]	== false )
+			flag = false;
+	}
+	return flag;
+}
+
+int BFS(bool checkButton[] , int target)
+{
+	int queueFrontValue = target;
+	int queueUpValue = queueFrontValue + 1;
+	int queueDownValue = queueFrontValue - 1;
+	
+	int returnValue;
+	if( canMakeNumber( checkButton , queueFrontValue ))
+		return queueFrontValue;
+
+	bool breakFlag = false;
+
+	while( breakFlag == false )
+	{
+		if( canMakeNumber(checkButton , queueDownValue) )
+		{
+//			cout << queueDownValue << " it is CanMakeNumber\n";
+			returnValue = queueDownValue;
+			breakFlag = true;
+		}
+		else
+		{
+//			cout << queueDownValue << " it isn't canMakeNumber\n";
+			queueDownValue--;
+		}
+		
+		if( canMakeNumber(checkButton , queueUpValue) )
+		{
+	//		cout << queueUpValue << " it is CanMakeNumber\n";
+			returnValue = queueUpValue;
+			breakFlag = true;
+		}
+			else
+		{
+	//		cout << queueUpValue <<" it isn't canMakeNumber\n";
+			queueUpValue++;
+		}
+	}
+	return returnValue;
+}
+
+int getRadix(const int& n)
+{
+	string s = to_string(n);
+	return s.length();
+}
+
+int main(void)
+{
+	int buttonCounter[500001] = {};
+	
+	int target;
+	int brokenButtonSize;
+	bool checkButton[ kButtonSize ]; // 사용가능한 숫자
+	
+	cin >> target;
+	cin >> brokenButtonSize;
+	
+	if( target <= 101 && 99 <= target )
+	{
+		target == 100 ? cout << "0" : cout << "1";
+		return 0;
+	}
+	
+	
+	for(int i = 0 ; i < kButtonSize ; i++)
+		checkButton[i] = true;
+	for(int i = 0 ; i < brokenButtonSize ; i++)
+	{
+		int t;
+		cin >> t;
+		checkButton[t] = false;
+	}
+	
+//	for(int i = 0 ; i < kButtonSize ; i++)
+//		cout << checkButton[i] << " ";
+	
+	int mostNearNumber = BFS( checkButton, target );
+	cout << getRadix(mostNearNumber) + getLength(target , mostNearNumber);
+	
+	return 0;
+}
+
+/*
+
+checkButton 에 사용가능한 버튼이 있고
+queue에 target 을 넣고 1차원 BFS를 돌린다.
+queue에 넣은 모든 숫자는 리모컨으로 만들 수 있는 숫자인지 판단한다
+true 면 그 숫자와 함께 return , 그 숫자를 만들 때 필요한 클릭횟수를 구해 답한다.
+false면 다음 숫자를 push한다. push하는 숫자는 queue에 들어온 값의 +1 또는 -1이다.
+
+
+
+*/
+

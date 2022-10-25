@@ -1,0 +1,76 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+template<typename T>
+inline void printVector(const vector<T>& v)
+{
+	for(const auto& iter : v)
+		cout << iter << " ";
+}
+
+void inputPattern(vector<vector<int>> &v)
+{
+	vector<int> 
+	v1 = {0};		v.push_back(v1); // len = 1
+	v1 = {1};		v.push_back(v1); // len = 1
+	v1 = {2,4,8,6};	v.push_back(v1); // len = 4
+	v1 = {3,9,7,1}; v.push_back(v1); // len = 4
+	v1 = {4,6};		v.push_back(v1); // len = 2
+	v1 = {5};		v.push_back(v1); // len = 1
+	v1 = {6};		v.push_back(v1); // len = 1
+	v1 = {7,9,3,1};	v.push_back(v1); // len = 4
+	v1 = {8,4,2,6};	v.push_back(v1); // len = 4
+	v1 = {9,1};		v.push_back(v1); // len = 2
+}
+
+int main(void)
+{
+	int testCase;
+	int base,exponent;
+	
+	cin >> testCase;
+	
+	vector<vector<int>> v;
+	inputPattern(v); // v[]
+	
+	
+	
+	for(int i = 0 ; i < testCase ; i++)
+	{
+		cin >> base >> exponent;
+
+		int vRow = base % 10; //
+		int vColumn;
+		int number = base; //
+		int len = v[vRow].size();
+		
+//		cout << "len : " << len << endl;
+		
+		bool cycleFlag = (exponent > len) ? true : false;
+		
+		if(len == 1)
+		{ // 같은 수만 반복된다면 ex) 0 , 1 ,5, 6
+			int answer = vRow % 10 == 0 ? 10 : vRow % 10; // n*10번째 일은 10번 컴퓨터가
+			cout << answer << "\n";
+		}
+		else if(cycleFlag)
+		{ // 반복이 있다면 ex) 2, 3, 7
+			vColumn = (exponent % len) - 1;
+			if(vColumn == -1)
+				vColumn = v[vRow].size() - 1;
+
+			int answer = v[vRow][vColumn]; 
+			cout << answer << "\n";
+		}
+		else
+		{ // 그것들이 반복이 없다면
+			vColumn = exponent - 1;
+			int answer = v[vRow][vColumn];
+			cout << answer << "\n";
+		}
+		
+	}
+	
+	return 0;
+}

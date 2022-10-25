@@ -1,0 +1,87 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+bool is_inside(const string &a , int i)
+{
+	return a.length()-1 >= i && i >=0 ? true : false;
+}
+bool is_inside(const int &a , int i)
+{
+	return a-1 >= i && i >= 0 ? true : false;
+}
+
+int main(void)
+{
+    int test_case;
+    cin >> test_case;
+    for(int i = 0 ; i < test_case; i++){
+		string str1;
+		string str2;
+		cin >> str1 >> str2;
+		int len = str1.length() > str2.length() ? str1.length() : str2.length();	
+		int str1_iter = str1.length()-1;
+		int str2_iter = str2.length()-1;
+		string answer = "";
+		bool radix_up = false; //올림수
+		int flag; //carry , 자릿값 판단 변수
+	
+		for(int i = 0 ; i < len ; i++)
+		{
+			radix_up == true ? flag = 1 : flag = 0;
+			radix_up = false;
+		
+			if(is_inside(str1 , str1_iter)){ // 아직 string 을 가리키고 있다면
+				if(str1[str1_iter] == '1') // 그 값이 '1'이면
+				{
+					flag++;
+				}
+			}
+			if(is_inside(str2 , str2_iter)){
+				if(str2[str2_iter] == '1')
+				{
+					flag++;
+				}
+			}
+//			cout << "flag : " << flag << endl;
+			if(flag == 0)
+				answer.insert(0,"0"); //'1' 이 아무것도 없고, carry도 없고
+			else if(flag == 1)
+				answer.insert(0,"1"); // 셋 중 하나라도 있으면
+			else if(flag==2){
+				radix_up = true;
+				answer.insert(0,"0");
+			}
+			else{ //flag == 3
+				radix_up = true;
+				answer.insert(0,"1");
+			}		
+			str1_iter--; //앞글자를 가리킨다
+			str2_iter--; //앞글자를 가리킨다
+		}//for문 end
+	
+		if(radix_up == true)
+			answer.insert(0,"1"); //위의 for문은 가장 앞 자리 carry값 처리가 안 되니 따로 해줘야함
+			//	cout << answer << endl;
+		int spliter = 0; // 앞에 0이 있으면 잘라줘야함
+		bool all_zero_flag = true;
+		for(int i = 0 ; i < answer.size() ; i++)
+		{
+			if(answer[i] == '0')
+				spliter++;
+			if(answer[i] == '1'){
+				answer = answer.substr(spliter);
+				all_zero_flag = false;
+				break;
+			}
+		}
+		if(all_zero_flag == true)
+			answer = answer.substr(0,1);
+	
+	cout << answer << endl;
+		
+    }
+	
+	
+	return 0;
+}

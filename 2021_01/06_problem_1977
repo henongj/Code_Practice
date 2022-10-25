@@ -1,0 +1,40 @@
+#include<iostream>
+#include<cmath>
+
+using namespace std;
+
+inline bool is_inside(int num , int left, int right)
+{
+	return left <= num && num <= right ? true : false;
+}
+
+int main(void)
+{
+	int M, N;
+	cin >> M >> N;
+	
+	int min;
+	int sum = 0;
+	
+	int sqrt_N = sqrt(N);
+	bool first_flag = true;
+			
+	for(int i = 1 ; i <= sqrt_N ; i++)
+	{
+		int num = pow(i,2);
+		if(is_inside(num,M,N))
+		{
+	//		cout << "num : " << num << endl;
+			sum = sum + num;
+			if(first_flag == true)
+			{
+				first_flag = false;
+				min = num;
+			}
+		}
+	}
+	
+	first_flag ? cout << "-1" : cout << sum << "\n" << min;
+	
+	return 0;
+}

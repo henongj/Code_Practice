@@ -1,0 +1,91 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<utility>
+using namespace std;
+
+typedef struct trio{
+	int first;
+	int second;
+	double third;
+}tri;
+
+inline bool isDie(const int HP, int cost)
+{
+	return HP - cost < 0 ? true : false;
+}
+
+void inputVector(vector<int>& v, size_t s)
+{
+	for( size_t i = 0; i < s ; i++)
+	{
+		int t;
+		cin >> t;
+		v.push_back(t);
+	}
+}
+void inputTrioThird(vector<tri>& v,const vector<int>& f, const vector<int>& s)
+{
+	for(int i = 0 ; i < s.size() ; i++)
+		v.push_back(f[i] , s[i] , double(f[i]/s[i]));
+}
+{
+	for( size_t i = 0; i < s ; i++)
+	{
+		int t;
+		cin >> t;
+		v.push_back(t);
+	}
+}
+
+template <typename T>
+void printVector(const vector<T>& v)
+{
+	for(int i = 0 ; i < v.size() ; i++)
+		cout << v[i] << " ";
+	cout << "\n";
+}
+
+void printTrio(const vector<tri>& v)
+{
+	for(int i = 0 ; i < v.size() ; i++)
+	{
+		cout << v[i].first << " " << v[i].second << " " << v[i].third;
+	}
+	cout << "\n";
+}
+
+int main(void)
+{
+	int people;
+	cin >> people;
+	
+	int HP = 100;
+	int pleasure = 0;
+	
+	vector<tri> eachInformation;
+	vector<int> pleasureGet;
+	vector<int> costGet;
+
+	inputVector(costGet,people);
+	inputVector(pleasureGet,people);
+	inputTrioThird(eachInformation , costGet , pleasureGet);
+	
+	printVector(costGet);
+	printVector(pleasureGet);
+	printTrio(eachInformation);
+	
+	
+	return 0;
+}
+
+
+/*
+0-1 가방문제
+일단 체력 소모 대비 기쁨 비율을 구한다
+그것을 기준으로 싹 정렬한다 (즉 셋이 함께 정렬되야한다)
+
+
+
+*/
+

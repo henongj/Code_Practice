@@ -1,0 +1,16 @@
+#include<iostream>
+
+using namespace std;
+
+int main(void)
+{
+	int total;
+	cin >> total;
+	int t;
+	for(int i =  0 ; i < 9 ; i++)
+	{
+		cin >> t;
+		total = total - t;
+	}
+	cout << total;
+}

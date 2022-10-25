@@ -1,0 +1,138 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+template <typename T>
+void printVector(const vector<T>& v)
+{
+	for(auto i : v)
+			cout << i << " ";
+		cout << "\n";
+}
+
+void setVector(vector<int>& v)
+{
+	int temp;
+	if(v[0] == 0)
+	{
+		temp = v[0];
+		for(int i = 0 ; i < v.size() ; i++)
+		{
+	//		cout << "v[0]run  v[i] : " <<v[i] << "\n";
+			if(v[i] != 0)
+			{
+				v[0] = v[i];
+				v[i] = temp;
+				break;
+			}
+		}
+	}
+	if(v[1] == 0)
+	{
+		temp = v[1];
+		for(int i = 1 ; i < v.size() ; i++)
+		{
+	//		cout << "v[1]run  v[i] : " <<v[i] << "\n";
+			if(v[i] != 0)
+			{
+				v[1] = v[i];
+				v[i] = temp;
+				break;
+			}
+		}
+	}
+}
+
+inline int makeNumber(const vector<int>& v)
+{
+	int n = 0;
+	for(int i = 0 ; i < v.size() ; i++)
+	{
+		n = (n * 10) + v[i];
+	}
+	return n;
+}
+
+void splitTwoNumber(const vector<int>& v)
+{
+	vector<int> temp1;
+	vector<int> temp2;
+	int iter = 0;
+	while( 1 )
+	{
+		temp1.push_back( v[iter] );
+		++iter;
+		if( iter == v.size() )
+			break;
+				
+		temp2.push_back( v[iter] );
+		++iter;
+		if( iter == v.size() )
+			break;
+	}
+	
+	cout << makeNumber(temp1) + makeNumber(temp2) << "\n";
+}
+
+int main(void)
+{
+	int numbers;
+	while(1)
+	{
+		vector<int> v;
+		cin >> numbers;
+		
+		if( !numbers )
+			break;
+		
+		for(int i = 0 ; i < numbers ; i++)
+		{
+			int t;
+			cin >> t;
+			v.push_back(t);
+		}
+		sort(v.begin() , v.end()); //
+		setVector(v);
+
+//		printVector(v);
+
+		splitTwoNumber(v);
+	}
+	return 0;
+}
+/*
+5 1 2 7 8 9
+6 3 4 2 2 2 2
+9 0 1 2 3 4 0 1 2 3
+0
+
+5개 1 2 9 + 7 8
+6개 2 2 4 + 2 2 3
+9개 1 0 2 3 4 || 1 0 2 3 = 11257
+
+숫자의 개수가 짝수일 경우 가장 작은 수 부터 하나씩 배정
+
+2 2 2 2 3 4
+2 2 3
+2 2 4
+3 3 4 5 5 7
+3 4 5
+3 5 7
+1 2 3 4 5 5 6 9
+1 3 5 6
+2 4 5 9
+
+숫자의 개수가 홀수일 경우
+1 2 3 4 5 5 6
+1 3 5 6
+2 4 5
+
+이때도 마찬가지
+
+첫번째 arr 에 push
+두번째 arr 다음 push
+
+홀수일 경우 -> 첫 arr에 가장 마지막(큰수)
+문제는 0의 위치.
+*/

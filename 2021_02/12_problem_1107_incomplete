@@ -1,0 +1,105 @@
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+
+void plus(int &buttonCounter , string &channel)
+{
+	++buttonCounter;
+	
+	int len = channel.length()-1;
+	channel[ len ] = channel[len] + 1; 
+	bool carry = false;
+	for(int i = len , i >= 0 ; i--)
+	{
+		if(channel[i] > '9' )
+		{	
+			channel[i] = 0; // carry가 있다면
+			( i == 0 ) ? (channel = "1" + channel) : (channel[i-1] = channel[i-1] + 1);
+		}
+	}
+}
+
+void minus(int &buttonCounter , string &channel)
+{
+	if( channel == "0" )
+		return;	
+	++buttonCounter;
+
+	int len = channel.length()-1;
+	channel[len] = channel[len] - 1;
+
+	for(int i = len , i >= 0 ; i--)
+	{
+		if(channel[i] < '0' ) // 내림이 있다면
+		{
+			channel[i] = '9';
+			( i == 0 ) ? ( channel = channel.substr(1) ) : (channel[i-1] = '9');
+		}
+	}
+}
+
+void makeNewChannel(const string& targetString , string& channel , const vector<char>& brokenButton)
+{ // 최대한 가까운 채널을 생성한다.
+	string bigChannel;
+	string smallChannel;
+	
+}
+
+int main(void)
+{
+	string channel = "100";
+	string targetString;
+	cin >> targetString;
+	
+	vector<char> brokenButton;
+	{
+		int length;
+		cin >> length;
+		for(int i = 0 ; i < length ; i++)
+		{
+			char t; 
+			cin >> t;
+			brokenButton.push_back(t); // 금지된 버튼
+		}
+	}
+	
+	int buttonCounter = 0;
+	
+	
+	
+	return 0;
+}
+
+/*
+
+a
+7356 일 경우 5가 고장이면
+
+1. 7360 에서 -1 4번 // 이쪽이 더 빠름. 
+2. 7350 에서 +1 6번 
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+b
+7391 에서 9가 고장
+
+1. 7400 에서 -1 9번
+2. 7388 에서 +1 3번 // 이쪽이 더 빠름
+
+a는 올림, b는 내림이 더 빠름
+
+
+c
+7365 에서 6,7,8이 고장
+
+5999 -> 1366 + 4 // 이 경우가 더 빠름
+9000 -> 1635 + 4
+
+-> 앞자리부터 판단해야 한다.
+
+d
+7755 에서 7,6,5 고장
+
+
+
+*/
+

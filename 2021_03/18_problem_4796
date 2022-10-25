@@ -1,0 +1,33 @@
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+
+// L일간 사용가능, 연속하는 P일 중,  휴가일 V
+
+int main(void)
+{
+	int canUse, inDay, vacation;
+	vector<int> v;
+	while(1)
+	{
+		cin >> canUse >> inDay >> vacation;
+		if(canUse == 0 && inDay == 0 && vacation == 0)
+			break;
+		int cycle = vacation / inDay; // 8일중 캠핑은 5일간 가능, 20일이면 2사이클
+		int reminder = vacation % inDay; // 3사이클땐 4일만 가능
+		//5일 가능한데 남은 휴가 4일 = 4일 || 5일가능, 남은휴가 6일 = 5일
+		int remindedCampingDay = (canUse > reminder) ? reminder : canUse;
+		int maxStay = (canUse * cycle) + remindedCampingDay;
+		v.push_back(maxStay);
+//		cout << "canUse , inDay , vacation " << canUse << " " << inDay << " " << vacation << "\n";
+//		cout << "cycle , reminder , remindedCampingDay " << cycle << " " << reminder << " " << remindedCampingDay << "\n";
+	}
+	
+	for(int i = 0 ; i < v.size() ; i++)
+	{
+		cout << "Case " << i+1 << ": " << v[i] << "\n";
+	}
+	
+	return 0;
+}

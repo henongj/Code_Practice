@@ -1,0 +1,15 @@
+#include<iostream>
+
+using namespace std;
+
+int main(void)
+{
+    int a , b , c;
+    cin >> a >> b >> c;
+    int small = a+b < a+c ? a < b ? a : b : a < c ? a : c;
+    int big = a+b > a+c ? a > b ? a : b : a > c ? a : c;
+    int middle = a + b + c - small - big;
+    cout << small << " " << middle << " " << big;
+    
+    return 0;
+}

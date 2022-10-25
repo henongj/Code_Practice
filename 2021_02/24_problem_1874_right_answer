@@ -1,0 +1,95 @@
+#include<iostream>
+#include<stack>
+#include<vector>
+#include<string>
+using namespace std;
+
+// a b c d 필요 : c d -> a b c , d push pop , c pop , 
+inline void recodePushPop(vector<string>& v , string s)
+{
+	v.push_back(s + "\n");
+}
+inline void alertCanNotMake(void)
+{
+	cout << "NO";
+}
+inline void pushStack(stack<int>& s , vector<string>& v, int& counter)
+{
+	s.push(counter);
+	recodePushPop(v , "+");
+	counter++;
+}
+inline void setBreaker(int& breaker , string s)
+{// 5 1 2 5 3 4 -> 3push_breaker2 4push_breaker3 5push_breaker4 , 5pop_breaker3
+	if(s == "+")
+		breaker++;
+	else
+		breaker--;
+}
+inline void popStack(stack<int>& s , vector<string>& v, int& idx)
+{
+	s.pop();
+	recodePushPop(v , "-");
+	idx++;
+}
+int main(void)
+{
+	int N;
+	cin >> N;
+	int arr[N+1] = {};
+	for(int i = 1 ; i <= N ; i++)
+		cin >> arr[i];
+	
+/*	for(int i = 1 ; i <= N ; i++)
+		cout << arr[i] << " ";
+	cout << "\n";*/
+	
+	stack<int> s;
+	vector<string> v;
+	
+	int counter = 1;
+	int idx = 1;
+
+	pushStack(s,v,counter);
+	
+	bool canMake = true;
+	int breaker = 0;
+	
+	while( idx <= N )
+	{ 
+		if( s.top() != arr[idx] )
+		{ // 최근 값이 수열값으로 틀리면
+	//		cout << "push! \n";
+			if(breaker > arr[idx] || counter > N)
+			{
+				canMake = false;
+				break;
+			}
+			pushStack(s,v,counter);
+			setBreaker(breaker , "+");
+		}
+		else
+		{ // 맞으면
+//			cout << "pop! \n";
+			popStack(s,v,idx);
+			setBreaker(breaker , "-");
+			if(s.empty() && idx < N)
+			{
+//				cout << "idx : " << idx << endl;
+				pushStack(s,v,counter);
+				setBreaker(breaker , "+");
+			}
+		}
+	}
+//	cout << "recoder : " << recoder;
+	if(canMake)
+	{
+		for( int i = 0 ; i < v.size() ; i++)
+			cout << v[i];
+	}
+	else
+		alertCanNotMake();
+	
+	return 0;
+}
+

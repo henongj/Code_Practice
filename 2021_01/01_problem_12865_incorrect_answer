@@ -1,0 +1,89 @@
+#include<iostream>
+#include<utility>
+using namespace std;
+
+
+void print_pair(pair<int,int> p[],int n)
+{
+	for(int i  = 0 ; i < n ; i++)
+	{
+		cout << "p(weight , value) : " << p[i].first << " , " << p[i].second << endl;
+	}
+}
+void print_memo(int memo[] , int max_weight)
+{
+	int t = 0;
+	for(int i = 0 ; i < max_weight ; i++)
+	{
+		t++;
+		cout << memo[i] << " ";
+		if(t == 20)
+		{
+			puts("");
+			t = 0;
+		}
+	}
+	puts("");
+}
+
+
+inline bool can_hold(const int max_weight , int num)
+{
+	return max_weight >= num ? true : false;
+}
+
+void pick_thing(int memo[] , pair<int,int> *p, const int n , const int max_weight , int &now_weight, int &picker)
+{//배낭에 물건을 최대한 쑤셔넣어보는 짓을 계속 하는 재귀함수
+	//max_weight == 한계 무게 , now_weight 지금 무게 , picker = 뭘 고를지
+	for(int i = picker ; i < n ; i++)
+	{
+		if(can_hold(max_weight , now_weight + p[picker].first))
+		{// 넣을 수 있으면
+			int w = now_weight + p[picker].first; //(w == pick을 추가한 체신 무게)
+			memo[  w  ] = max( memo[w] , memo[now_weight] + p[picker].second );
+			picker++;
+			cout << "pick_thing (i , picker) " << "(" << i <<", "<<picker << ") ("	<< "w , now_weight) (" << w<< " , " << now_weight << ") memo[" << w << "] :" << memo[w] << " memo[" << now_weight << "] :" << memo[now_weight] << endl;
+			pick_thing(memo,p,n,max_weight,w,picker); // 재귀
+		}
+	}
+}
+
+int main(void)
+{
+	int n,max_weight;
+	pair<int,int> p[101];
+	cin >> n >> max_weight;
+	int memo[max_weight] = {};
+	
+	int fir, sec;
+	for(int i = 0 ; i < n ; i++)
+	{
+		cin >> fir >> sec;
+		p[i] = make_pair(fir,sec); // first = weight, second = value;
+	}
+	
+	int now_weight = 0; int picker = 0;
+//	print_pair(p,n);
+	pick_thing(memo, p, n , max_weight,now_weight,picker);
+	print_memo(memo,max_weight);
+	int maximum = 0;
+	for(int i = 0 ; i < max_weight ; i++)
+		maximum = max(maximum , memo[i]);
+	
+	cout << maximum;
+	
+	
+	return 0;
+}
+
+
+
+/* 실행해서 돌려보면 첫번째 짐 무게가 추가됨 0->3 , 그런데 그 상태에서 103을 건너뛰고 3->5 로 2번째를 들어야 되는데 103을 들어서 memo에 기입하는 오류가 있음
+고쳐야함
+5 104
+3 90
+103 89
+2 87
+99 86
+98 85
+*/

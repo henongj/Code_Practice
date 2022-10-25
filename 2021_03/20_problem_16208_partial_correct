@@ -1,0 +1,63 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+typedef unsigned long long ull;
+
+ull getCuttingCost(ull& stick , ull len)
+{
+	stick -= len;
+	ull cost = stick * len;
+//	cout << "stick, len " << stick << ", " << len << "  " << "cost : " << cost << "\n";
+	return cost;
+}
+
+int main(void)
+{
+	ull stick = 0;
+	ull n;
+	ull cost = 0;
+	ull eachStickLength[102] = {};
+	cin >> n;
+	for(int i = 1 ; i <= n ; i++)
+	{
+		cin >> eachStickLength[i];
+		stick += eachStickLength[i];
+	}
+	
+//	20 에서 2 4 5 1 8 이면
+//	(19 * 1 + 17 * 2 + 13 * 4) + (8 * 5) = 145
+	for(int i = 1 ; i < n - 1 ; i++)
+	{
+		cost = cost + getCuttingCost(stick , eachStickLength[i]);
+	}
+	cost = cost + ((stick-eachStickLength[n]) * eachStickLength[n]);
+	
+	cout << cost;
+	
+	return 0;
+}
+
+/*
+필요한 쇠막대 : n
+길이 : length
+자를 때 생기는 두 막대 (x , y) 의 곱, xy 만큼 비용필요
+min 비용을 구하시오
+
+10의 쇠막대 필요, 길이 100 일 경우
+10, 90 (900) 10, 80 (800) 10, 70 (700) ...
+
+일단 반토막내면 (50,50) 2500이 든다.
+즉 length/n 씩 가장 왼쪽부터 싹둑싹둑 자른다
+
+100 에서 10, 8, 5, 3일 경우엔 뭐부터?
+97*3 + 92 * 5 + 84 * 8 + 74 * 10 = 2163
+90 * 10 + 82 * 8 + 77 * 5 + 74 * 3 = 2163
+90 * 10 + 85 * 5 + 82 * 3 + 74 * 8 = 2163
+순서 상관없다 (왜?????)
+
+20 에서 2 4 5 1 8 이면
+19 * 1 + 17 * 2 + 13 * 4 + 8 * 5 = 145
+12 * 8 + 7 * 5 + 4 * 3 + 2 * 1 = 145
+
+*/

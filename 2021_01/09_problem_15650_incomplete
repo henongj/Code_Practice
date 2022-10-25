@@ -1,0 +1,27 @@
+#include<iostream>
+
+using namespace std;
+
+void back_traking(int arr[], int start , int count ,int n, int m )
+{
+	if(count == m)
+	{
+		for(int i = 0 ; i < m; i++)
+			cout << arr[i] << " ";
+		cout << "\n";
+		return;
+	}
+	
+	
+}
+
+int main(void)
+{
+	int n,m;
+	cin >> n >> m;
+	int arr[n];
+	
+	back_traking(arr, 0 , 0 , n , m);
+	
+	return 0;
+}

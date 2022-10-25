@@ -1,0 +1,52 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+inline bool isInside(const int& left , const int& right, const int& apple)
+{
+	return left <= apple && apple <= right ? true : false;
+}
+
+inline int goLeft(int& left, int& right, const int& apple)
+{// 3 3 1 이라면 , left = 1, 거리 2, right = right - 거리 = 1
+	int counter = left - apple;
+	left = apple;
+	right = right - counter;
+	
+	return counter;
+}
+inline int goRight(int& left, int& right, const int& apple)
+{
+	int counter = apple - right;
+	left = left + counter;
+	right = apple;
+	return counter;
+}
+
+int main(void)
+{
+	int map, bucketLength;
+	int numOfApples;
+	int apple[20] = {};
+	cin >> map >> bucketLength >> numOfApples;
+	for(int i = 0 ; i < numOfApples ; i++)
+		cin >> apple[i];
+	
+	int left = 1;
+	int right = bucketLength;
+	int counter = 0; // 움직인 거리
+	
+	for(int i = 0 ; i < numOfApples ; i++)
+	{
+		if( isInside(left, right, apple[i]) )
+			continue;
+		else if( right < apple[i]  )
+			counter = counter + goRight( left , right , apple[i] );
+		else
+			counter = counter + goLeft( left , right , apple[i] );
+	}
+	
+	cout << counter;
+	
+	return 0;
+}

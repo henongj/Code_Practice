@@ -1,0 +1,33 @@
+#include<iostream>
+
+using namespace std;
+
+int main(void)
+{
+	const int WEIGHT = 0; const int VALUE = 1;
+	int item_num;
+	int max_weight;
+	cin >> item_num >> max_weight;
+	int item[item_num+1][2]; // 0 = weight , 1 = value
+	int memo[item_num+1][100001] = {};
+	for(int r = 1 ; r <= item_num ; r++)
+	{
+		cin >> item[r][0] >> item[r][1];
+	}
+	
+	int weight = 0; int value = 0;
+	for(int r = 1 ; r <= item_num ; r++)
+	{
+		weight = item[r][0]; value = item[r][1];
+		for(int c = 0 ; c <= max_weight ; c++)
+		{
+			if(c < item[r][WEIGHT])
+				memo[r][c] = memo[r-1][c];
+			else
+				memo[r][c] = max(memo[r-1][c] , memo[r-1][c-weight] + value);
+		}
+	}
+	
+	cout << memo[item_num][max_weight];
+	return 0;
+}

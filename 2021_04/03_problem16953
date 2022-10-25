@@ -1,0 +1,81 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+
+inline int autoCalculation(int B)
+{ //
+	if( B & 1 && B % 10 != 1 )
+		return -1;
+	else if( B > 10 && B%10 == 1 )
+		return (B-1)/10;
+	else
+		return B/2;
+}
+
+int main(void)
+{
+	int A, B;
+	int counter = 1;
+	cin >> A >> B;
+	
+	while(1)
+	{
+		if( B < A )
+		{
+			cout << "-1";
+			break;
+		}
+		else if( B == A)
+		{
+			cout << counter;
+			break;
+		}
+		else
+		{
+			B = autoCalculation(B);
+			++counter;
+		}
+	}
+	
+	return 0;
+}
+
+
+/*
+문제에서 사용하는 연산은
+	x2 과 x10 + 1 이다.
+	그러나 1일 붙일 타이밍을 알 수 없다
+
+	그러므로 반대로 생각한다
+	x2 -> /2
+	(N-1) / 10 (단, n%10 == 1)
+
+	이때 N이 주어진 수보다 작아지면 -1출력;
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	발생한 문제 : B가 홀수일때 적절한 값이 나오지 않음
+	input : 1 15
+	print : -1 // 제출되는 답 : 4
+  
+test
+input : 4 42
+print : -1
+
+input : 100 40021
+print : 5
+
+input : 2 162
+print : 5
+
+input : 5 2041
+print : 5 // 5 51 102 204 2041
+
+input : 21 84
+print : 3 // 21 42 84
+
+input : 21 168
+print : 3 // 21 42 84 168
+
+input : 1 15
+print : -1
+*/

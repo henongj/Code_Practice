@@ -1,0 +1,148 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+inline void printYes(void)
+{
+	cout << "YES\n";
+}
+
+inline void printNo(void)
+{
+	cout << "NO\n";
+}
+
+void readPattern(int index , char state , string pattern)
+{
+	if(state == 'N')
+	{
+		printNo();
+		return;
+	}
+	
+	if(index < pattern.length())
+	{
+		if(state == 'S')
+		{
+			if(pattern[index] == '0')
+				readPattern(index+1 , 'A' , pattern);
+			else if(pattern[index] == '1')
+				readPattern(index+1 , 'C' , pattern);
+		}
+		else if(state == 'A')
+		{
+			if(pattern[index] == '0')
+				readPattern(index+1 , 'C' , pattern);
+			else if(pattern[index] == '1')
+				readPattern(index+1 , 'N' , pattern);
+		}
+		else if(state == 'C')
+		{
+			if(pattern[index] == '0')
+				readPattern(index+1 , 'A' , pattern);
+			else if(pattern[index] == '1')
+				readPattern(index+1 , 'D' , pattern);
+		}
+		else if(state == 'D')
+		{
+			if(pattern[index] == '0')
+				readPattern(index+1 , 'D' , pattern);
+			else if(pattern[index] == '1')
+				readPattern(index+1 , 'E' , pattern);
+		}
+		else if(state == 'E')
+		{
+			if(pattern[index] == '0')
+				readPattern(index+1 , 'B' , pattern);
+			else if(pattern[index] == '1')
+				readPattern(index+1 , 'C' , pattern);
+		}
+		else if(state == 'B')
+		{
+			if(pattern[index] == '0')
+				readPattern(index+1 , 'B' , pattern);
+			else if(pattern[index] == '1')
+				readPattern(index+1 , 'F' , pattern);
+		}
+		else if(state == 'F')
+		{
+			if(pattern[index] == '0')
+				readPattern(index+1 , 'A' , pattern);
+			else if(pattern[index] == '1')
+				readPattern(index+1 , 'D' , pattern);
+		}
+	}
+	else
+	{//패턴을 다 읽었으면
+		if(state == 'C' || state == 'D' || state == 'F')
+		{
+			printYes();
+			return;
+		}
+		else
+		{
+			printNo();
+			return;
+		}
+	}
+}
+
+int main(void)
+{
+	string pattern;
+	int t;
+	cin >> t;
+	for(int i = 0 ; i < t ; i++)
+	{
+		cin >> pattern;
+		readPattern(0,'S',pattern);
+	}
+	
+	return 0;
+}
+
+/*
+
+
+
+
+0 -> 0 (앞 값 -> 현재 값)// A <- 0 (들어온 값)// A -> A (state)
+
+S = start
+A = 01패턴 0
+B = 지속 0
+C = 01패턴 1
+D = 지속 1
+E = 지속 1 다음 첫 0 // 그 다음이 0이면 B로 , 그 다음이 1이면 C로
+F = 지속 0 다음 첫 1 // 그 다음이 0이면 A로 , 1이면 D로 
+
+첫 값이 0일 경우 -> A 시작
+첫 값이 1일 경우 -> C 시작
+
+0	S <- 0	S -> A
+1	S <- 1	S -> C
+
+0 -> 1	A <- 1	A -> C
+0 -> 0	A <- 0	A -> N
+
+1 -> 0	C <- 0	C -> A
+1 -> 1	C <- 1	C -> D
+
+1 -> 1	D <- 1	D -> D
+1 -> 0	D <- 0	D -> E
+
+0 -> 0	E <- 0	E -> B
+0 -> 1	E <- 1	E -> C
+
+0 -> 0	B <- 0	B -> B
+0 -> 1	B <- 1	B -> F
+
+1 -> 0	F <- 0	F -> A
+1 -> 1	F <- 1	F -> D
+
+
+N -> cout NO
+
+
+
+*/

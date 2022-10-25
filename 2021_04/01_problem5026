@@ -1,0 +1,45 @@
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+
+vector<int> tokenizer(string t , char delimeter)
+{
+	vector<int> v;
+	t = t + delimeter;
+	
+	int start = 0;
+	int len = 0;
+	for(int i = 0 ; i < t.size() ; i++)
+	{
+		if(delimeter == t[i])
+		{//구분자를 만나면
+			string s = t.substr(start,len);
+			start = start + 1 + len;
+			len = 0;
+			v.push_back(stoi(s));
+		}
+		else
+			len = len + 1;
+	}
+	return v;
+}
+
+int main(void)
+{
+	int n;
+	cin >> n;
+	for(int i = 0 ; i < n ; i++)
+	{
+		string t;
+		cin >> t;
+		if(t[1] == '=')
+			cout << "skipped\n";
+		else
+		{
+			vector<int> v = tokenizer(t,'+');
+			cout << v[0] + v[1] << "\n";
+		}
+	}
+	return 0;
+}

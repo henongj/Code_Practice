@@ -1,0 +1,21 @@
+#include<iostream>
+
+using namespace std;
+
+int main(void)
+{
+	int N;
+	cin >> N;
+	int arr[50001] = {};
+	int maximum = -1;
+	for(int i = 1 ; i <= N ; i++)
+	{
+		int idx;
+		cin >> idx;
+		arr[idx] = arr[idx] + 1;
+		maximum = max(maximum , arr[idx]);
+	}
+	
+	cout << maximum;
+	
+}

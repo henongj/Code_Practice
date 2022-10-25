@@ -1,0 +1,21 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+int main(void)
+{
+	string str;
+	const string kStopper = "0";
+	
+	cin >> str;
+	while( (str!=kStopper) )
+	{
+		string reverseString = "";
+		for(int i = str.length()-1 ; i >= 0 ; i--)
+			reverseString = reverseString + str[i];
+		str == reverseString ? cout << "yes\n" : cout << "no\n";
+		cin >> str;
+	}
+
+	return 0;
+}

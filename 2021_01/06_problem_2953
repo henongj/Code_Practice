@@ -1,0 +1,39 @@
+#include<iostream>
+
+using namespace std;
+
+int main(void)
+{
+	int num[5] = {};
+	int winner;
+	int score = 0;
+		
+	for(int i = 0 ; i < 5 ; i++)
+	{
+		int t;
+		for(int j = 0 ; j < 4 ; j++)
+		{
+			cin >> t;
+			num[i] = num[i] + t;
+		}
+		
+		if(num[i] > score)
+		{
+			score = num[i];
+			winner = i + 1;
+		} //정답 으로 인정된 비교방법	
+	}
+	
+/*    for(int i = 0 ; i < 4 ; i++)
+	{
+		if(num[i] > num[i+1])
+		{
+			winner = i+1;
+			score = num[i];
+		}
+	}*/ //정답으로 인정되지 않은 비교방법
+    
+	cout << winner << " " << score;
+	
+	return 0;
+}

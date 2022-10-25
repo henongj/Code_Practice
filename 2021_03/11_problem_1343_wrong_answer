@@ -1,0 +1,89 @@
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+
+vector<string> tokenize(string board, char token)
+{ // token을 기준으로 문자열을 자른다
+	vector<string> v;
+	board = board + token;
+
+	int len = 0; 
+	int startPoint = 0;
+
+	for(int i = 0 ; i < board.length() ; i++)
+	{
+		if(board[i] != token)
+		{// X이면
+			len++;
+		}
+		else
+		{
+			if(len != 0)
+				v.push_back( board.substr(startPoint,len) );
+			startPoint = i+1;
+			len = 0;
+		}
+	}
+	
+	return v;
+}
+
+inline void printXString(const string& s)
+{
+	int fourA = s.length() / 4;
+	int twoB = (s.length()%4) / 2;
+	for(int i = 0 ; i < fourA ; i++)
+		cout << "AAAA";
+	for(int i = 0 ; i < twoB ; i++)
+		cout << "BB";
+}
+
+int main(void)
+{
+	string board;
+	bool flag = true;
+	cin >> board;
+	vector<string> v = tokenize(board , '.');
+	vector<string> v2 = tokenize(board , 'X');
+	int vIterator = 0;
+	int vSize = v.size();
+	int v2Iterator = 0;
+	int v2Size = v2.size();
+
+	for( int i = 0 ; i < vSize ; i++ )
+	{
+		if(v[i].length() & 1)
+			flag = false;
+	}
+	
+	if( !flag )
+	{
+		cout << "-1";
+		return 0;
+	}
+	else if(vSize == 0)
+	{
+		cout << board;
+	}
+	else
+	{
+		for(int i = 0 ; i < vSize ; i++)
+		{
+			printXString( v[i] );
+			if(v2Iterator != v2Size)
+			{
+				cout << v2[v2Iterator];
+				v2Iterator++;
+			}
+		}
+	}
+	
+	return 0;
+}
+
+/*
+반례 ...............XX
+v 와 v2를 통합해서 하나의 백터에 집어넣을것,
+단 v에 파싱한 것들은 printXString처럼 변환해서 넣을것.
+*/

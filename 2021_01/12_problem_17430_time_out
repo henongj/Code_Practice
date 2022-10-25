@@ -1,0 +1,56 @@
+#include<iostream>
+#include<utility>
+#include<algorithm>
+using namespace std;
+
+
+inline bool is_same_pair(const pair<int,int> &p1 , const pair<int,int> &p2)
+{
+	return p1.first == p2.first && p1.second == p2.second ? true : false;
+}
+
+void print_pair(pair<int,int> p[] , int n)
+{
+	for(int i = 0 ; i < n ; i++)
+		cout << "("<<p[i].first<<", "<<p[i].second<<")  ";
+}
+
+int main(void)
+{
+	int test_case;
+	int n;
+	cin >> test_case;
+	for(int i = 0 ; i < test_case ; i++)
+	{
+		cin >> n;
+		pair<int,int> p[n];
+		
+		for(int i = 0 ; i < n ; i++)
+		{
+			int x , y;
+			cin >> x >> y;
+			if(x < 0)
+				x = -x;
+			p[i] = make_pair(x,y);
+		}
+		
+		sort(p,p+n);
+//		print_pair(p,n);
+	//	cout << "\n";
+		bool balance_flag = true;
+		for(int i = 0 ; i < n ; i = i+2 )
+		{
+			if(is_same_pair(p[i],p[i+1]))
+				continue;
+			else
+			{
+				balance_flag = false;
+				break;;
+			}
+		}
+		balance_flag ? 	cout << "BALANCED\n" : cout << "NOT BALANCED\n";
+	}
+	
+	
+	return 0;
+}

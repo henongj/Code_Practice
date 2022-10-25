@@ -1,0 +1,93 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+typedef unsigned long long int lli;
+
+const int kArrSize = 31;
+
+//5C3 일 경우
+// 5 4 를 곱한 것에 2 1 을 곱한 것을 나눈 값을 출력 시킨다
+
+inline void setTable(lli multipleTable[] ,const int& eastSite , const int& count)
+{ // 6C3 -> multipleTable[6] = 6 , [5] = 5 , [4] = 4 나머지 0
+	int eachElement = eastSite;
+//	cout << "eachElement : " << eachElement << "\n";
+	for(int i = 0 ; i < count ; i++)
+	{
+		multipleTable[eachElement] = eachElement;
+		eachElement--;
+	}
+}
+
+void fitTable(lli multipleTable[] , lli divideTable[])
+{
+	for(int i = 1 ; i < kArrSize ; i++)
+	{
+		if(multipleTable[i] == divideTable[i])
+		{
+			multipleTable[i] = 0;
+			divideTable[i] = 0;
+		}
+	}
+}
+
+inline int abstract(int a , int b)
+{
+	return a > b ? ( a - b > 0 ? a - b : b) : (b-a > 0 ? b-a : a);
+}
+
+int main(void)
+{
+	int westSite;
+	int eastSite; // eastSite가 더 큼
+	int testCase;
+
+	cin >>  testCase;
+	
+	for(int i = 0 ; i < testCase ; i++)
+	{
+		cin >> westSite >> eastSite;
+		
+		lli multipleTable[kArrSize] = {}; // need initialize 0 
+		lli divideTable[kArrSize] = {}; // need 
+		
+		if(westSite == 0)
+		{
+			cout << "0\n";
+			continue;
+		}
+
+		int count = abstract(eastSite , westSite);
+		if(count == 0)
+		{
+			cout << "1\n";
+			continue;
+		}
+		
+		setTable( multipleTable, eastSite , count);
+		setTable( divideTable, count , count);
+		fitTable( multipleTable , divideTable );
+		
+/*		for(int i = 0 ; i < kArrSize ; i++)
+			cout << multipleTable[i] << " ";
+		cout << "\n";
+		
+		for(int i = 0 ; i < kArrSize ; i++)
+			cout << divideTable[i] << " ";	
+		cout << "\n";
+	*/		
+		lli answer = 1;
+		lli temp = 1;
+		for(int i = 2 ; i < kArrSize ; i++)
+		{
+			if( multipleTable[i] != 0 )
+				answer *= multipleTable[i];
+			if( divideTable[i] != 0 )
+				temp *= divideTable[i];
+		}
+//		cout << answer << "  " << temp << "\n";	
+		cout << answer / temp << "\n";
+	}
+	return 0;
+}
