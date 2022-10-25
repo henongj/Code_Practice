@@ -1,0 +1,97 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+const int arrlen = 8;
+const int arrend = 7;
+int jari_num(int N)
+{
+	int jari = 1;
+	int flag = 10;
+	while(1)
+	{
+		if(N < flag)
+			return jari;
+		else
+		{
+			flag = flag * 10;
+			jari++;
+		}
+	}
+}
+void arr_input(int *arr,int N)
+{
+	int t1 = N;
+	for(int i = arrend ; i >= 0 ; i--)
+	{
+		if(t1 > 10) // 가장 앞이 아니면
+		{
+			arr[i] = t1%10;
+			t1 = t1 / 10;
+		}
+		else//가장 앞자리면
+		{
+			arr[i] = t1;
+			return;
+		}
+	}
+}
+void upper(int *arr,int jari)
+{
+	arr[arrend] = arr[arrend] + 1;
+	for(int i = arrend ; i > arrend-jari  ; i--)
+	{
+		if(arr[i] >= 10)
+		{
+			arr[i] = arr[i] - 10;
+			arr[i-1] = arr[i-1] + 1;
+		}
+	}
+}
+int BF(int *arr , int num, int N, int jari)
+{
+	int t = 0;
+	for(int i = arrend ; i >= arrend-jari ; i--)
+	{
+		t = t + arr[i];
+	}
+	return (t+num);
+}
+
+
+int main(void)
+{
+	int N,num,jari;
+	int answer = 0 ;
+	int arr[arrlen] = {};
+	cin >> N;
+
+	jari = jari_num(N);
+	(num>10)? num = N - jari*9 : (num = 1); //BF 의 시작점
+	arr_input(arr,num);
+
+	int breaker = N + jari*9;
+	while(1)
+	{
+		int t = BF(arr,num,N,jari);
+		
+		if( breaker < num)
+		{
+			printf("0");
+			break;
+		}
+		
+		if(t == N)
+		{
+			printf("%d",num);
+			break;
+		}
+		else
+		{
+			num++;
+			upper(arr,jari);
+		}
+	}
+	
+	return 0;
+}

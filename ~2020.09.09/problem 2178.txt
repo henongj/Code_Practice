@@ -1,0 +1,68 @@
+#include <iostream>
+#include <utility>
+#include <cstdio>
+#include <queue>
+using namespace std;
+int n , m;
+char map[101][101];
+int check[100][100]={}; //기본값 0
+int UDLR[4][2] = {{0,-1},{0,1},{-1,0},{1,0}};//상하좌우
+
+bool CanMove(int x, int y) //좌표를 받는다
+{   if(((0<= x && x <n) && (0<= y && y < m)) // 지도 안이고
+       && map[x][y] == '1'  //지도상 갈 수 있고
+       && (check[x][y] == 0) //지금까지 간 적이 없다면
+      )
+        return true;
+    else
+        return false; }
+
+void BFS(){
+    int x_p = 0 ; int y_p = 0; //x,y좌표
+
+    pair<int,int> pos = make_pair(x_p,y_p);//좌표
+    queue<pair<int,int>> q;
+    q.push(pos); //queue 에 집어넣고
+    check[x_p][y_p] = 1; //초기값
+    while(!q.empty()) //Queue 가 빌때까지
+    {//집어넣은거 빼고 , check에 count 넣으면서 count ++ , 
+     //갈 수 있는 곳 queue에 넣기
+        x_p= q.front().first; 
+        y_p = q.front().second;
+        q.pop(); //빼면서 check 해야함
+        //갈 수 있는 곳은 상하좌우인데 맵이 1인 곳 끝은 n-1 m-1
+        for(int i = 0 ; i < 4 ; i++)
+        {    
+            int next_x = x_p + UDLR[i][0]; int next_y = y_p + UDLR[i][1];
+   //         printf("next_x : %d next_y : %d\n",next_x,next_y);
+            if(CanMove(next_x , next_y)) //갈 수 있냐?
+            { pos.first = next_x; pos.second = next_y;
+            q.push(pos); //다 집어넣어라
+            check[next_x][next_y] = check[x_p][y_p] + 1;
+            }          
+        }
+    }
+}
+int main(void){
+
+   scanf("%d %d\n", &n , &m);
+	for(int i = 0 ; i < 100 ; i++){
+		for(int j = 0 ; j < 100 ; j++){
+			map[i][j] = '0'; } }
+  	for(int i = 0 ; i < n ; i++)
+	{ scanf(" %s",map[i]);
+	}
+   BFS();
+  printf("%d",check[n-1][m-1]); //답 출력
+/*	puts("MAP");
+   for(int i = 0 ; i < n ; i++){
+		for(int j = 0 ; j < m ; j++)
+			printf("%c",map[i][j]);
+		puts("");
+   }
+    puts("CHECK");   	
+	for(int i = 0 ; i < n ; i++){
+       for(int j = 0 ; j < m ; j++){
+           printf("%d ",check[i][j]); }puts(""); }*/
+   return 0;
+}

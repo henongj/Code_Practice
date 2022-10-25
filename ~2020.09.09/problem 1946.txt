@@ -1,0 +1,50 @@
+#include <iostream>
+#include <algorithm>
+#include <cstdio>
+using namespace std;
+
+typedef struct score
+{
+	int one;
+	int two;
+} score;
+
+bool sorting(const score &a , const score &b)
+{
+	if(a.one < b.one)
+		return true;
+	else
+		return false;
+}
+int main() {
+	int t;
+	cin >> t;
+	for(int i = 0 ; i < t ; i++)
+	{
+		int result = 0;
+		int n;
+		scanf("%d",&n);
+		score junior[n];
+		for(int j=0 ; j<n ; j++)
+		{
+			scanf("%d",&(junior[j].one));
+			scanf("%d",&(junior[j].two));
+		}
+
+		sort(junior , junior + n , sorting);
+		int temp = n+1;
+		for(int j=0; j < n ; j++)
+		{
+			if(junior[j].two < temp)
+			{
+				temp = junior[j].two;
+				result ++;
+			}
+		}
+		
+//		for(int j=0; j < n ; j++)
+//			cout << junior[j].one << " " << junior[j].two << endl;	
+		cout << result << endl;
+	}
+	return 0;
+}

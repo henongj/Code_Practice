@@ -1,0 +1,57 @@
+#include <iostream>
+#include <cmath>
+#include <algorithm>
+#define ld long double
+using namespace std;
+
+const int Arr_length = 501;
+
+ld get_average(ld people[], int starting_point, int end_point,int N_A)
+{ // 배열의 정해진 범위의 평균을 구한다
+	ld avg = 0.0;
+	for(int i = starting_point ; i <= end_point ; i++)
+		avg = avg + people[i];
+	return avg/N_A;
+}
+ld get_variance(ld people[],int starting_point, int end_point,int N_A)
+{// 배열의 정해진 범위의 분산을 구한다
+	ld average = get_average(people, starting_point, end_point,N_A);
+	ld variance = 0.0;
+	
+	for(int i = starting_point ; i <= end_point ; i++)
+	{
+//		printf("people[%d] : %llf\n",i,people[i]);
+		variance = variance + pow(people[i]-average , 2);
+	}
+//	printf("avg : %llf | variance : %.11llf\n",average, variance/N_A);
+	return variance/N_A;
+}
+
+int main(void)
+{
+	cout.precision(11);
+	int n, k;
+	cin >> n >> k;
+	
+	ld people[Arr_length];
+	for(int i = 0 ; i < n ; i++)
+	{
+		cin >> people[i];
+	}
+	
+	int iterator = n - k + 1 ; // 시작점 울타리
+	ld answer = 1000000000000000000;
+	for(int i = 0 ; i < iterator ; i++)
+	{//연산할 배열의 시작점
+		for(int j = i+k-1 ; j < n ; j++)
+		{//배열의 끝점
+			int N_A = j-i+1;
+	//		printf("i j N_A : %d %d %d\n",i,j,N_A);
+			ld cmp = get_variance(people,i,j,N_A); // 분산 구하고
+			answer = min(answer,cmp); // 가장 작은 것과 비교
+		}
+	}
+//	printf("%.11llf\n",answer); // 가장 작은 분산값
+	answer = sqrt(answer);
+	printf("%.11llf\n",answer); // 그것의 표준편차값
+}

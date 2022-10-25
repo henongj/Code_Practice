@@ -1,0 +1,45 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+using namespace std;
+
+const int month[13] = {0,31,28,31,30,31,30,31,31,30,31,30,31};
+
+void go_next_month(int &month_counter, int &day_counter)
+{
+	day_counter = 1;
+	month_counter++;
+}
+void week_up(int &week_counter)
+{
+	week_counter == 6 ? //오늘 일요일이냐?
+	week_counter = 0 : week_counter++; // 맞으면 월요일로 아니면 담날
+}
+void day_up(int &month_counter, int &day_counter, int &week_counter)
+{
+	day_counter ++;
+	if( day_counter > month[month_counter] )	
+		go_next_month(month_counter,day_counter);
+		
+	week_up(week_counter);
+}
+
+int main(void) {
+	
+	string week[7] = {"MON", "TUE" , "WED", "THU", "FRI", "SAT" ,"SUN"};
+	int mon,day;
+	scanf("%d %d\n",&mon,&day);//알고자 하는 날짜
+	int month_counter = 1 ; int day_counter = 1; int week_counter = 0;
+	while(1)
+	{
+		if(month_counter != mon || day_counter != day)
+			day_up(month_counter , day_counter , week_counter);
+		else
+		{
+			cout << week[week_counter];
+			break;
+		}
+	}
+	
+	return 0;
+}

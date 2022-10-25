@@ -1,0 +1,26 @@
+#include <iostream>
+#include <cstdio>
+using namespace std;
+
+void get_fibonacchi(int n , int fi[])
+{
+	if(n < 3)
+		return;
+	if(fi[n] == 0) // 메모가 안 됨
+		get_fibonacchi(n-1,fi);
+	fi[n] = fi[n-1] + fi[n-2];
+}
+
+int main() {
+	
+	int fi[100] = {};
+	
+	fi[0] = 0; fi[1] = 1; fi[2] = fi[0] + fi[1];
+	
+	int n;
+	scanf("%d",&n);
+	get_fibonacchi(n,fi);
+	printf("%d",fi[n]);
+	
+	return 0;
+}

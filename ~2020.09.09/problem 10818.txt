@@ -1,0 +1,24 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <algorithm>
+#define max_number 1000000
+using namespace std;
+
+int main() {
+	int N;
+	int num_set[max_number];
+	
+	scanf("%d",&N);
+	int maximum_num = -1000001; // 가장 작은 초기값
+	int minimum_num = 1000001; // 가장 큰 초기값
+	
+	for(int i = 0 ; i < N ; i++)
+	{
+		scanf("%d",&num_set[i]);
+		maximum_num = max(maximum_num,num_set[i]);
+		minimum_num = min(minimum_num,num_set[i]);
+	}
+	printf("%d %d",minimum_num,maximum_num);
+	return 0;
+}

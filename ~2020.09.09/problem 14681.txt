@@ -1,0 +1,19 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+using namespace std;
+ 
+int main() {
+	
+	int x_pos, y_pos;
+	
+	scanf(" %d",&x_pos);
+	scanf(" %d",&y_pos);
+	
+	if(x_pos > 0)
+		y_pos > 0 ? printf("1") : printf("4");
+	else
+		y_pos > 0 ? printf("2") : printf("3");
+	
+	return 0;
+}

@@ -1,0 +1,33 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <algorithm>
+using namespace std;
+int get_radix_sum(int a)
+{
+	int sum = 0;
+	while(1){
+		if(a < 10){
+			sum = sum + a;
+			break;}
+		else{
+			sum = sum + (a%10);
+			a = a / 10;
+		}
+	}
+	return sum;
+}
+int main() {
+	int self_number[100000]={};
+	for(int i = 1 ; i < 10001 ; i++)
+	{
+		int creator = i	+ get_radix_sum(i);
+		self_number[creator] = creator;
+	}
+	for(int i = 1 ; i < 10001 ; i++)
+	{
+		if(self_number[i] == 0)
+			printf("%d\n",i);
+	}
+	return 0;
+}

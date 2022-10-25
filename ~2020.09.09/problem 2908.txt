@@ -1,0 +1,35 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+using namespace std;
+//문자열에서 공백을 세야하는 프로그램
+void show(char *a)
+{
+	for(int i = 2 ; -1 < i ; i--)
+		printf("%c",a[i]);
+}
+int main() {
+
+	char num1[4]; char num2[4];
+	scanf(" %s",num1);
+	scanf(" %s",num2);
+//	cout << "num1 : " << num1 << "  num2 : " << num2 << endl;
+	
+	for(int i = 2 ; -1 < i ; i--)
+	{
+		if(num1[i] > num2[i])
+		{
+			show(num1);
+			break;
+		}
+		else if(num1[i] == num2[i])
+			continue;
+		else
+		{
+			show(num2);
+			break;
+		}
+	}
+	
+	return 0;
+}

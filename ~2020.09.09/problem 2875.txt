@@ -1,0 +1,32 @@
+#include<iostream>
+#include<algorithm>
+
+using namespace std;
+
+int main(void){
+	
+	int n , m , k;
+	cin >> n;	cin >> m;	cin >> k;
+	int team;
+	if(2*m > n )
+		team = n/2;
+	else
+		team = m; //최대 팀
+	int i = n+m - 3*team; // 최대 팀 구성시 잉여인원
+	
+//	cout << "I : " << i << " " << "team : " << team << endl;
+	
+	if(k<i)
+		cout << team; // 잉여인원 > 인턴 이면 답 출력
+	else
+	{
+		k = k - i; //잉여 -> 인턴
+		int num = k/3; //빠져야 할 팀 셈
+		if(!(k%3 == 0))//하나 더 필요한지?
+			num ++;
+		team = team - num;
+		cout << team;
+	}
+	
+	return 0;	
+}

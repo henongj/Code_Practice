@@ -1,0 +1,41 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <cstdio>
+using namespace std;
+
+int main() {
+	int alphabet[26] = {0}; //알파벳 A = 65 a = 97 ' ' = 32
+	string str;
+	cin >> str;
+	int len = str.length();
+	for(int i = 0 ; i < len ; i++)
+	{
+		if(65<=str[i] && str[i] <= 90) //대문자면
+			alphabet[(str[i] - 'A')]++;
+		if(97<=str[i] && str[i] <= 122)//소문자면
+			alphabet[(str[i] - 'a')]++;
+	}
+//	for(int i = 0 ; i < 26 ; i++)
+//		printf("%d " , alphabet[i]);
+	int result = 0;
+	for(int i = 0 ; i < 26 ; i++)
+	{
+		if(alphabet[result] < alphabet[i])
+			result = i;
+	}
+//	cout << " result : "<< result << endl;
+	for(int i = 0 ; i < 26 ; i++)
+	{
+		if(i == result)
+			continue;
+		if(alphabet[i] == alphabet[result])
+		{
+			cout << '?';
+			return 0;
+		}
+	}
+	char answer = result + 'A';
+	cout << answer;
+	return 0;
+}

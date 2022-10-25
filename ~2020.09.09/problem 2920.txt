@@ -1,0 +1,21 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+using namespace std;
+ 
+int main() {
+	
+	string str[3] = {"ascending", "descending", "mixed"};
+	int num[8];
+	int sum = 0;
+	
+	for(int i = 0 ; i< 8 ; i++)
+		scanf(" %d",&num[i]);
+	for(int i = 0 ; i <8 ; i++)
+		sum = sum * 10 + num[i];
+	
+	sum==12345678 ? cout << str[0] : 
+	(sum==87654321? cout << str[1] : cout << str[2]);
+	
+	return 0;
+}

@@ -1,0 +1,31 @@
+#include <iostream>
+using namespace std;
+
+const int num_festa_one = 101;
+const int num_festa_two = 65;
+const int ten_hundred = 10000;
+
+int main() {
+	int festa_one[num_festa_one] = { 0
+	,5000000 , 3000000,3000000 
+	,2000000,2000000,2000000 ,500000,500000,500000,500000 
+	,300000,300000,300000,300000,300000	
+	,100000,100000,100000,100000,100000,100000};
+	int festa_two[num_festa_two] = { 0, 5120000, 2560000,2560000 
+	,1280000,1280000,1280000,1280000
+	,640000 ,640000 ,640000 ,640000 ,640000 ,640000 ,640000 ,640000 
+	,320000 ,320000 ,320000 ,320000 ,320000 ,320000 ,320000 ,320000
+	,320000 ,320000 ,320000 ,320000 ,320000 ,320000 ,320000 ,320000};
+	
+	int T;
+	
+	scanf(" %d",&T);
+	for(int TestCase = 0 ; TestCase < T ; TestCase++)
+	{
+		int a , b;
+		scanf("%d %d\n",&a,&b);
+		printf("%d\n", (festa_one[a]+festa_two[b]));
+	}
+	
+	return 0;
+}

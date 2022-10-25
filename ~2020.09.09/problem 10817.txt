@@ -1,0 +1,14 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+int main(void)
+{
+	int a , b , c;
+	cin >> a >> b >> c;
+	int d = min(a+b,a+c) - a; // small
+	int e = max(a+b,a+c) - a; // big // d < e (b c)
+	(a<d) ? ( printf("%d",d) ) : ( a>e ? printf("%d",e) : printf("%d",a) );
+	
+	return 0;
+}

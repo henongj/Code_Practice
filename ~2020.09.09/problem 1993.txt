@@ -1,0 +1,52 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <utility>
+using namespace std;
+ 
+void move_zigzag(pair <int,int> &num , int &flag)
+{
+	int left = num.first;
+	int right = num.second;
+	
+	if(flag == 0) //left to right , down to up
+	{				// left -- right ++
+		if(num.first == 1) // left == 1
+		{
+			num.second = num.second + 1;
+			flag = 1;
+		}
+		else
+		{
+			num.first = num.first - 1;
+			num.second = num.second + 1;
+		}
+	}
+	else
+	{
+		if(num.second == 1)
+		{
+			num.first = num.first +1;
+			flag = 0;
+		}
+		else
+		{
+			num.first = num.first + 1;
+			num.second = num.second - 1;
+		}
+	}
+	
+}
+
+int main() {
+	
+	int X; int flag = 0;
+	pair <int,int> num = make_pair(1,1); //left , right
+	scanf(" %d",&X);
+	
+	for(int i = 1 ; i < X ; i++)
+		move_zigzag(num,flag);
+	printf("%d/%d",num.first,num.second);
+	
+	return 0;
+}

@@ -1,0 +1,72 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+int main(void){
+
+	string arr;
+	cin >> arr;
+
+	int result = 0; //result = num_plus - num_minus
+	int num_plus = 0;
+	int num_minus = 0;
+	
+	int len = arr.length();
+	int temp = 0;
+	int minus_flag = len; // +만 계속 올 경우를 위한 초기화
+
+	int first_zero = 1; // 앞자리 0이면 continue
+
+	for(int i = 0 ; i < len ; i ++) // 양수 합
+	{ 
+		if(first_zero == 1 && arr.at(i)==0)
+		{
+			continue;
+		}
+		if( !(arr.at(i) == '+' || arr.at(i) =='-') )	// 숫자가 온다면
+		{
+			first_zero = 0;			
+			temp = (temp*10) + (arr.at(i)-'0');
+			if(i == len - 1) // 양수만 계속됐을 때 마지막 숫자 처리
+				num_plus += temp;
+		}
+		else if( arr.at(i) == '+' ) // 플러스면
+		{
+			first_zero = 1;
+			num_plus += temp;
+			temp = 0;
+		}
+		else 				//마이너스'
+		{
+			num_plus += temp;
+			temp = 0;
+			minus_flag = i; //첫 마이너스 확인
+			break;
+		}
+	}
+//	cout << "num_plus : " << num_plus << endl;
+	for(int i = minus_flag ; i < len ; i ++) // 음수 합
+	{		
+		if(first_zero == 1 && arr.at(i)==0)
+		{
+			continue;
+		}
+		if( !(arr.at(i) == '+' || arr.at(i) =='-') )	// 숫자가 온다면
+		{
+			first_zero = 0;
+			temp = (temp*10) + (arr.at(i)-'0');
+			if(i == len - 1) // 마지막 숫자 처리
+				num_minus += temp;
+		}
+		else
+		{
+			first_zero = 1;
+			num_minus += temp;
+			temp = 0;
+		}
+	}
+//	cout << "num_minus : " << num_minus << endl;
+	result = num_plus - num_minus;
+	cout << result;
+	return 0;
+}

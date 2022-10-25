@@ -1,0 +1,43 @@
+#include <iostream>
+#include <cstdio>
+
+using namespace std;
+
+int main() {
+	int n;
+	scanf(" %d",&n);
+	int result = 0;
+	int copy = n;
+	
+	if(copy % 5 == 0)
+	{
+		int i = copy / 5;
+		printf("%d",i);
+		return 0;
+	}
+	while(copy > 5)
+	{
+		result++;
+		copy = copy -5;
+	}
+	
+	if(copy == 1 && result >=1)
+		result ++;
+	if(copy == 1 && result ==0)
+		result = -1;
+		
+	if(copy == 2 && result ==1)
+		result = -1;
+	if(copy == 2 && result >=2)
+		result = result + 2;
+
+	if(copy == 3)
+		result++;
+
+	if(copy == 4 && result >= 1)
+		result = result + 2;
+	if(copy == 4 && result == 0)
+		result = -1;
+	printf("%d",result);
+	return 0;
+}

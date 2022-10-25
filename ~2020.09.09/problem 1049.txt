@@ -1,0 +1,68 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+using namespace std;
+typedef struct brand
+{
+	int pack;
+	int one;
+}brand;
+bool Cmp_One(const brand &a , const brand &b)
+{
+	if(a.pack<b.pack)
+		return true;
+	else
+		return false;
+}
+bool Cmp_pack(const brand &a , const brand &b)
+{
+	if(a.one<b.one)
+		return true;
+	else
+		return false;
+}
+int main() {
+	
+	int N, M; //N = 끊어진 기타줄 M = 브랜드 수
+	scanf("%d %d", &N, &M);
+	brand arr[M];
+	for(int i = 0 ; i < M ; i++)
+		scanf("%d %d",&arr[i].pack, &arr[i].one);
+	
+	int Min_Pack = 1001; int Min_One = 1001;
+	for(int i = 0 ; i < M ; i++)
+	{
+		if(Min_Pack > arr[i].pack)
+			Min_Pack = arr[i].pack;
+		if(Min_One > arr[i].one)
+			Min_One = arr[i].one;
+	}
+
+	int result;
+	
+	if(Min_Pack == 0 || Min_One == 0)
+	{
+		cout << 0;
+		return 0;
+	}
+	
+	if(Min_Pack >= (Min_One*6)) //낱개 줄이 더 싸면
+	{
+		result = Min_One * N;
+	}
+	else
+	{
+		int temp1 = N/6; //패키지
+		int temp2 = N%6; //낱개
+		if( Min_Pack < temp2 * Min_One ) //패키지 와 갯수*낱개가격 비교
+			result = Min_Pack * (temp1+1); // 패키지가 더 싸면 패키지 하나 더
+		else
+			result = (temp1 * Min_Pack) + (temp2 * Min_One); // 아니면 낱개로
+	}
+
+	printf("%d",result);
+	
+	return 0;
+}
+
+

@@ -1,0 +1,12 @@
+#include<iostream>
+using namespace std;
+
+int main(void)
+{
+	int N;
+	cin >> N;
+	for(N ; N > 0 ; N--)
+		printf("%d\n",N);
+	return 0;
+	
+}

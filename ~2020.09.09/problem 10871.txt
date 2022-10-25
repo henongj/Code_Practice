@@ -1,0 +1,22 @@
+#include <iostream>
+#include <cstdio>
+using namespace std;
+
+inline void print_num(int x)
+{
+	printf("%d ",x);
+}
+
+int main() {
+	int N, X;
+	scanf("%d %d\n",&N,&X);
+	
+	int temp;
+	for(int i = 0 ; i < N ; i++)
+	{
+		scanf(" %d",&temp);
+		if(temp < X)
+			print_num(temp);
+	}
+	return 0;
+}

@@ -1,0 +1,89 @@
+#include <cstdio>
+#include <queue>
+#include <utility>
+#define len 50
+using namespace std;
+
+queue <pair<int , int>> q;
+int x, y, n;
+int dir[4][2] = { {-1,0} , {1,0} , {0,-1} , {0,1} };
+bool check[len][len];
+int map[len][len];
+int worm = 0;
+
+bool is_inside(const int &x , const int &y)
+{
+	if( (0 <= x && x < len) && (0 <= y && y < len) )
+		return true;
+	return false;
+}
+void setting(void)
+{
+	for(int i = 0 ; i < len ; i ++)
+	{
+		for(int j = 0 ; j < len ; j++)
+		{
+			map[i][j] = 0;
+			check[i][j] = false;
+		}
+	}
+	worm = 0;
+}
+
+void BFS_Search(const int &xpos , const int &ypos)
+{
+	q.push(make_pair(xpos,ypos));
+	
+	while( !(q.empty()) )
+	{
+		int xp = q.front().first;
+		int yp = q.front().second;
+		q.pop();
+		for(int i = 0 ; i < 4 ; i++)
+		{
+			int x = xp + dir[i][0];
+			int y = yp + dir[i][1];
+			if( is_inside(x,y) && map[y][x] ==1 && check[y][x] == false )
+			{
+				q.push(make_pair(x,y));
+				check[y][x] = true;
+			}
+		}
+	}
+}
+void BFS(void)
+{
+	for(int i = 0 ; i < y ; i++)
+	{
+		for(int j = 0 ; j < x ; j++)
+		{
+			if(map[i][j] == 1 && check[i][j] == false)
+			{
+				check[i][j] = true;
+				worm ++;
+				BFS_Search(j,i);
+			}
+		}
+	}
+}
+
+int main(void)
+{
+	int test_case; int n;
+	scanf(" %d", &test_case);
+	for(int i = 0 ; i < test_case ; i++)
+	{
+		setting();
+		scanf("%d %d %d\n",&x,&y,&n);
+		int xpos, ypos;
+//		printf("X Y N : %d %d %d\n" , x,y,n);
+		for(int j = 0 ;  j < n ; j++)
+		{
+			scanf("%d %d\n", &xpos,&ypos);
+			map[ypos][xpos] = 1;
+		}
+		BFS();
+		printf("%d\n",worm);
+	}
+	return 0;
+}

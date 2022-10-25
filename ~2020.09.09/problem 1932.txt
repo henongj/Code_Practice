@@ -1,0 +1,69 @@
+#include<cstdio>
+
+using namespace std;
+
+const int Max_Size = 500;
+
+inline int pick_bigger(int a , int b)
+{
+	return a>b ? a : b;
+}
+inline int sum(int a , int b)
+{
+	return a+b;
+}
+
+bool is_inside(int size , int x, int y)
+{
+	return (0<=x && 0<=y)? (x<size && y<size ? true : false ) : false ;
+}
+void input_triangle(int size , int triangle[Max_Size][Max_Size])
+{
+	for(int depth = 0 ; depth < size ; depth++)
+	{
+		for(int width = 0 ; width <= depth ; width++)
+			scanf(" %d",&triangle[depth][width]);
+	}
+}
+void output_triangle(int size , int triangle[Max_Size][Max_Size])
+{
+	for(int depth = 0 ; depth < size ; depth++)
+	{
+		for(int width = 0 ; width <= depth ; width++)
+			printf("%d ",triangle[depth][width]);
+		puts("");
+	}
+}
+
+int main(void)
+{
+	int size;
+	int triangle[Max_Size][Max_Size] = {};
+	scanf(" %d",&size);
+	input_triangle(size , triangle);
+	int memo[Max_Size][Max_Size] = {};
+	memo[0][0] = triangle[0][0];
+	
+	for(int depth = 1 ; depth < size ; depth++)
+	{//// memo[a][b] = pick_bigger(memo[a-1][b-1] + triangle[a][b] ,
+//	memo[a-1][b] + triangle[a][b]) 
+		for(int width = 0 ; width <= depth ; width++)
+		{
+			if( is_inside(size,depth-1,width-1) )
+			{//참이면 왼쪽 상단에 숫자 존재함
+				if( is_inside(size,depth-1,width) )//참이면 우측 상단에 숫자 존재함
+					memo[depth][width] = pick_bigger(memo[depth-1][width-1] + triangle[depth][width] , memo[depth-1][width] + triangle[depth][width]);
+				else//우상단에 숫자가 없다면 좌상단 숫자만 pick 즉 [depth][size-1]
+					memo[depth][width] = sum(memo[depth-1][width-1], triangle[depth][width]);
+			}
+			else //좌상단에 숫자가 없다면 , 좌상단 숫자만 pick 즉 [depth][0]
+				memo[depth][width] = sum(memo[depth-1][width],triangle[depth][width]);
+		}
+	}
+//	output_triangle(size , memo);
+	int max = 0;
+	for(int i = 0 ; i < size ; i++)
+		max = pick_bigger(max,memo[size-1][i]);
+	printf("%d" , max);
+	return 0;
+}

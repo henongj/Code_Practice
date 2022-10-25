@@ -1,0 +1,10 @@
+#include <iostream>
+#define ld long double
+using namespace std;
+
+int main() {
+	ld a,b;
+	scanf("%llf %llf\n",&a,&b);
+	printf("%.11llf",a/b);
+	return 0;
+}

@@ -1,0 +1,48 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+
+using namespace std;
+
+void change(string &a , string &b);
+int diff(const string &a, const string &b ,int start, int end);
+int main(void){
+
+	string shorter;
+	string longer;
+	cin >> shorter;
+	cin >> longer;
+	int result = 51;
+	if(shorter.length() > longer.length())
+		change(shorter,longer);
+	int shorter_len = shorter.length();
+	int longer_len = longer.length();
+	int len = longer_len - shorter_len + 1; //길이 
+	for(int i = 0 ; i < len ; i ++)
+	{
+		int temp = diff(shorter , longer, i , shorter_len);
+		if(temp < result) result = temp;
+
+	}
+	cout << result;
+	return 0;
+}
+
+void change(string &a , string &b)
+{
+	string temp = a;
+	a = b;
+	b = temp;
+}
+int diff (const string &shorter, const string &longer ,int start, int len) //start는 루프의 시작점 // len은 루프길이
+{	
+	int num = 0;						// 기준은 longer
+	int a = 0;
+	for(int i = 0; i < len ; i++)
+	{
+		if(shorter[i] != longer[start])
+			a++;
+		start ++;
+	}
+	return a;
+}

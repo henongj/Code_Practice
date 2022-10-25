@@ -1,0 +1,25 @@
+#include<iostream>
+#include<algorithm>
+
+using namespace std;
+
+int main(void) {
+    int result = 0;
+	int Sen_Yen = 1000; //1000엔
+	int Nedan; //가격
+	cin >> Nedan;
+    int tsuri = Sen_Yen - Nedan; //거스름돈
+	int dousen[6] = {500,100,50,10,5,1};
+    for(int i = 0 ; i < 6 ; i ++){
+        while(1){
+            if(tsuri >= dousen[i]){ //거스름돈 >=동전가치크기
+                tsuri = tsuri - dousen[i];
+                result++;
+            }
+            else
+                break;
+        }
+    }
+	cout << result;
+	return 0;
+}

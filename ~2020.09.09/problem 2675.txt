@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+
+	int t;
+	cin >> t;
+//	cout << t;
+	for(int xx = 0 ; xx < t ; xx++)
+	{
+		int r;
+		string answer;
+		cin >> r;
+		string str;
+		cin >> str;
+		int len = str.length();
+		int i = 0;
+		while(!(str[i] == '\0'))
+		{
+			for(int j = 0 ; j < r ; j++){
+				char c = str[i];
+				answer = answer + c;
+			}
+			i++;
+		}
+		cout << answer << endl;
+	}
+	return 0;
+}

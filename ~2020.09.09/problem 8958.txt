@@ -1,0 +1,42 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <vector>
+using namespace std;
+
+int count_score(string quiz , int string_length)
+{
+	int score = 0; int combo = 1;
+	for(int i = 0 ; i < string_length ; i++)
+	{
+		if(quiz[i] == 'O')
+		{
+			score = score + combo;
+			combo++;
+		}
+		else
+			combo = 1;
+	}
+	return score;
+}
+int main(void) {
+	
+	int T;
+	vector <string> quiz;
+	string temp;
+	cin >> T;
+	for(int i = 0 ; i < T ; i++)
+	{	
+		cin >> temp;
+		quiz.push_back(temp);
+	}
+		
+	for(int i = 0 ; i < T ; i++)
+	{
+		int score;
+		score = count_score(quiz[i] , quiz[i].size());
+		cout << score << endl;
+	}
+
+	return 0;
+}

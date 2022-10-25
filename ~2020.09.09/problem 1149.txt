@@ -1,0 +1,43 @@
+#include <iostream>
+#include <utility>
+
+using namespace std;
+
+const int R = 0;
+const int G = 1;
+const int B = 2;
+const int M_H = 1000;
+
+//작은 수를 반환하는 함수
+inline int smaller(int a , int b)
+{
+	return a<b ? a : b;
+}
+inline int smaller(int a , int b , int c)
+{//a가 가장 작? 참-> return a //거짓-> b가 가장 작냐? return b 아님 return c
+	return (a+b < a+c)? (a<b?a:b) : (a<c?a:c) ;
+}
+
+int main() {
+	int h[M_H][3];
+	int h_num; //집 수
+	scanf(" %d", &h_num);
+    
+	for(int i = 0 ; i < h_num ; i++) 
+		scanf("%d %d %d\n",&h[i][R],&h[i][G],&h[i][B]);
+	
+    int memo[M_H][3]; //
+	memo[0][R] = h[0][R]; memo[0][G] = h[0][G]; memo[0][B] = h[0][B]; 
+    
+	for(int i = 1 ; i < h_num ; i++)
+	{
+		memo[i][R] = smaller(memo[i-1][G]+h[i][R] , memo[i-1][B]+h[i][R]);
+		memo[i][G] = smaller(memo[i-1][R]+h[i][G] , memo[i-1][B]+h[i][G]);
+		memo[i][B] = smaller(memo[i-1][R]+h[i][B] , memo[i-1][G]+h[i][B]);
+	}
+    
+	int answer = smaller(memo[h_num-1][R],memo[h_num-1][G],memo[h_num-1][B]);
+	
+    printf("%d",answer);
+	return 0;
+}

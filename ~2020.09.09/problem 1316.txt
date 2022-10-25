@@ -1,0 +1,45 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+	int n;
+	cin >> n;
+	int result = 0;
+	for(int pp = 0 ; pp < n ; pp++)
+	{
+		bool flag[26]; //같은 문자인지 확인
+		for(int temp = 0 ; temp < 26 ; temp ++)
+			flag[temp] = true;
+		string str;
+		cin >> str;
+		int len = str.length();
+		for(int i = 0 ; i < len ; i++)
+		{	
+			if(len == 1)
+				result++;
+			if(i==0)
+				continue;
+			char ch = str[i-1]; //이전 글자
+			int temp = ch - 'a'; //이전 글자 flag 번호
+			char ch2 = str[i]; //현재 글자
+			int temp2 = ch2 - 'a';//현재 글자 flag 번호
+			if( !(ch == ch2) ) // 글자가 바뀌었다면
+			{
+				if(flag[temp2] == false) //이미 나온적 있는 경우
+				{
+					break;
+				}
+				else //처음 나온 글자인 경우
+				{
+					flag[temp] = false; //플래그를 내린다
+				}
+			}
+			if(i == len - 1)
+				result ++;
+		}
+	}
+	cout << result;
+	return 0;
+}

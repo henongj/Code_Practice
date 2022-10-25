@@ -1,0 +1,25 @@
+#include<iostream>
+
+using namespace std;
+
+int grade = 'A';
+
+int main(void)
+{
+	int a;
+	scanf(" %d",&a);
+	
+	if( a >= 90 )
+		grade = grade;
+	else if (a >= 80)
+		grade += 1;
+	else if (a >= 70)
+		grade += 2;
+	else if (a >= 60)
+		grade += 3;
+	else
+		grade += 5;
+	printf("%c",grade);
+	
+	
+}

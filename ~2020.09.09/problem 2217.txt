@@ -1,0 +1,36 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+bool compare(const int &a , const int &b);
+int main() 
+{
+	int n; //로프의 갯수
+	int weight;
+	cin >> n;
+	int rope[n];
+	for(int i = 0 ; i < n ; i ++){
+		cin >> rope[i];
+	}
+	sort(rope , rope + n , compare);
+	
+	int w1;
+	weight = rope[0];
+	for(int i = 0 ; i < n ; i ++){
+		w1 = (i+1) * rope[i];
+		if(w1>weight){
+			weight = w1;
+		}
+	}
+	cout << weight;
+	return 0;
+}
+
+bool compare(const int &a , const int &b)
+{
+	if(a>b)
+		return true;
+	else
+		return false;
+}

@@ -1,0 +1,38 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+using namespace std;
+//문자열에서 공백을 세야하는 프로그램
+
+int second(char ch)
+{
+	int i = ch - 'A';
+	if(i >= 0 && i <= 2) //2
+		return 3;
+	else if(i > 2 && i <= 5) //3
+		return 4;
+	else if(i > 5 && i <= 8) //4
+		return 5;
+	else if(i > 8 && i <= 11) //5
+		return 6;
+	else if(i > 11 && i <= 14) //6
+		return 7;
+	else if(i > 14 && i <= 18) //7
+		return 8;
+	else if(i > 18 && i <= 21) //8
+		return 9;
+	else if(i > 21 && i <= 25) //9 
+		return 10;
+}
+
+int main() {
+
+	string arr;
+	cin >> arr;
+	int len = arr.length();
+	int result = 0;
+	for(int i = 0 ; i < len ; i++)
+		result = result + second(arr[i]);
+	cout << result;
+	return 0;
+}

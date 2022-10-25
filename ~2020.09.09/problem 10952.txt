@@ -1,0 +1,25 @@
+#include <iostream>
+#include <cstdio>
+using namespace std;
+
+template <typename T>
+T add(T a, T b)
+{
+	return a+b;
+}
+template <typename T>
+void print_parameter(T a)
+{
+	cout << a << endl;
+}
+int main() {
+	int a,b;
+	while(1)
+	{
+		scanf("%d %d\n",&a,&b);
+		if(a == 0 && b == 0)
+			return 0;
+		else
+			print_parameter(add(a,b));
+	}
+}

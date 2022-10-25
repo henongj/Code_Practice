@@ -1,0 +1,28 @@
+#include <iostream>
+
+using namespace std;
+
+void DP(int n, int memo[])
+{
+	if(n==1 || n==0)
+		return;
+	if(memo[n-1] == 0)
+		DP(n-1,memo);
+	if(memo[n-2] != 0 && memo[n-1] != 0)
+	{
+		memo[n] = (memo[n-1] + memo[n-2]*2)%10007;
+	}
+}
+
+int main() {
+	int memo[1001]={};
+	memo[0] = 1;
+	memo[1] = 1;
+	
+	int n;
+	scanf(" %d",&n);
+	DP(n,memo);
+	printf("%d",memo[n]);
+	
+	return 0;
+}

@@ -1,0 +1,77 @@
+#include <cstdio>
+#include <iostream>
+#include <queue>
+#include <utility>
+#include <algorithm>
+using namespace std;
+
+int n;
+char _map[26][26]; //지도
+bool check[25][25]={}; // 탐색확인
+int UDLR[4][2] = {{1,0},{-1,0},{0,-1},{0,1}};//상하좌우
+vector<int> house; //집 수 카운트
+
+bool IsCanMove(int x, int y) //좌표가 이동 가능함
+{
+    if(((0<= x && x < n) && (0<= y && y < n )) //지도 안이고
+       && (check[x][y] == false) // 탐색한 적이 없으면서
+       && (_map[x][y] == '1')) // 그곳이 집이라면      
+        return true;
+    else
+        return false;
+}
+
+void BFS(int xpos, int ypos)
+{
+    int house_cnt = 0;
+    queue<pair<int,int>> q; //x,y 좌표를 담는 queue
+    pair<int,int> pos = make_pair(xpos,ypos); //x,y좌표
+    q.push(pos); check[pos.first][pos.second] = true;
+    while(!(q.empty())) //탐색 시작
+    {// queue 에 있는 좌표의 상하좌우를 탐색해서 갯수를 cnt해야함
+        int x = q.front().first; 
+        int y = q.front().second;
+        q.pop();
+        house_cnt++;
+        for(int i = 0 ; i < 4 ; i ++)
+        {
+            if(IsCanMove(x+UDLR[i][0],y+UDLR[i][1])){//그곳이 집이면
+                pos.first = x+UDLR[i][0]; pos.second = y+UDLR[i][1];
+                q.push(pos); //queue에 집어넣는다
+                check[pos.first][pos.second] = true;
+                 // 집의 갯수 저장과 체크
+            }
+        }
+    }
+    house.push_back(house_cnt); // vector에 집의 갯수 저장
+}
+
+int main(void){
+    int CNT = 0;
+    scanf("%d\n",&n);
+    for(int i = 0 ; i < n ; i ++)
+        scanf(" %s",_map[i]); //지도 입력
+
+    for(int i = 0 ; i < n ; i++)
+    {   for(int j = 0 ; j < n ; j++)
+        {   if(_map[i][j] =='1'&& check[i][j] == false)
+            {
+                CNT++;
+                BFS(i,j);
+            }
+        }
+    }
+    sort(house.begin(),house.end());
+    printf("%d\n",CNT);
+    for(int i = 0 ; i < house.size();i++)
+        printf("%d\n",house[i]);
+/*    for(int i = 0 ; i < n ; i ++)
+        printf("%s\n",_map[i]);
+    for(int i = 0 ; i < 25 ; i ++){
+        for(int j = 0 ; j<25 ; j++)
+            printf("%d",check[i][j]);
+        puts("");
+    }*/
+    return 0;
+}
+
