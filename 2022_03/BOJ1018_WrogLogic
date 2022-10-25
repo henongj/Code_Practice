@@ -1,0 +1,138 @@
+#include<iostream>
+#include<string>
+#include<vector>
+/*
+BOJ1018 problem , algorithm : brute force
+체스판 다시 칠하기 문제
+*/
+using namespace std;
+
+inline int min(int a, int b)
+{
+    return a <= b ? a : b;
+}
+//체스보드
+class chessBoard
+{
+    public :
+    chessBoard(int col, int row)
+        {
+            vector<string> v;
+            string s;
+            m_rowLength = row; m_colLength = col;
+            m_Xrange = 0; m_Yrange = 0;
+            for(int i = 0  ; i < m_colLength ; i++)
+            {
+                cin >> s;
+                v.push_back(s);
+            }
+            chessBoardColor = v;
+        }
+    int findMinThatHaveToChange();
+
+    private :
+        vector<string> chessBoardColor;
+        int m_rowLength; int m_colLength; // 보드의 x,y 길이
+        int m_Xrange, m_Yrange;// 검수 범위
+        int countToChangeBoard(int col , int row); // 바꿔야 하는 보드의 수를 샌다.
+        bool isInside(size_t col, size_t row); // 검수중인 좌표가 올바른지
+        bool isRightBoardColor(size_t posY, size_t posX, size_t xCounter , size_t yCounter); // 올바른 색인지 판단
+
+};
+
+bool chessBoard::isInside(size_t col, size_t row)
+{//체스보드 안이면 TRUE 나머진 FLASE
+    return (0 <= col && col < m_colLength) && (0 <= row && row < m_rowLength) ? true : false;
+}
+bool chessBoard::isRightBoardColor(size_t posY, size_t posX, size_t yCounter, size_t xCounter)
+{// 1.좌표의 상하좌우와 색이 달라야함. 2. 좌표가 isInside == false 면 넘긴다
+// 동시에 색이 달라야 한다
+    cout << "chessBoard::isRightBoardColor : ( " << posY << ", " << posX << " ) is run\n";
+    cout << "(y, x) counter : " << yCounter << " " << xCounter << "\n";
+    if(isInside(posY + 1 , posX) && yCounter != 8)
+    {
+        if(chessBoardColor[posY][posX] == chessBoardColor[posY + 1][posX])
+            return false;
+    } 
+    if(isInside(posY - 1 , posX) && yCounter != 0)
+    {
+        if(chessBoardColor[posY][posX] == chessBoardColor[posY - 1][posX])
+            return false;
+    } 
+    if(isInside(posY , posX + 1) && xCounter != 8)
+    {
+        if(chessBoardColor[posY][posX] == chessBoardColor[posY][posX+1])
+            return false;
+    } if(isInside(posY , posX - 1) && xCounter != 0)
+    {
+        if(chessBoardColor[posY][posX] == chessBoardColor[posY][posX-1])
+            return false;
+    } 
+    cout << "( " << posY << ", " << posX << " ) is right color\n";
+    return true;
+}
+int chessBoard::countToChangeBoard(int col , int row)
+{//체스판 하나를 카운트한다
+    cout << "countToChangeBoar(" << col << ", " << row <<")\n";
+    int counter = 0; int x = row + 8; int y = col + 8;
+    if( isInside( col, row + 7 ) && isInside( col + 7 , row) )
+    { //체스판 크기가 맞아야 한다
+        int xCounter = 0; int yCounter = 0;
+        for(int b = col ; b < y ; b++)
+        {
+            cout << " col " << b << " \n ";
+            for(int a = row ; a < x ; a++)
+            {
+                if( !isRightBoardColor(b,a,yCounter,xCounter) )
+                { // 체스판 색을 바꿔야 한다면
+                    cout << "false (" << b << ", " << a << ")\n";
+                    counter = counter + 1;
+                    if(xCounter == 7)
+                    {
+                        xCounter = 0;
+                        yCounter++;
+                    }
+                    else
+                        xCounter++;
+                }   
+                else
+                {
+                    if(xCounter == 7)
+                    {
+                        xCounter = 0;
+                        yCounter++;
+                    }
+                    else
+                        xCounter++;
+                }
+            }
+        }
+        return counter;
+    }
+    else
+        return 999999;
+}
+int chessBoard::findMinThatHaveToChange()
+{
+    int count = 99999;
+    m_Yrange = m_colLength - 7; m_Xrange = m_rowLength - 7;
+    for(int y = 0 ; y < m_Yrange ; y++)
+    {
+        for(int x = 0 ; x < m_Xrange ; x++)
+        {
+            count = min(count,countToChangeBoard(y , x));
+        }
+    }
+    return count;
+}
+int main(void)
+{
+    int row, col;
+    cin >> col >> row;
+
+    chessBoard chess(col,row);
+    cout << chess.findMinThatHaveToChange();
+
+    cin >> row;
+    return 0;
+}
