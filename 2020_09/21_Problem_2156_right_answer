@@ -1,0 +1,40 @@
+#include <iostream>
+using namespace std;
+
+const int MAX_WINE = 10001;
+const int START = 4;
+template <class T>
+T inline compare(T a , T b , T c)
+{
+	return (a+b > a+c) ? (a > b ? a : b) : (a > c ? a : c);
+}
+
+void input_information(int wine[])
+{
+	cin >> wine[0];
+	for(int i = 1 ; i <= wine[0] ; i++)
+		cin >> wine[i];
+}
+void input_basis(int memo[] , int wine[])
+{
+	memo[1] = wine[1];
+	memo[2] = wine[1]+wine[2];
+	memo[3] = compare(memo[1] + wine[3] , memo[2] , wine[2]+wine[3]);
+	
+}
+int main() {
+	
+	int wine[MAX_WINE] = {};
+	int memo[MAX_WINE] = {};
+	
+	//마시는 와인이 (건너뛰고 마시는) or (건너뛰고 마시고) 마시는 상황
+	input_information(wine); // 9 9 1 1 9 9 처럼, 두 번 안 마셔야 하는 상황
+	input_basis(memo,wine);
+	
+	for(int i = START ; i <= wine[0] ; i++)
+		memo[i] = compare( memo[i-2]+wine[i] , memo[i-3]+wine[i-1]+wine[i] , memo[i-1] );
+	
+	cout << memo[wine[0]];
+	
+	return 0;
+}

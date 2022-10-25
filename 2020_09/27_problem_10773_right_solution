@@ -1,0 +1,35 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+typedef long int32;
+
+template <class T1, class T2>
+inline T1 add(T1 a, T2 b)
+{
+	return a+b;
+}
+int main() {
+	int n;
+	int t;
+	cin >> n;
+	stack <int> s;
+	for(int i = 0 ; i < n ; i++)
+	{
+		cin >> t;
+		if(t != 0)
+			s.push(t);
+		else
+			s.pop();
+	}
+	
+	int32 sum = 0;
+	while( !s.empty() )
+	{
+		sum = add(sum,s.top());
+		s.pop();
+	}
+	
+	cout << sum;
+	return 0;
+}

@@ -1,0 +1,40 @@
+#include <iostream>
+
+using namespace std;
+
+const int FIVE_MINUTE = 300;
+const int ONE_MINUTE = 60;
+const int TEN_SECOND = 10;
+int main() {
+	int Botton_A = FIVE_MINUTE;
+	int Botton_B = ONE_MINUTE;
+	int Botton_C = TEN_SECOND;
+	
+	int a_counter = 0;
+	int b_counter = 0;
+	int c_counter = 0;
+	
+	int t;
+	cin >> t;
+
+	while(t >= FIVE_MINUTE )
+	{
+		t = t - FIVE_MINUTE;
+		a_counter++;
+	}
+	while(t >= ONE_MINUTE )
+	{
+		t = t - ONE_MINUTE;
+		b_counter++;
+	}
+	while(t >= TEN_SECOND )
+	{
+		t = t - TEN_SECOND;
+		c_counter++;
+	}
+	if(t%10 != 0)
+		cout << "-1";
+	else
+		cout << a_counter << " " << b_counter << " " << c_counter;
+	return 0;
+}

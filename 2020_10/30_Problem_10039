@@ -1,0 +1,20 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int filter_40(int &n)
+{
+	return (n < 40) ? 40 : n;
+}
+int main() {
+	vector <int> v;
+	int sum = 0;
+	int temp;
+	for(int i = 0 ; i < 5 ; i++)
+	{	
+		cin >> temp;
+		sum = sum + filter_40(temp);
+	}
+	cout << sum/5;
+	return 0;
+}

@@ -1,0 +1,108 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include<utility>
+#include<vector>
+#include<cmath>
+using namespace std;
+
+inline int get_max(int &a, int &b)
+{
+	return a > b ? a : b;
+}
+inline int get_min(int &a, int &b)
+{
+	return a < b ? a : b;
+}
+
+int get_avg(int arr[],int n)
+{
+	double t = 0;
+	for(int i = 0 ; i < n ; i++)
+		t = t + arr[i];
+	double answer = floor((t/n)+0.5);
+//	cout << "get_avg funtion sum : " << t << " answer : " << answer << "\n";
+	return answer;
+}
+
+bool compare(const pair<int,int> &a , const pair<int,int> &b)
+{
+	if(a.second > b.second)
+		return a.second > b.second;
+	else if(a.second == b.second)
+		return a.first < b.first;
+}
+inline bool cmp(const int &a , const int &b)
+{
+	return a > b;
+}
+
+void print_arr(int arr[],int n)
+{
+	for(int i = 0 ; i < n ; i++)
+		cout << arr[i] << " ";
+	puts("");
+}
+
+inline void print_frequency(pair<int,int> frequency[])
+{
+	for(int i = 0 ; i<3 ; i++)
+	{
+		cout << "frequency[" << i << "] : " << frequency[i].first << " " << frequency[i].second << " ";
+	}
+	puts("");
+}
+
+inline int get_second_frequency(pair<int,int> frequency[])
+{
+	print_frequency(frequency);
+	if(frequency[0].second > frequency[1].second)
+		return frequency[0].first;
+	else if(frequency[0].second == frequency[1].second)
+	{
+		return frequency[0].first < frequency[1].first ? frequency[1].first : frequency[0].first;
+	}	
+}
+
+
+int main(void)
+{
+	int t1 = -4000; int t2 = 0;
+	int arr[500000]; // arr[1] = 4 
+//	vector <pair<int,int>> v; // first = 대표값 , second = 빈도
+	pair<int,int> frequency[8001] = {};
+	for(int i = 0 ; i < 8001 ; i++)
+	{
+		frequency[i + 4000] = (make_pair(t1,t2));
+	}
+	int avg; int max = -4001; int min = 4001;
+	int n;
+	cin >> n;
+
+	for(int i = 0 ; i < n ; i++)
+	{
+		cin >> arr[i];
+		//frequency[arr[i] + 4000] = frequency[arr[i] + 4000] + 1;
+		frequency[ arr[i] + 4000].second = frequency[ arr[i] + 4000].second + 1;
+		max = get_max(max,arr[i]);
+		min = get_min(min,arr[i]);
+	}
+	if(n==1)
+	{
+		cout << arr[0] << "\n" << arr[0] << "\n" << arr[0] << "\n" << "0";
+		return 0;
+	}
+	sort(arr,arr+n);
+//	print_arr(arr,n);
+	sort(frequency,frequency+8001,compare);
+//	sort(frequency,frequency+8001,cmp);
+
+	int fre = get_second_frequency(frequency);
+	int range = max - min;
+	avg = get_avg(arr,n);
+	int middle_value = (n%2 == 1) ? arr[n/2] : arr[n/2-1];
+	
+//	cout << "n : " << n << "  " << arr[n/2] << " " << arr[n/2-1] << "\n";
+	cout << avg << "\n" << middle_value << "\n" << fre << "\n" << range;
+	return 0;
+}

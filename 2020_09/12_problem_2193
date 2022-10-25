@@ -1,0 +1,26 @@
+#include <cstdio>
+#include <iostream>
+using namespace std;
+// 1 == 1, 2 == 1, 3-> 100 101 == 2
+
+// 4->    1000 1001 1010            == 3개
+// 5-> 1  0000 _101 _100 _010 _001 == 5개
+// 6-> 10 0000 0101 0100 0010 0001 = 5번
+// 6-> 10 1000 1001 1010           = 4번
+// memo[6] = memo[5] + memo[4]
+
+// 7-> 10/00000 -> 6
+// 7-> 10/10000 -> 5
+int main(void)
+{
+    long long memo[100] = {};
+    memo[1] = 1; memo[2] = 1; memo[3] = 2;
+    int n;
+    cin >> n;
+  
+    for(int i = 4 ; i <= n ; i++)
+        memo[i] = memo[i-1] + memo[i-2];
+    
+    cout << memo[n];
+    return 0;
+}

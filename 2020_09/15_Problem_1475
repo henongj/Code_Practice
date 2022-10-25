@@ -1,0 +1,33 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+int main() {
+	
+	string number;
+	cin >> number;
+	int answer = 0; //필요한 세트의 개수
+	int num[10] = {}; //num[0] 에는 0의 갯수, num[1]에는 1의 갯수, 쭈우욱
+	
+	for(int i = 0 ; i < number.length() ; i++)
+	{
+		int t = number[i] - '0'; // 문자열에 적힌 숫자들을 추출
+		num[t] = num[t] + 1; 
+	}
+	
+	for(int i = 0 ; i < 10 ; i++)
+	{
+		if(i == 6 || i==9)
+			continue;
+		answer = max(answer,num[i]);
+	}
+
+	int t = (num[6]+num[9]) / 2 + (num[6]+num[9]) % 2 ;
+	answer > t ? answer = answer : answer = t;
+	
+	printf("%d",answer);
+	
+	return 0;
+}

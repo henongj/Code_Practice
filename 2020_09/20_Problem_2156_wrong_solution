@@ -1,0 +1,75 @@
+#include <iostream>
+
+using namespace std;
+
+const int MAXIMUM_OF_GLASS = 10001;
+
+void input_information(int wine[])
+{
+	cin >> wine[0];
+
+	for(int i = 1 ; i <= wine[0] ; i++)
+		cin >> wine[i];
+
+}
+
+void input_start_condition(int wine[], int memo[], int &start)
+{
+	int t1 = wine[1] + wine[2];
+	int t2 = wine[2] + wine[3];
+	int t3 = wine[1] + wine[3];
+	if(t1 + t2 < t1 + t3)
+	{
+		if(t1 >= t2)
+		{//wine 1 2 가 제일 양이 많을 경우
+			memo[3] = t1;
+			start = 4;
+		}
+		else
+		{//2 3 이 가장 많을 경우
+			memo[3] = t2;
+			memo[4] = memo[3];
+			start = 5;
+		}
+	}
+	else
+	{
+		if(t1 >= t3)
+		{//wine 1 2 가 제일 양이 많을 경우
+			memo[3] = t1;
+			start = 4;
+		}
+		else
+		{//1 3 이 가장 많을 경우
+			memo[3] = t3;
+			start = 4;
+		}
+	}
+}
+
+int main() {
+	int wine[MAXIMUM_OF_GLASS] = {}; // wine[0] == num_of_wine
+	int memo[MAXIMUM_OF_GLASS] = {}; // else == amount of wine in each glass
+	
+	input_information(wine);
+	
+	memo[1] = wine[1]; 
+	memo[2] = wine[1] + wine[2];
+
+	int start;
+	
+	input_start_condition(wine,memo,start);
+	
+	for(int i = start ; i <= wine[0] ; i++)
+	{ // memo i-3 (두 잔 + 쉬고 + [지금] , memo i-2 + 한 잔 + 쉬고 + [지금])
+		memo[i] = max( memo[i-3] + wine[i-2] + wine[i] , memo[i-2] + wine[4] );
+	}
+	
+	for(int i = 1 ; i <= wine[0] ; i++)
+		printf("%d " , wine[i]);
+		puts("");
+	for(int i = 1 ; i <= wine[0] ; i++)
+		printf("%d " , memo[i]);
+	
+	return 0;
+}

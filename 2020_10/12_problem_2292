@@ -1,0 +1,44 @@
+#include<iostream>
+
+using namespace std;
+
+class Honeycomb
+{
+private:
+	int purpose;
+	int shortest_distance;
+public:
+	Honeycomb(int value) :purpose(value)
+	{}
+	~Honeycomb()
+	{}
+	
+	void print_distance(void)
+	{
+		printf("%d",shortest_distance);
+	}
+	void get_shortest_distance(void)
+	{
+		int len = 1;
+		int i = 1;	int multiple = 6;	int val= 1;
+		while(val <  purpose)
+		{
+			val = val + (multiple * i);
+			i++; len++; 
+		}
+		shortest_distance = len;
+	}
+	void run(void)
+	{
+		get_shortest_distance();
+		print_distance();
+	}
+};
+
+int main(void)
+{
+	int n;
+	cin >> n;
+	Honeycomb ggul{n};
+	ggul.run();
+}

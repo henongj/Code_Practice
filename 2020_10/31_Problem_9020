@@ -1,0 +1,84 @@
+//henongj , 2020_10_31
+#include<iostream>
+#include<cmath>
+#include<vector>
+const int PRIME_ARR_LEN = 10001;
+inline bool is_dividable(int number , int divider)
+{
+	return number % divider != 0 ? false : true;
+}
+inline bool is_prime_number(int number)
+{ // if number is Prime number, return true
+	if(number != 1)
+	{
+		for(int i  = 2 ; i < number ; i++)
+		{
+			if( is_dividable(number,i) ) 
+				return false;
+		}
+	}
+	return true;
+}
+void fill_prime_vector(std::vector<int> &v)
+{
+	int len = PRIME_ARR_LEN;
+	for(int i = 2 ; i < len ; i++)
+	{
+		if(is_prime_number(i))
+			v.push_back(i);
+	}
+}
+
+void get_goldbach_conjecture_number(std::vector<int> &v, int n)
+{
+	int temp = n/2; 
+	int small, s_iter, big , b_iter;
+	for(int i = 0 ; i < v.size() ; i++)
+	{
+		big = v[i];
+		if(big >= temp) 
+		{
+			b_iter = i;
+			break;
+		}
+	}
+	small = big; s_iter = b_iter;
+	
+	while(small+big != n)
+	{
+		if(small + big > n)
+		{
+			s_iter--;
+			small = v[s_iter];
+		}
+		else if(small + big < n)
+		{
+			b_iter++;
+			big = v[b_iter];
+			s_iter = b_iter;
+		}
+	}
+	std::cout << small << " " << big << "\n";
+}
+
+int main(void)
+{
+	int testCase;
+	int t;
+	int prime_arr[PRIME_ARR_LEN] = {};
+	std::vector<int> v;
+	fill_prime_vector(v);
+/*	for(int i = 0 ; i < v.size() ; i++)
+	{
+		if(i % 10 == 0) std::cout<<"\n";
+		std::cout << v[i] << " ";
+	}*/
+	std::cin >> testCase;
+	for(int i = 0 ; i < testCase ; i++)
+	{
+		std::cin >> t;
+
+		get_goldbach_conjecture_number(v,t);
+	}
+	return 0;
+}

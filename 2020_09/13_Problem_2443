@@ -1,0 +1,38 @@
+#include<cstdio>
+#include<iostream>
+
+using namespace std;
+
+inline void print_star(int star)
+{
+	for(int i = 0 ; i < star ; i++)
+		printf("*");
+}
+inline void print_blank(int blank)
+{
+	for(int i = 0 ; i < blank ; i++)
+		printf(" ");
+}
+
+int main(void)
+{
+	int n;
+	cin >> n;
+	
+	int star = n*2 - 1;
+	int blank = 0;
+	
+	for(int i = 0 ; ; i++)
+	{
+		print_blank(blank);
+		print_star(star);
+
+		if(star == 1)
+			break;
+			
+		printf("\n");
+		blank++; star -= 2;
+	}
+	
+	return 0;
+}

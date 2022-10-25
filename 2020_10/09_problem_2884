@@ -1,0 +1,25 @@
+#include <iostream>
+using namespace std;
+
+inline void hour_down(int &hour)
+{//1시간 내려
+	hour != 0 ? hour-- : hour = 23;
+}
+inline void minute_down(int &minute, int &hour)
+{//45분 줄여
+	if(minute < 45)
+	{//45분 보다 작아?
+		hour_down(hour);
+		minute += 15;
+	}
+	else
+		minute -= 45; 
+}
+
+int main() {
+	int hour , minute;
+	cin >> hour >> minute;
+	minute_down(minute,hour);
+	cout << hour << " " << minute;
+	return 0;
+}

@@ -1,0 +1,59 @@
+#include<iostream>
+#include<utility>
+#include<cmath>
+using namespace std;
+typedef pair<double,double> pdd;
+
+template <typename T>
+T abs(T a, T b)
+{
+	return a >= b ? a - b : b - a;
+}
+
+double get_length(pdd p1 , pdd p2)
+{
+	double a = abs(p1.first,p2.first);
+	double b = abs(p1.second,p2.second);
+	return sqrt(a*a+b*b);
+}
+
+int main(void)
+{
+	pdd p[2];
+	int p1_r, p2_r;
+	
+	int t;
+	cin >> t;
+	for(int i = 0 ; i < t ; i ++)
+	{
+		double p1_fir,p1_sec,p2_fir,p2_sec;
+		cin >> p1_fir >> p1_sec >> p1_r >> p2_fir >> p2_sec >> p2_r;
+
+		p[0] = make_pair(p1_fir,p1_sec);
+		p[1] = make_pair(p2_fir,p2_sec);
+		
+		double length = get_length(p[0],p[1]); // 두 점 간의 거리
+		bool is_same_position = (length == 0 ? true : false); // 같은 좌표인가?
+		
+		double sum_of_r = p1_r + p2_r; // 두 원의 반지름의 합
+		
+		if(is_same_position)
+		{
+			if(p1_r != p2_r)
+				cout <<"0\n";
+			else
+				cout <<"-1\n";
+		}
+		else
+		{
+			if(sum_of_r > length)
+				cout << "2\n";
+			else if(sum_of_r == length)
+				cout << "1\n";
+			else
+				cout << "0\n";
+		}
+		
+	}
+	return 0;
+}

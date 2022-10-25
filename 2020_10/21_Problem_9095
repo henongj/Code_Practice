@@ -1,0 +1,28 @@
+#include<iostream>
+ 
+using namespace std;
+ 
+void get_dp_val(int dp[],int n)
+{
+	if(dp[n] != 0)
+		return;
+	if(dp[n-1] == 0)
+		get_dp_val(dp,n-1);		
+	dp[n] = dp[n-1] + dp[n-2] + dp[n-3];
+}
+int main(void)
+{
+	int testCase;
+	int dp[15]={};
+	dp[1]=1;dp[2]=2;dp[3]=4;
+ 
+	cin >> testCase;
+	for(int i=  0 ; i < testCase ; i++)
+	{
+		int n;
+		cin >> n;
+		get_dp_val(dp,n);
+		cout << dp[n] << "\n";
+	}
+	return 0;
+}

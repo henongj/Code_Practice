@@ -1,0 +1,52 @@
+#include<string>
+#include<iostream>
+#include<utility>
+#include<vector>
+using namespace std;
+
+int main(void)
+{
+	int n;
+	cin >> n;
+	vector < pair<int,int> > v;
+	int t1,t2;
+	for(int i = 0 ; i < n ; i++)
+	{
+		scanf("%d %d\n",&t1,&t2);
+		v.push_back(make_pair(t1,t2)); //first = day , second = pay
+	}
+	
+	int max_pay = 0;
+	int pay = 0;
+	int day = 0;
+	
+	for(int i = 0 ; i < n ; i++)
+	{ //첫 일을 고르는 날짜
+		if(i + v[i].first <= n)
+		{
+			pay = v[i].second;
+			day = i + v[i].first; //초기화
+			printf("picked first work : %d day : %d pay : %d\n",i,day,pay);
+		}
+		else
+			continue;
+		
+		
+		for(int j = day ; j < n ; j++)
+		{
+			if(day + v[j].first <= n)
+			{ //상담이 가능하다면
+				printf("v[j].first second : %d %d \n",v[j].first,v[j].second);
+				day = day + v[j].first; //상담하고
+				pay = pay + v[j].second; //돈 받고
+				
+				j = day - 1; // -1은 증감식 상쇄용
+			}
+		}
+		printf("pay : %d\n",pay);
+		max_pay = max( max_pay , pay );
+	}
+	printf("%d",max_pay);
+	
+	return 0;
+}

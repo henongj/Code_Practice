@@ -1,0 +1,44 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+inline int looper(int start, int end, int num[])
+{
+	int t = 0;
+	for(int i = start; i < end ; i++)
+		t = t + num[i];
+//	printf(" t : %d ", t);
+	return t;
+}
+int main() {
+	
+	int n;
+	
+	int num[100000];
+	int max_val[100000];
+	scanf(" %d",&n);
+	
+	for(int i = 0 ; i < n ; i++)
+	{
+		scanf(" %d",&num[i]);
+	}
+
+	for(int i = 0 ; i < n ; i++)
+	{
+		max_val[i] = num[i];
+//		printf("max_val[%d] = %d",i,max_val[i]);
+		for(int j = i+1 ; j < n ; j++)
+		{
+			max_val[i] = max (max_val[i] , looper(i,j,num)) ;
+		}
+//		puts("");
+	}
+	
+	int answer = -1001; 
+	for(int i = 0 ; i < n; i++)
+		answer = max(answer , max_val[i]);
+		
+	printf("%d",answer);
+	
+	return 0;
+}

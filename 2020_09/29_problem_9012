@@ -1,0 +1,31 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+const int NO = 0;
+const int YES = 1;
+void print_yn(int n)
+{
+	n == YES ? printf("YES\n") : printf("NO\n");
+}
+int main() {
+	int n;
+	cin >> n;
+	
+	for(int i = 0 ; i < n ; i++)
+	{
+		int left = 0; int right = 0;
+		int flag = -1;
+		string str;
+		cin >>str;
+		for(int i = 0 ; i < str.length() ; i++)
+		{
+			if(str[i]=='(')	
+				left++;
+			if(str[i]==')')
+				left == right ? flag = NO : right++;
+		}
+		flag == NO ? print_yn(NO) : (left==right? print_yn(YES) : print_yn(NO));
+	}
+	return 0;
+}

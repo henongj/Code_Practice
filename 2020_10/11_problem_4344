@@ -1,0 +1,41 @@
+#include<iostream>
+
+using namespace std;
+
+const int MAX_SCORE_SIZE = 1000;
+
+inline double get_average(double score[] , int n)
+{
+	double avg = 0;
+	for(int i = 0 ; i < n ; i++)
+		avg = avg + score[i];
+	return (avg/n);
+}
+
+inline void print_percent(double score[] , double average , int num_of_score)
+{
+	cout << fixed; //소수점 고정
+	cout.precision(3);//몇자리까지인지
+	double count = 0;
+	for(int i = 0 ; i < num_of_score ; i++)
+		if(score[i] > average) count++;
+	cout << (count/num_of_score)*100 << "%\n";
+}
+
+int main(void)
+{
+	int testCase;
+	cin >> testCase;
+	
+	for(int i = 0 ; i<testCase ; i++)
+	{
+		int num_of_score;
+		double score[MAX_SCORE_SIZE];
+		cin >> num_of_score;
+		for(int j = 0 ; j < num_of_score ; j++)
+			cin >> score[j];
+		double average = get_average(score,num_of_score);
+		print_percent(score,average,num_of_score);
+	}
+	return 0;
+}

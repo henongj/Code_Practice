@@ -1,0 +1,148 @@
+#include <iostream>
+#include <utility>
+using namespace std;
+typedef pair<int,int> pair_int;
+const int MAX_ARR_LEN = 50;
+const int CLEAN = 2;
+const int WALL = 1;
+const int DIRTY = 0;
+enum Direction
+{
+	NORTH = 0, // robot look north , then robot go west (-1,0) //(x,y)
+	EAST = 1, // robot look east , then robot go north (0,-1)
+	SOUTH = 2, // robot look south , then robot go east (1,0)
+	WEST = 3,	// robot look west , then robot go south (0,1) 
+};
+
+inline void input_information(int info[] , int map[][MAX_ARR_LEN]);
+inline void print_map(int info[] , int map[][MAX_ARR_LEN]);
+inline void print_direction(Direction &dir);
+
+inline bool should_go_back(int map[][MAX_ARR_LEN] , pair_int &robot_pos, Direction &dir);
+inline void rotate_robot_direction(Direction &dir);
+void go_next_tile(int map[][MAX_ARR_LEN] , pair_int &robot_pos , Direction &dir ,int &count);
+void go_back_tile(int map[][MAX_ARR_LEN] , pair_int &robot_pos, Direction &dir,int &count);
+inline bool can_go(int map[][MAX_ARR_LEN] , pair_int &robot_pos, Direction &dir);
+void run_robot(int map[][MAX_ARR_LEN] , pair_int &robot_pos, Direction &dir);
+
+int main() {
+	int info[5]; // column , row , robot_xpos , robot_ypos , robot_direction
+	int map[MAX_ARR_LEN][MAX_ARR_LEN];
+	
+	input_information(info,map);
+
+	pair_int robot_pos = make_pair(info[3],info[2]); //xpos,ypos
+	Direction dir = static_cast<Direction>(info[4]); //
+
+	run_robot(map,robot_pos,dir);
+	return 0;
+}
+void go_next_tile(int map[][MAX_ARR_LEN] , pair_int &robot_pos , Direction &dir ,int &count)
+{
+	int d[4][2] = {{-1,0} , {0,-1} , {1,0} , {0,1}};  //[0] = xpos [1] =ypos
+	if( can_go ( map,robot_pos,dir ) )
+	{
+		robot_pos.first = robot_pos.first + d[dir][0]; //xpos
+		robot_pos.second = robot_pos.second + d[dir][1]; //ypos
+		map[robot_pos.second][robot_pos.first] = CLEAN;
+		rotate_robot_direction(dir);
+		count = count + 1;
+		go_next_tile(map,robot_pos,dir,count);
+	}
+	else
+	{
+		if( should_go_back(map,robot_pos,dir) )
+		{
+			go_back_tile(map,robot_pos,dir,count);
+		}
+		else
+		{
+			rotate_robot_direction(dir);
+			go_next_tile(map,robot_pos,dir,count);
+		}
+	}
+}
+void go_back_tile(int map[][MAX_ARR_LEN] , pair_int &robot_pos, Direction &dir,int &count)
+{
+	int go_back[4][2] = {{0,1} , {-1,0} , {0,-1} , {1,0}};
+	int back_x = robot_pos.first + go_back[dir][0];
+	int back_y = robot_pos.second + go_back[dir][1];
+	if ( map[back_y][back_x] == WALL)
+	{
+		printf("%d",count);
+		exit(0);
+	}
+	else
+	{
+		robot_pos.first = back_x;
+		robot_pos.second = back_y;
+		go_next_tile(map,robot_pos,dir,count);
+	}
+}
+inline void rotate_robot_direction(Direction &dir)
+{
+	if(dir == NORTH)
+		dir = WEST;
+	else if(dir == WEST)
+		dir = SOUTH;
+	else if(dir == SOUTH)
+		dir = EAST;
+	else
+		dir = NORTH;
+//	print_direction(dir);
+}
+inline void input_information(int info[] , int map[][MAX_ARR_LEN])
+{
+	for(int i = 0 ; i < 5 ; i++)
+		cin >> info[i];
+	for(int i = 0 ; i < info[0] ; i++)
+	{
+		for(int j = 0 ; j < info[1] ; j++)
+		{
+			cin >> map[i][j];
+		}
+	}
+}
+inline void print_map(int info[] , int map[][MAX_ARR_LEN])
+{
+	for(int i = 0 ; i<info[0] ; i++)
+	{
+		for(int j = 0 ; j<info[1] ; j++)
+			cout << map[i][j] << " ";
+		cout << "\n";
+	}
+}
+inline void print_direction(Direction &dir)
+{
+	if(dir == NORTH)
+		printf("robot_direction : NORTH\n");
+	else if(dir == WEST)
+		printf("robot_direction : WEST\n");
+	else if(dir == SOUTH)
+		printf("robot_direction : SOUTH\n");
+	else
+		printf("robot_direction : EAST\n");
+}
+inline bool should_go_back(int map[][MAX_ARR_LEN] , pair_int &robot_pos, Direction &dir)
+{//뒤로 가야 하냐?
+	int x = robot_pos.first; int y = robot_pos.second;
+	if( map[y+1][x] != DIRTY && map[y-1][x] != DIRTY
+	&& map[y][x+1] != DIRTY && map[y][x-1] != DIRTY )
+		return true;
+	else
+		return false;
+}
+inline bool can_go(int map[][MAX_ARR_LEN] , pair_int &robot_pos, Direction &dir)
+{//다음 타일을 갈 수 없는지 확인
+	int d[4][2] = {{-1,0} , {0,-1} , {1,0} , {0,1}};
+	int xpos = robot_pos.first + d[dir][0];
+	int ypos = robot_pos.second + d[dir][1];
+	return map[ypos][xpos] == DIRTY ? true : false;
+}
+void run_robot(int map[][MAX_ARR_LEN] , pair_int &robot_pos, Direction &dir)
+{
+	int count = 1;
+	int flag = 0;
+	map[ robot_pos.second ][ robot_pos.first ] = CLEAN;	
+	go_next_tile(map, robot_pos , dir , count);
+}

@@ -1,0 +1,113 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+typedef struct queue
+{
+	vector<int> arr;
+	int size = 0;
+	int &empty = size;
+	const int front = 0; //가장 먼저 들어와, 가장 먼저 나갈 것
+	int back = -1;//가장 나중에 들어온 것
+}queue;
+
+int str_to_int(string &str)
+{
+	int num = 0;
+	for(int i = 0 ; i < str.length() ; i++)
+		num = num*10 + (str[i] - '0');
+	return num;
+}
+inline void empty(queue &q)
+{
+	q.empty == 0 ? cout << "1\n" : cout << "0\n";
+}
+inline void queue_push(queue &q , string &x)
+{
+	int num = str_to_int(x);
+	q.arr.push_back(num);
+	q.size = q.size + 1;
+	q.back = q.back + 1;
+}
+inline void pop(queue &q)
+{
+	if(q.empty == 0)
+	{
+		cout << "-1\n";
+		return;
+	}
+	cout << q.arr[q.front] << "\n";
+	q.arr.erase(q.arr.begin());
+	q.size = q.size - 1;
+	q.back = q.back - 1;
+}
+inline void size(queue &q)
+{
+	cout << q.size << "\n";
+}
+inline void front(queue &q)
+{
+	if(q.empty == 0)
+	{
+		cout << "-1\n";
+		return;
+	}
+	cout << q.arr[q.front] << "\n";
+}
+inline void back(queue &q)
+{
+	if(q.empty == 0)
+	{
+		cout << "-1\n";
+		return;
+	}
+	cout << q.arr[q.back] << "\n";
+}
+
+vector<string> tokenize(string &s , char delimeter)
+{
+	vector<string> v;
+	s = s + delimeter;
+	
+	int len = 0; int start = 0;
+	for(int i = 0 ; i < s.length() ; i++)
+	{
+		if(s[i] == delimeter)
+		{
+			v.push_back( s.substr(start , len) );
+			start = start + len + 1;
+			len = 0;
+		}
+		else
+			len++;
+	}
+	return v;
+}
+int main() {
+	
+	int n;
+	string token;
+	queue q;
+	cin >> n;
+	getchar();
+	for(int i = 0 ; i < n ; i++)
+	{
+		getline(cin,token);
+		vector<string> v = tokenize(token,' ');
+//		for(int j = 0 ; j<v.size() ; j++)
+//			cout << "i  v : " << i << "  " << v[j] << "\n";
+		if(v[0] != "push")
+		{
+			if(v[0] == "pop") pop(q);
+			if(v[0] == "size") size(q);
+			if(v[0] == "empty") empty(q);
+			if(v[0] == "front") front(q);
+			if(v[0] == "back") back(q);
+		}
+		else
+			queue_push(q , v[1]);
+	}
+	
+	return 0;
+}

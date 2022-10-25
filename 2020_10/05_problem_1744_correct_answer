@@ -1,0 +1,43 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+inline bool compare(const int &a , const int &b)
+{
+	return a > b ? true : false;
+}
+const int MAX_ARR_SIZE = 10000;
+int main() {
+	int n; int t; 
+	vector<int> pVector;
+	vector<int> nVector;
+	cin >> n;
+	for(int i = 0 ; i< n ; i++)
+	{
+		scanf(" %d",&t);
+		t > 0 ? pVector.push_back(t) : nVector.push_back(t);
+	}
+	
+	sort(pVector.begin(),pVector.end() , compare);
+	sort(nVector.begin(),nVector.end());
+	
+	long int sum = 0;
+	
+	for(int i = 0 ; i+1 < pVector.size() ; i = i+2)
+		sum = sum + max(pVector[i]*pVector[i+1],pVector[i]+pVector[i+1]);
+	for(int i = 0 ; i+1 < nVector.size() ; i = i+2)
+		sum = sum + max(nVector[i]*nVector[i+1],nVector[i]+nVector[i+1]);
+		
+	int pSize = pVector.size(); int nSize = nVector.size();
+	if(pVector.size() % 2 == 1 && nVector.size() % 2 == 1)
+        sum = sum + max(pVector[pSize-1]+nVector[nSize-1] ,pVector[pSize-1]*nVector[nSize-1]);
+
+	else if(pVector.size() % 2 == 1)
+        sum = sum + pVector[pSize-1];
+    else if(nVector.size() % 2 == 1)
+        sum = sum + nVector[nSize-1];
+	
+	cout << sum;
+	return 0;
+}

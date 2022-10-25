@@ -1,0 +1,35 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+using namespace std;
+
+int DP(int stair[] , int n)
+{
+	
+	
+}
+int main() {
+	int num;
+	cin >> num;
+	int stair[301] = {};
+	int memo[1000] = {};
+	
+for(int i = 0 ; i < num ; i++)
+	cin >> stair[i];
+	memo[0] = stair[0]; 
+	memo[1] = max(stair[0] + stair[1] , stair[1]);
+	memo[2] = max(stair[0] + stair[2] , stair[1] + stair[2]);
+//memo[3] = max ( memo[0] + stair[2] + stair[3] , memo[1] + stair[3])		
+//memo[i] = max ( memo[i-3] + stair[i-1] + stair[i] , memo[i-2] + stair[i])
+
+	int flag = 0;
+	for(int i = 3 ; i < num ; i++)
+	{
+		memo[i] = max ( memo[i-3] + stair[i-1] + stair[i] , memo[i-2] + stair[i]);
+	}
+	
+	int maximum_value = memo[num-1];
+	cout << maximum_value;
+	
+	return 0;
+}

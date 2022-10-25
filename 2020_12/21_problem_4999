@@ -1,0 +1,34 @@
+#include<iostream>
+
+using namespace std;
+
+void print_yes(void)
+{
+	cout << "go";
+}
+void print_no(void)
+{
+	cout << "no";
+}
+
+int main(void)
+{
+	char c;
+	int doctor = 0;
+	int patient = 0;
+	do{
+		cin >> c;
+		if(c == 'a')
+			patient++;
+	} while(c == 'a');
+//	cout << "patient : " << patient;
+	do{
+		cin >> c;
+		if(c == 'a')
+			doctor++;
+	} while(c == 'a');
+//	cout << "  doctor : " << doctor << "\n";
+	patient >= doctor ? print_yes() : print_no();
+
+	return 0;
+}

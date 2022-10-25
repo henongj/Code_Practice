@@ -1,0 +1,43 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+class triangle
+{
+	private:
+	int line[3];
+	bool right_triangle_flag;
+	
+	public:
+	triangle() {}
+	triangle(int x,int y, int z)
+	{
+		line[0] = x; line[1] = y; line[2] = z;
+		sort(line,line+3);
+	}
+	~triangle() {}
+	bool is_right_triangle(void)
+	{
+		return (line[0]*line[0] + line[1]*line[1] == line[2]*line[2]) ? right_triangle_flag = true : right_triangle_flag = false;
+	}
+	void print_is_right_triangle(void)
+	{
+		is_right_triangle() ? cout << "right\n" : cout << "wrong\n";
+	}
+	
+};
+
+int main(void)
+{
+	int x,y,z;
+	while(1)
+	{
+		cin >> x >> y >> z;
+		if(x==0 && y==0 && z==0)
+			break;
+		triangle t(x,y,z);
+		t.print_is_right_triangle();
+	}
+	
+	return 0;
+}

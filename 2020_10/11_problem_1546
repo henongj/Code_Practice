@@ -1,0 +1,43 @@
+#include<iostream>
+
+using namespace std;
+
+const int MAX_SUBJECT = 1000;
+
+inline double get_juzac_score(double &juzac,double subject, int maximum)
+{
+	double result = (subject/maximum) * 100;
+	return result;
+}
+
+inline double get_average(double juzac[] , int n)
+{
+	double avg = 0;
+	for(int i = 0 ; i < n ; i++)
+		avg = avg + juzac[i];
+	avg = avg / n;
+	return avg;
+}
+
+int main(void)
+{
+	double subject[MAX_SUBJECT];
+	double juzac[MAX_SUBJECT];
+	int n; double maximum = 0;
+	
+	cin >> n;
+	for(int i = 0 ; i< n ; i++)
+	{
+		cin >> subject[i];
+		maximum = max(maximum , subject[i]);
+	}
+	
+	for(int i = 0; i < n ; i++)
+		juzac[i] = get_juzac_score(juzac[i],subject[i],maximum);
+	
+	double result = get_average(juzac,n);
+	
+	cout << result;
+	
+	return 0;
+}

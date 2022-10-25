@@ -1,0 +1,41 @@
+#include <iostream>
+#include <utility>
+#include <algorithm>
+using namespace std;
+
+int get_max_pay(pair<int,int> p[] ,int memo[], int n)
+{
+	int maximum = 0;
+	for(int i = 0 ; i <= n ; i++)
+		maximum = max(maximum,memo[i]);
+	return maximum;
+}
+int main() {
+	int n;
+	cin >> n;
+	pair <int,int> p[15];
+	int t1,t2;
+	for(int i = 0 ; i < n ; i++)
+	{
+		cin >> t1 >> t2; //t1 = day // t2 pay
+		p[i] = make_pair(t1,t2);
+	}
+	
+	int memo[15] = {}; // max_pay 가 얼마인지 기입하는곳
+	
+	for(int i = 0 ; i <= n ; i++)
+	{//
+		int t = i+p[i].first; // 기준일에서 상담을 완료한 날
+		if( t <= n ) // 상담을 마친 날이 퇴사일 이전이면
+		{
+			if( i != 0 && memo[i] < memo[i-1] )//
+				memo[i] = memo[i-1]; // less pay가 나오는 경우는 배제
+				
+			memo[t] = max( memo[t] , memo[i] + p[i].second); //
+		}
+	}
+	int maximum = get_max_pay(p,memo,n);
+	cout << maximum;
+	
+	return 0;
+}

@@ -1,0 +1,82 @@
+#include<iostream>
+#include<queue>
+using namespace std;
+
+typedef queue<int> qi;
+class yosepuss
+{
+	public:
+		qi q1;
+		qi q2;
+		int count;
+		int k;
+	
+		void move_queue()
+		{
+			
+	while(!q1.empty())
+	{
+		cout << q1.front() << " a";
+		q1.pop();
+	}
+			printf("move_queue A run\n");
+			move_queue(q1,q2);
+		}
+		void move_queue(qi &not_empty_q, qi &empty_q)
+		{
+			printf("move_queue B run\n");
+			while(!not_empty_q.empty())
+			{//not_empty_q 가 빌 때까지 계속
+				if(count != k)
+				{
+					count++;
+					empty_q.push(not_empty_q.front());
+					not_empty_q.pop();
+				}
+				else
+				{
+					print_yosepuss(not_empty_q.front());
+					not_empty_q.pop();
+					count = 1;
+				}
+				printf("move_queue WHILE run\n");
+			}
+			if(not_empty_q.empty() && !empty_q.empty())
+				move_queue(empty_q,not_empty_q); //비면 바꿔
+			else//두 큐 모두 텅텅 비면
+				return;//끝내
+		}
+		void print_yosepuss(int &num)
+		{
+			printf("%d",num);
+			if( !(q1.empty() && q2.empty()) )
+				printf(", ");
+		}
+	yosepuss(int &gap)
+	{
+		count = 1;
+		k = gap;
+	}
+};
+
+int main(void)
+{
+	
+	int people, num;
+	cin >> people >> num;
+	yosepuss y(num);
+	
+	int j = 1;
+	for(int i = 0 ; i < people ; i++)
+	{
+	//	cout << "j : " << j << " ";
+		y.q1.push(j);
+		j++;
+	}
+
+	printf("<");
+
+	y.move_queue();
+	printf(">");
+	return 0;
+}

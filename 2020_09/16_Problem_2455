@@ -1,0 +1,30 @@
+#include <iostream>
+#include <utility>
+#include <algorithm>
+#include <array>
+using namespace std;
+
+int main() {
+	
+	int maximum = 0;
+	array <pair<int,int>,10> arr;
+	
+	int t1,t2;
+	for(int i = 0 ; i < 10 ; i++)
+	{//first = 내린 사람 second = 탄 사람
+		scanf("%d %d\n",&t1,&t2);
+		arr[i] = make_pair(t1,t2);
+	}
+	
+	int people_in_train = 0;
+	
+	for(int i = 0 ; i < 4 ; i++)
+	{
+		people_in_train = people_in_train + arr[i].second - arr[i].first;
+		maximum = max ( maximum , people_in_train );
+	}
+	
+	cout << maximum;
+	
+	return 0;
+}

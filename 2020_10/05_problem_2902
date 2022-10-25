@@ -1,0 +1,19 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main(int argc, char* argv[]) {
+	string str;
+	getline(cin, str);
+	
+	char delimeter = '-';
+	string algorithm_name = str.substr(0,1);
+	for(int i = 1 ; i+1 < str.length(); i++)
+	{
+		if(str[i] == delimeter)
+			algorithm_name += str[i+1];
+	}
+	
+	cout << algorithm_name;
+	return 0;
+}

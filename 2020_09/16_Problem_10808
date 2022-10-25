@@ -1,0 +1,22 @@
+#include<string>
+#include<iostream>
+using namespace std;
+
+const int ALPHABET_NUM = 26;
+int main(void)
+{
+	string s;
+	cin >> s;
+	
+	int num_of_alphabet[ALPHABET_NUM] = {};
+	int t;
+	for(int i = 0 ; i < s.length() ; i++)
+	{
+		t = s[i] - 'a';
+		num_of_alphabet[t] = num_of_alphabet[t] + 1;
+	}
+	
+	for(int i = 0 ; i < ALPHABET_NUM ; i++)
+		printf("%d ",num_of_alphabet[i]);
+	return 0;
+}

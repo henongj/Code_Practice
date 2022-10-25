@@ -1,0 +1,16 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+int main(void)
+{
+    int kill;
+    int death;
+    int assist;
+    scanf("%d/%d/%d",&kill,&death,&assist);
+    if(death == 0 || kill+assist < death)
+    cout << "hasu";
+    else
+    cout << "gosu";
+    return 0;
+}

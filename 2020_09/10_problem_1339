@@ -1,0 +1,51 @@
+#include <cstdio>
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <array>
+using namespace std;
+
+bool cmp(int a , int b)
+{
+	if(a>b)
+		return true;
+	return false;
+}
+int main(void)
+{
+	int N;
+	cin >> N;
+	
+	array <string  , 10> arr;
+	
+	for(int i = 0 ; i < N ; i++)
+		cin >> arr[i];
+		
+	int memo[100] = {};
+	
+	for(int i = 0 ; i < N ; i++)
+	{//모든 문자열에 대해
+		int radix = 1;
+		for(int j = arr[i].length()-1 ; j >= 0 ; j--)
+		{
+//			cout << "j : " << j << endl;
+			memo[  arr[i].at(j)  ] += radix;
+			radix = radix * 10;
+		}
+	}
+	
+	sort(memo,memo+100,cmp);
+
+	int result = 0;
+	int t = 9;
+	for(int i = 0 ; i < 9 ; i++)
+	{
+
+		result = result + t*memo[i];
+		t--;
+	}
+	
+	cout << result;
+	
+	return 0;
+}

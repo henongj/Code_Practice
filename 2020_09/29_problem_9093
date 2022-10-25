@@ -1,0 +1,63 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+typedef vector<string> vecstr;
+
+vecstr str_reverse(vecstr &v)
+{
+	vecstr result;
+	for(int i = 0 ; i < v.size() ; i++)
+	{
+		string t;
+		for(int j = v[i].length()-1 ; j >= 0 ; j--)
+			t = t + v[i][j];
+		result.push_back(t);
+	}
+	return result;
+}
+
+vecstr tokenize_str(string str , const char &delimeter)
+{
+	vecstr result;
+	str = str + delimeter;
+	int start = 0; int len = 0;
+	int i = 0; int size = str.size();
+	while(i < size)
+	{
+		if(str[i] != delimeter)
+			len++;
+		else
+		{
+			if(len!=0)
+				result.push_back( str.substr(start,len) );
+			start = start + len + 1; len = 0;
+		}
+		i++;
+	}
+	return result;
+}
+
+int main() {
+	string str;
+	int n;
+	
+	vector<vecstr> str_v;
+	cin >> n; getchar();
+	for(int i =  0 ; i < n ; i++)
+	{
+		vecstr v;
+		getline(cin,str);
+		v = tokenize_str(str,' ');
+		v = str_reverse(v);
+		str_v.push_back(v);
+	}
+	for(int  i = 0 ; i < n ; i++)
+	{
+		for(int j = 0 ; j < str_v[i].size() ; j++)
+			cout << str_v[i][j] << " ";
+		printf("\n");
+	}
+	return 0;
+}

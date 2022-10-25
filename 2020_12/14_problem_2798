@@ -1,0 +1,86 @@
+#include<iostream>
+#include<algorithm>
+
+using namespace std;
+
+inline bool is_over(const int &target_value , int sum)
+{
+	return sum > target_value ? true : false;
+}
+
+inline int get_near_value(int &sum1, int &sum2 ,const int &target_value)
+{ //블랙잭은 넘는 값을 원하지 않는다. 즉 target_value - a 와 target_value - b 는 둘 다 0이상값이니, 작은걸 넘기면 된다
+	return target_value - sum1 < target_value - sum2 ? sum1 : sum2;
+}
+
+inline int get_sum( int *card_value, int &a, int &b, int &c)
+{
+	return *(card_value+a) + *(card_value+b) + *(card_value+c);
+}
+
+void renew_three_num(const int cards , int &one, int &two, int &three , bool &loop_flag)
+{
+	if( (one + 1 == two) && (two + 1 == three) && (three == cards - 1))
+	{
+		loop_flag = false;
+		return;
+	}
+	
+	if(three+1 == cards-1)
+	{
+		if(two+1 == three)
+		{
+			one = one + 1;
+			two = one + 1;
+			three = two + 1;
+		}
+		else
+		{
+			two = two + 1;
+			three = two + 1;
+		}
+	}
+	else
+	{
+		three = three + 1;
+		return;
+	}
+}
+
+int get_most_near_number(int *card_value , const int &cards , const int &target_value)
+{// 배열에서 3개의 숫자를 골라야 함
+	bool loop_flag = true;
+	int one = 0;	int two = 1;	int three = 2;
+	
+	int answer = 0;
+	
+	while(loop_flag == true)
+	{
+		int n = get_sum( card_value , one , two , three );
+		if( !is_over(target_value , n ) )
+			answer = get_near_value (answer , n , target_value);
+		cout << "one two three answer   " << one << " " << two << " " << three << " " << answer << "\n";
+		renew_three_num(cards , one , two , three , loop_flag);
+		if(loop_flag == false)
+			return answer;
+	}
+}
+
+
+int main(void)
+{
+	int cards;
+	int card_value[300000];
+	int target_value;
+	
+	cin >> cards >> target_value;
+	
+	for(int i = 0 ; i < cards ; i++)
+		cin >> card_value[i]; 
+	
+	int answer = get_most_near_number(card_value , cards , target_value);
+	
+	cout << answer;
+	
+	return 0;
+}

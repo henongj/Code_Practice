@@ -1,0 +1,126 @@
+#include <iostream>
+#include <utility>
+
+using namespace std;
+
+typedef pair<int,int> pair_int;
+const int MAX_ARR_LEN = 50;
+const int CLEAN = 2;
+const int WALL = 1;
+const int DIRTY = 0;
+enum Direction
+{
+	NORTH = 0, // robot look north , then robot go west (0,-1)
+	EAST = 1, // robot look east , then robot go north (-1,0)
+	SOUTH = 2, // robot look south , then robot go east (0,1)
+	WEST = 3,	// robot look west , then robot go south (1,0) 
+};
+void input_information(int info[] , int map[][MAX_ARR_LEN])
+{
+	for(int i = 0 ; i < 5 ; i++)
+		cin >> info[i];
+	for(int i = 0 ; i < info[0] ; i++)
+	{
+		for(int j = 0 ; j < info[1] ; j++)
+		{
+			cin >> map[i][j];
+		}
+	}
+}
+void print_map(int info[] , int map[][MAX_ARR_LEN])
+{
+	for(int i = 0 ; i<info[0] ; i++)
+	{
+		for(int j = 0 ; j<info[1] ; j++)
+			cout << map[i][j] << " ";
+		cout << "\n";
+	}
+}
+
+inline bool can_go(int map[][MAX_ARR_LEN] , pair_int &robot_pos, Direction &dir)
+{//갈 수 없는지 확인
+	int d[4][2] = {{-1,0} , {0,-1} , {1,0} , {0,1}};
+	
+	int xpos = robot_pos.first + d[dir][0];
+	int ypos = robot_pos.second + d[dir][1];
+	
+	return map[ypos][xpos] == DIRTY ? true : false;
+}
+
+void go_next_tile(int map[][MAX_ARR_LEN] , pair_int &robot_pos , Direction &dir)
+{
+	int d[4][2] = {{-1,0} , {0,-1} , {1,0} , {0,1}};  //[0] = xpos [1] =ypos
+	robot_pos.first = robot_pos.first + d[dir][0]; //xpos
+	robot_pos.second = robot_pos.second + d[dir][1];
+	
+	printf("next_tile : y %d x %d\n",robot_pos.second ,robot_pos.first);
+	
+	map[robot_pos.second][robot_pos.first] = CLEAN;
+}
+
+inline void rotate_robot_direction(Direction &dir)
+{
+	if(dir == NORTH)
+		dir = WEST;
+	else if(dir == WEST)
+		dir = SOUTH;
+	else if(dir == SOUTH)
+		dir = EAST;
+	else
+		dir = NORTH;
+}
+
+
+int main() {
+	int info[5]; // column , row , robot_xpos , robot_ypos , robot_direction
+	int map[MAX_ARR_LEN][MAX_ARR_LEN];
+	
+	int go_back[4][2] = {{0,1} , {-1,0} , {0,-1} , {1,0}};
+	//dir 을 기준으로 뒤로 가기 위한 배열
+	input_information(info,map);
+
+	pair_int robot_pos = make_pair(info[2],info[3]); //xpos,ypos
+	map[ robot_pos.second ][ robot_pos.first ] = CLEAN;
+	Direction dir = static_cast<Direction>(info[4]); //
+	
+	int count = 1;
+	int flag = 0;
+	while(1)
+	{
+		if(flag != 4)
+		{
+			if( can_go(map, robot_pos , dir) )
+			{//갈 수 있다?
+				go_next_tile(map, robot_pos , dir);
+				rotate_robot_direction(dir);
+				count++; //가서 닦고
+				flag = 0;
+			}
+			else
+			{
+				printf("can't go y %d x %d\n",robot_pos.second,robot_pos.first);
+				flag = flag + 1;
+				rotate_robot_direction(dir);
+			}
+		}
+		else
+		{ // 네 방향 다 갈 수 없다?
+			int xpos = robot_pos.first + go_back[dir][0];
+			int ypos = robot_pos.second + go_back[dir][1];
+			if(map[ypos][xpos] != WALL)
+			{
+				robot_pos.first = xpos;
+				robot_pos.second = ypos; //벽 아니면 뒤로 가고
+				flag = 0;
+			}
+			else
+			{
+				printf("%d\n",count);
+				print_map(info,map);
+				return 0; //후진 불가면 작동 멈춘다
+			}
+		}
+	}
+	
+	return 0;
+}

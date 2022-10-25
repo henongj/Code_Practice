@@ -1,0 +1,31 @@
+#include<iostream>
+#include<vector>
+#include<cmath>
+inline bool is_dividable(const int &number ,const int &divider)
+{
+	return number % divider != 0 ? false : true;
+}
+
+inline bool is_prime_number(int n)
+{
+	if(n!=1)
+	{
+		for(int i = 2 ; i <= sqrt(n) ; i++)
+		{
+			if(is_dividable(n,i))
+				return false;
+		}
+		return true;
+	}
+	else
+		return false;
+}
+
+int main(void)
+{
+	int M, N;
+	std::cin >> M >> N;
+	for(int i = M ; i <= N ; i++)
+		if(is_prime_number(i)) std::cout << i << "\n";
+	return 0;
+}

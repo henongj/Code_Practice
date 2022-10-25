@@ -1,0 +1,29 @@
+#include<iostream>
+
+using namespace std;
+
+int main(void)
+{
+	int num[10];
+	for(int i = 0 ; i<10 ; i++)
+		cin >> num[i];
+	
+	int answer[42];
+	
+	for(int i = 0 ; i < 42 ; i++)
+		answer[i] = -1;
+	for(int i = 0 ; i < 10 ; i++)
+		answer[num[i]%42] = 1;
+	
+	int count = 0;
+	
+	for(int i = 0 ; i < 42 ; i++)
+	{
+		if(answer[i] != -1)
+			count++;
+	}
+	
+	cout << count;
+	
+	return 0;
+}

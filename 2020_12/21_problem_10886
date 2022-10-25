@@ -1,0 +1,33 @@
+#include<iostream>
+
+using namespace std;
+
+void print_cute(void)
+{
+	printf("Junhee is cute!");
+}
+void print_not_cute(void)
+{
+	printf("Junhee is not cute!");
+}
+
+bool is_cute(int number)
+{
+	return number > 0 ? true : false;
+}
+
+int main(void)
+{
+	int cute_counter = 0;
+	int t;
+	int n;
+	cin >> n;
+	for(int i = 0 ; i < n ; i++)
+	{
+		cin >> t;
+		t == 1 ? cute_counter++ : cute_counter--;
+	}
+	is_cute(cute_counter) ? print_cute() : print_not_cute();
+	
+	return 0;
+}

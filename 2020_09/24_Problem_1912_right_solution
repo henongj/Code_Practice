@@ -1,0 +1,33 @@
+#include <iostream>
+using namespace std;
+
+const int MAX_ARR_LEN = 100000;
+
+int main() {
+	
+	int n;
+	int arr[MAX_ARR_LEN];
+	int memo[MAX_ARR_LEN]= {};
+	
+	scanf(" %d",&n);
+	for(int i = 0 ; i < n; i++)
+		scanf(" %d",&arr[i]);
+	
+	
+	memo[0] = arr[0];//memo basis
+	for(int i = 1 ; i < n ; i ++)
+	{
+		if(memo[i-1] + arr[i] >= 0) // 굳이 비교하는 이유 예시) -3 + 4 , 4 
+			memo[i] = (memo[i-1]+arr[i]) >= arr[i] ? memo[i-1]+arr[i] : arr[i];
+		else //memo는 음수가 나오면 값을 num[i]로 갱신
+			memo[i] = arr[i];
+	}
+		
+	int max_value = -1001;
+	
+	for(int i  = 0 ; i < n ; i++)
+		max_value = max(max_value , memo[i]);
+		
+	printf("%d",max_value);
+	return 0;
+}

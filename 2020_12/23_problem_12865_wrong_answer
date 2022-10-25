@@ -1,0 +1,50 @@
+#include<iostream>
+#include<utility>
+using namespace std;
+
+typedef pair<int,int> pii;
+
+inline bool can_hold(const int max_weight , int num)
+{
+	return max_weight >= num ? true : false;
+}
+
+void pick_thing(int memo[] , const int &n , pii p[] , const int max_weight , int weight, int picker)
+{//배낭에 물건을 최대한 쑤셔넣어보는 짓을 계속 하는 재귀함수
+	for(int i = picker ; i < n ; i++)
+	{ // p[picker] = 고른 물건.first = 무게 , .second = 가치
+		cout << "pick_thing : i " << i << " ";
+		if(can_hold(max_weight , weight + p[picker].first)) // 아 이 물품은 집어넣을 수 있습니까?
+		{// 넣을 수 있으면
+			int w = weight + p[picker].first; //무게를 추가해서
+			cout << "w : " << w << " p[picker] : " << p[picker].first << " " << p[picker].second;
+			memo[  w  ] = max( memo[w] , memo[weight] + p[picker].second ); // 그 가치를 기입하고
+			picker++;
+			pick_thing(memo,n,p,max_weight,w,picker); // 재귀
+		}
+	}
+}
+
+int main(void)
+{
+	int n,max_weight;
+	pii p[100];
+	cin >> n >> max_weight;
+	int memo[max_weight] = {};
+	
+	int fir, sec;
+	for(int i = 0 ; i < n ; i++)
+	{
+		cin >> fir >> sec;
+		p[i] = make_pair(fir,sec); // first = weight, second = value;
+	}
+	
+	int maximum = 0;
+	for(int i = 0 ; i < max_weight ; i++)
+		maximum = max(maximum , memo[i]);
+	
+	cout << maximum;
+	
+	
+	return 0;
+}

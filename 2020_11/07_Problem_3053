@@ -1,0 +1,17 @@
+#include<iostream>
+#include<iomanip>
+using namespace std;
+
+long double PIE = 3.141592653589793;
+
+int main(void)
+{
+	long double a;
+	cin >> a;
+		
+	cout << setprecision(6) << fixed;	
+//	printf("%.6f\n%.6f",a*a*PIE,a*a*2.0);
+	cout << a*a*PIE << "\n" << a*a*2;
+	
+	return 0;
+}

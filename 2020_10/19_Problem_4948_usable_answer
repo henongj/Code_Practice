@@ -1,0 +1,53 @@
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+class Betrand_Postulate
+{
+	private:
+		int m_n;
+		int m_count;
+		inline bool is_dividable(int number,int divider)
+		{
+			return number%divider != 0 ? false : true;
+		}
+		bool is_prime_number(int n)
+		{// sqrt(n) 을 쓰는 이유, n이 어떤 수들의 곱의 결과라면 루트n 도달 전에 반드시 하나는 나온다
+			for(int i = 2 ; i <= sqrt(n) ; i++)
+			{
+				if(is_dividable(n,i))
+					return false;
+			}
+			return n!=1 ? true : false;
+		}
+	public:
+		Betrand_Postulate(int number) : m_n(number), m_count(0)
+		{}
+		~Betrand_Postulate() {}
+		int get_counting(void)
+		{
+			int count = 0;
+			for(int i = m_n+1; i<= 2*m_n ;i++)
+			{
+				if(is_prime_number(i)) count++;
+			}
+			return count;
+		}
+};
+typedef Betrand_Postulate BP;
+
+int main(void)
+{
+	int i; 	
+	while(1)
+	{	
+		cin >> i;
+		if(i==0)
+			break;
+		
+		BP bp{i};
+		int num = bp.get_counting();
+		cout << num << "\n";
+	}
+	return 0;
+}

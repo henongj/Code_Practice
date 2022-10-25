@@ -1,0 +1,94 @@
+#include <iostream>
+#include <utility>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+typedef pair<int,int> pii;
+
+const int CHICKEN = 2;
+const int HOME = 1;
+const int BLANK = 0;
+const int MAX_MAP_SIZE = 50;
+
+inline int get_chicken_len(pii &h , pii &c)
+{//한 집, 한 치킨집의 치킨거리
+	int i = h.first > c.first ? h.first-c.first : c.first-h.first;
+	int j = h.second > c.second ? h.second-c.second : c.second-h.second;
+	return i+j;
+}
+
+inline void print_map(int map[][MAX_MAP_SIZE] , int map_len)
+{//맵출력
+	for(int i = 0 ; i < map_len ; i++)
+	{
+		for(int  j = 0 ; j < map_len ; j++)
+			printf("%d ",map[i][j]);
+		puts("");
+	}
+}
+
+void input_info(int map[][MAX_MAP_SIZE] , int &map_len, vector<pii> &cs , vector<pii> &h,vector<int> &sequence)
+{ // 정보입력
+	const int ml = map_len;
+	for(int i = 0 ; i < ml ; i++)
+	{
+		for(int j = 0 ; j < ml ; j++)
+		{
+			scanf(" %d",&map[i][j]);
+			if(map[i][j] != BLANK)
+			{
+				if(map[i][j] == HOME)
+					h.push_back(make_pair(i,j));
+				else
+				{
+					cs.push_back(make_pair(i,j));
+					sequence.push_back(BLANK);
+				}
+			}
+		}
+	}
+}
+
+int get_shortest_chicken_len(pii &home , vector<pii> &chicken_store, vector<int> &sequence)
+{ //이 집에서 가장 가까운 치킨집의 치킨거리 반환
+	int Min = 2501;
+	for(int i = 0 ; i< chicken_store.size() ; i++)
+	{
+		if(sequence[i] == CHICKEN)
+			Min = min(sum , get_chicken_len(home , chicken_store[i]));
+	}
+	return Min;
+}
+
+int main() {
+	
+	int map_len, num_chicken_store;
+	cin >> map_len >> num_chicken_store;
+
+	int map[MAX_MAP_SIZE][MAX_MAP_SIZE];
+	vector <pii> chicken_store;
+	vector <pii> home;
+	vector <int> sequence;
+
+	input_info(map,map_len,chicken_store,home,sequence);
+
+	for(int i = 0 ; i < num_chicken_store ; i++)
+		sequence[i] = CHICKEN;
+	
+	int Min = 100000000;
+	
+	do{ // 경우의 수에 따른 거리 계산
+		int sum = 0; 
+		for(int i =  0 ; i < home.size() ; i++)// 모든 집에 대한 거리 계산
+			sum = sum + get_shortest_chicken_len(home[i],chicken_store,sequence);
+		
+		Min = min( Min , sum );
+		
+	}while(prev_permutation(sequence.begin(),sequence.end()));
+	
+//	print_map(map,map_len);
+	cout << Min;
+	
+	return 0;
+}

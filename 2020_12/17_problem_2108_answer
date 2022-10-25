@@ -1,0 +1,79 @@
+#include <iostream>
+#include <algorithm>
+#include <cmath>
+
+int main()
+{
+	int count = 0;
+	int num = 0;
+
+	double average = 0;
+	double sum = 0;
+
+	int center = 0;
+	int countArr[8001] = { 0, };
+
+	int most = 0;
+	int secondCount = 0;
+
+	int range = 0;
+	int max = -9000;
+	int min = 9000;
+
+
+	std::cin >> count;
+
+	for (int i = 0; i < count; i++)
+	{
+		std::cin >> num;
+
+		countArr[num + 4000]++;
+
+		if (num > max)
+		{
+			max = num;
+		}
+
+		if (num < min)
+		{
+			min = num;
+		}
+		sum += num;
+	}
+
+	int mostcount = *std::max_element(countArr, countArr + 8001);
+
+	for (int i = 0; i < 8001; i++)
+	{
+		if (countArr[i] == mostcount)
+		{
+			most = i - 4000;
+			secondCount++;
+		}
+		if (secondCount == 2)
+		{
+			break;
+		}
+	}
+
+	int centerNum = (count + 1) / 2;
+
+	for (int i = 0; i < 8001; i++)
+	{
+		centerNum -= countArr[i];
+		if (centerNum <= 0)
+		{
+			center = i-4000;
+			break;
+		}
+	}
+	
+
+	average = sum / count;
+	range = max - min;
+
+	std::cout << round(average) << std::endl;
+	std::cout << center << std::endl;
+	std::cout << most << std::endl;
+	std::cout << range << std::endl;
+}
